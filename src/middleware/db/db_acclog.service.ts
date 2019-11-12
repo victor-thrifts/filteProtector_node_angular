@@ -61,7 +61,7 @@ async function saveAll(acclogs: Acclog[])
 function save(acclogParam)
 {
     const insert = db.prepare(
-        'INSERT INTO backupFileAccessLog(FileName, AccessType, AccessTime, Author)  VALUES(@FileName, @AccessType, @AccessTime, @Author)');
+        'INSERT INTO backupFileAccessLog(FileName, AccessType, AccessTime, Author, UserName)  VALUES(@FileName, @AccessType, @AccessTime, @Author, @UserName)');
     insert.run(acclogParam); 
     
 }

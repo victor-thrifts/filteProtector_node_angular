@@ -8,6 +8,10 @@ export const wmi = require('node-wmi');
 
 
 wmi.Query({class:'Win32_UserAccounts'},function(err, bios) {
+    var bb= [];
+    bb.forEach(element => {
+        console.log(element)
+    });
     console.log(bios);
 });
 
@@ -82,7 +86,7 @@ export class ProtectionFolderSet{
 
     callback = ffi.Callback(
         'void', ['string', 'char', 'string', 'string'], 
-        function(fName, tag, time, writer) {
+        function(fName, tag, time, writer,sid) {
             let tag1 = String.fromCharCode(tag); 
             console.log("fileName: %s\n", fName);
             if(tag1 == "W") {
@@ -92,10 +96,19 @@ export class ProtectionFolderSet{
             }else if(tag1 == "R"){
                 tag1 = "重命名";
             }
+            let userName = '';
+            wmi.Query({class:'Win32_UserAccounts'},(err, bios) => {
+                bios.forEach(element => {
+                    if(element.SID == sid){
+                        userName = element.Name;
+                    }
+                });
+                console.log(bios);
+            });
             console.log("tag: %s\n", tag1);
             console.log("time: %s", time);
             console.log("author: %s", writer);
-            save({FileName: fName, AccessType: tag1, AccessTime: time, Author: writer});
+            save({FileName: fName, AccessType: tag1, AccessTime: time, Author: writer,UserName: userName});
         }
     )
 }
