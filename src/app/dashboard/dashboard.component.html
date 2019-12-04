@@ -1,0 +1,11 @@
+<div><acclog-search></acclog-search></div>
+<br>
+<h1>最近日志列表</h1>
+<div class="grid grid-pad">
+  <a *ngFor="let acclog of accloges" class="col-1-1"
+      routerLink="/accloges/{{acclog.rowid}}">
+    <div class="module acclog">
+      <h4>{{acclog.FileName}}, {{acclog.AccessType}}, {{acclog.AccessTime}}, {{acclog.Author}}</h4>
+    </div>
+  </a>
+</div>

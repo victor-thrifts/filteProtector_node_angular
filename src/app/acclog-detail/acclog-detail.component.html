@@ -1,0 +1,17 @@
+<div *ngIf="acclog">
+  <h2> 日志记录详情：</h2>
+  <br>
+  <div>
+      <div><span>编号：   </span>{{acclog.rowid}}</div>
+      <br>
+      <div><span>文件名称: </span>{{acclog.FileName}}</div>
+      <br>
+      <div><span>操作: </span>{{acclog.AccessType}}</div>     
+      <br>
+      <div><span>操作时间: </span>{{acclog.AccessTime}}</div>  
+      <br>
+      <div><span>操作程序: </span>{{acclog.Author}}</div>    
+  </div>
+  <button (click)="goBack()">返回</button>
+  <!-- <button (click)="save()">保存</button> -->
+</div>

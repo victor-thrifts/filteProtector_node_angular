@@ -1,0 +1,11 @@
+<div id="search-component">
+  <h4>查询文件 <input #searchBox id="search-box" (input)="search(searchBox.value)" /></h4>
+
+  <ul class="search-result">
+    <li *ngFor="let acclog of accloges | async" >
+      <a routerLink="/detail/{{acclog.id}}">
+        {{acclog.FileName}}
+      </a>
+    </li>
+  </ul>
+</div>

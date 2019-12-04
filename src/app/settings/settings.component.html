@@ -1,0 +1,12 @@
+<label>设置保护文件夹</label>
+
+<input #protectedFolder placeholder="\this folder\that\"/>
+
+<label>设置保护进程程序</label>
+
+<input #exeName placeholder="xxx.exe"/>
+
+<br>
+<button (click)="save(protectedFolder.value, exeName.value)">保存设置</button>
+
+<button (click)="goBack()">返回</button>

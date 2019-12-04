@@ -1,0 +1,14 @@
+<div *ngIf="user">
+    <h2>{{ user.Name }} 详情：</h2>
+    <div><span>编号: </span>{{user.rowid}}</div>
+    <div>
+        <label>账号: <input [(ngModel)]="user.Name" placeholder="账号"/></label>
+        <br>
+        <label>口令: <input type="password" [(ngModel)]="user.Password" placeholder="***"/></label>
+        <br>
+        <label>用户姓名：<input [(ngModel)]="user.firstName" placeholder="姓名"/></label>
+    </div>
+    
+    <button (click)="goBack()">返回</button>
+    <button (click)="save()">保存</button>
+</div>
