@@ -1,9 +1,7 @@
-
-<a [routerLink]="['/']">
-    <h1>{{title}}</h1>
-</a>
-
-<h1 class="button fancy-button">
+	<!--<a [routerLink]="['/']">
+	    <h1>{{title}}</h1>
+	</a>-->
+<!--<h1 class="button fancy-button">
     <i class="material-icons">account_box</i>
     <div *ngIf="loggedIn; then ifBlock else elseBlock"></div>
     <ng-template #ifBlock>
@@ -21,4 +19,41 @@
             <a [routerLink]="['/login']">Login</a>
         </nav>
     </ng-template>
-</h1>
+</h1>-->
+<div class="homePage">
+	<div class="header">
+		 <div class="logo">中食药嘉和eGMP信息化系统<span><a [routerLink]="['/']">（{{title}}）</a></span></div>
+		 <div class="user">
+		 	<span class="el-dropdown-link">
+	            <span>欢迎您{{user}}</span>
+	        </span>
+		 </div>
+	</div>
+	<div class="left">
+		<div class="logo">
+			<img src="../../assets/n-logo-1.png">
+		</div>
+		<h1 class="button fancy-button">
+		    <i class="material-icons">account_box</i>
+		    <div *ngIf="loggedIn; then ifBlock else elseBlock"></div>
+		    <ng-template #ifBlock>
+		        <i [matMenuTriggerFor]="menu">{{user}}</i>
+		        <mat-menu #menu="matMenu">
+		            <button mat-menu-item><a routerLink="/dashboard">最近日志</a></button>
+		            <button mat-menu-item><a routerLink="/accloges">日志列表</a></button>
+		            <button mat-menu-item><a [routerLink]="['/login']">登出</a></button>
+		            <button mat-menu-item *ngIf="Isadmin"><a [routerLink]="['/users']">账号管理</a></button>     
+		            <button mat-menu-item *ngIf="Isadmin"><a [routerLink]="['/settings']">设置</a></button>       
+		        </mat-menu>
+		    </ng-template>
+		    <ng-template #elseBlock>
+		        <nav>
+		            <a [routerLink]="['/login']">Login</a>
+		        </nav>
+		    </ng-template>
+		</h1>
+	</div>
+	<div class="right-container">
+		
+	</div>	
+</div>

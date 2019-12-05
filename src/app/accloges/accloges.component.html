@@ -1,14 +1,54 @@
 <!-- <h2>保护文件名称</h2> -->
+<div class="row">
+  <div class="col-md-2"></div>
+  <div class="col-md-8">
+  	<form class="form-inline margin-b20">
+	    <div class="form-group">
+	        <label for='acclogName'>保护文件名称：</label>
+	        <input type="text" id="acclogName" #acclogName class="form-control" placeholder="保护文件名称" />
+	    </div>
+	  </form>
+	  <h2>日志列表</h2>
+	  <table class="table table-bordered table-hover table-striped">
+	  	<thead>
+	  		<tr>
+	  			<th>序号</th>
+			  	<th>文件名称</th>
+			  	<th>存取时间</th>
+			  </tr>
+	  	</thead>
+		  <tbody>
+		  	<tr *ngFor="let acclog of accloges">
+		  		<td align="center">{{acclog.rowid}}</td>
+		  		<td>{{acclog.FileName}}</td>
+		  		<td>{{acclog.AccessTime}}</td>
+		  	</tr>
+		  </tbody>
+		</table>
+		<!--分页-->
+		<nav aria-label="Page navigation" class="text-center">
+	  <ul class="pagination">
+	    <li>
+	        <span aria-hidden="true">&laquo;</span>
+	    </li>
+	    <li class="active"><a href="#">1</a></li>
+	    <li><a href="#">2</a></li>
+	    <li><a href="#">3</a></li>
+	    <li><a href="#">4</a></li>
+	    <li><a href="#">5</a></li>
+	    <li>
+	        <span aria-hidden="true">&raquo;</span>
+	    </li>
+	  </ul>
+	</nav>
+  </div>
+  <div class="col-md-2"></div>
+</div>
 
-<div>
-  <label>保护文件名称:
-    <input #acclogName />
-  </label>
   <!-- (click) passes input value to add() and then clears the input 
   <button (click)="add(acclogName.value); acclogName.value=''">
     add
   </button>-->
-</div>
 
 <ul class="accloges">
   <li *ngFor="let acclog of accloges">

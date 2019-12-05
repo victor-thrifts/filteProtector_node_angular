@@ -1,3 +1,36 @@
+<div class="row" *ngIf="acclog">
+  <div class="col-md-2"></div>
+  <div class="col-md-8">
+  	<h2 class="margin-b20"> 日志记录详情：</h2>
+	  <table class="table table-bordered table-hover table-striped">
+		  <tbody>
+		  	<tr>
+		  		<th>编号：</th>
+		  		<td>{{acclog.rowid}}</td>
+		  	</tr>
+		  	<tr>
+		  		<th>文件名称：</th>
+		  		<td>{{acclog.FileName}}</td>
+		  	</tr>
+		  	<tr>
+		  		<th>操作：</th>
+		  		<td>{{acclog.AccessType}}</td>
+		  	</tr>
+		  	<tr>
+		  		<th>操作时间：</th>
+		  		<td>{{acclog.AccessTime}}</td>
+		  	</tr>
+		  	<tr>
+		  		<th>操作程序：</th>
+		  		<td>{{acclog.Author}}</td>
+		  	</tr>
+		  </tbody>
+		</table>
+		<button type="button" class="btn btn-primary" (click)="goBack()">返回</button>
+  </div>
+  <div class="col-md-2"></div>
+</div>
+<!--原来代码-->
 <div *ngIf="acclog">
   <h2> 日志记录详情：</h2>
   <br>
