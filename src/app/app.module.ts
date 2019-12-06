@@ -25,6 +25,7 @@ import { JwtInterceptor, ErrorInterceptor } from './_helpers';
 import { AlertComponent, TopBarComponent } from './_directives';
 import { AuthGuard } from './_guards';
 import {MatMenuModule} from '@angular/material/menu';
+import {MatSidenavModule} from '@angular/material'
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
@@ -48,6 +49,7 @@ const RESULT_KEY = makeStateKey<string>('result');
     BrowserAnimationsModule,
     MatFormFieldModule,
     MatInputModule,
+    MatSidenavModule,
   ],
   declarations: [
     AppComponent,
