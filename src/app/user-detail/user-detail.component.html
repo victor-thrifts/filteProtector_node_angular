@@ -1,6 +1,6 @@
 <div class="row" *ngIf="user">
-  <div class="col-md-2"></div>
-  <div class="col-md-8">
+  <div class="col-md-1"></div>
+  <div class="col-md-5">
   	<h2 class="margin-b20">{{ user.Name }}详情：</h2>
 		<form class="form-horizontal">
 		  <div class="form-group">
@@ -35,10 +35,10 @@
 		  </div>
 	</form>
   </div>
-  <div class="col-md-2"></div>
+  <div class="col-md-6"></div>
 </div>
 <!--原来代码-->
-<div *ngIf="user">
+<!--<div *ngIf="user">
     <h2>{{ user.Name }} 详情：</h2>
     <div><span>编号: </span>{{user.rowid}}</div>
     <div>
@@ -51,4 +51,4 @@
     
     <button (click)="goBack()">返回</button>
     <button (click)="save()">保存</button>
-</div>
+</div>-->

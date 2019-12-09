@@ -13,7 +13,7 @@ import { AlertComponent } from '../message-alert/alert.component';
 })
 
 export class TopBarComponent implements OnInit{
-    title = '文件保护监控端';
+    title = '文件防控系统';
 
     loggedIn: boolean = false;
     Isadmin: boolean = false;

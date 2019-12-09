@@ -57,7 +57,7 @@
 		
 	</div>	
 </div>-->
-<div class="header">
+<div class="header" *ngIf="loggedIn">
 	 <div class="logo">
 		<img src="../../assets/n-logo-1.png">
 	</div>
@@ -68,8 +68,8 @@
 	 </div>
 </div>
 <mat-sidenav-container class = "tp-container">
-   <mat-sidenav mode = "side" opened>
-	<h1 class="button fancy-button">
+   <mat-sidenav mode = "side" opened *ngIf="loggedIn">
+	<!--<h1 class="button fancy-button">
 	    <i class="material-icons">account_box</i>
 	    <div *ngIf="loggedIn; then ifBlock else elseBlock"></div>
 	    <ng-template #ifBlock>
@@ -87,7 +87,7 @@
 	            <a [routerLink]="['/login']">Login</a>
 	        </nav>
 	    </ng-template>
-	</h1>
+	</h1>-->
       <section class = "tp-section">
       	<span [routerLinkActive]="['active']">
       		<a routerLink="/dashboard">

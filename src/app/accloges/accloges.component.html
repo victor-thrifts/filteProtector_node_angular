@@ -1,7 +1,7 @@
 <!-- <h2>保护文件名称</h2> -->
 <div class="row">
-  <div class="col-md-2"></div>
-  <div class="col-md-8">
+  <div class="col-md-1"></div>
+  <div class="col-md-10">
   	<form class="form-inline margin-b20">
 	    <div class="form-group">
 	        <label for='acclogName'>保护文件名称：</label>
@@ -41,8 +41,12 @@
 	    </li>
 	  </ul>
 	</nav>
+	<footer>
+	  <p>Copyright &copy;2016-2019  中食药<sup>®</sup>嘉和天下（北京）国际医学科技研究院 &nbsp;&nbsp; V1.0.0</p>
+	  <p style="margin: 10px 0 0 0;">售后服务手机号和微信号：<span style="color:#45aeea">13552994462</span></p>
+	</footer>
   </div>
-  <div class="col-md-2"></div>
+  <div class="col-md-1"></div>
 </div>
 
   <!-- (click) passes input value to add() and then clears the input 
@@ -50,14 +54,14 @@
     add
   </button>-->
 
-<ul class="accloges">
+<!--<ul class="accloges">
   <li *ngFor="let acclog of accloges">
     <a routerLink="/accloges/{{acclog.rowid}}">
       <span class="badge">{{acclog.rowid}}</span> 文件名称： {{acclog.FileName}}   存取时间： {{acclog.AccessTime}}
     </a>
     <!-- <button class="delete" title="delete acclog"
     (click)="delete(acclog);$event.stopPropagation()">x</button> -->
-  </li>
+  <!--</li>
 </ul>
 
 <div>
@@ -89,5 +93,5 @@
         <div>Page size: {{pageEvent.pageSize}}</div>
         <div>Page index: {{pageEvent.pageIndex}}</div>
       </div>
-</div>
+</div>-->
 
