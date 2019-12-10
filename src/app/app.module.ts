@@ -73,11 +73,7 @@ const RESULT_KEY = makeStateKey<string>('result');
     AlertService, 
     AuthGuard,
     KeyregService,
-<<<<<<< HEAD
-   // { provide: APP_BASE_HREF, useValue: APP_BASE_HREF },
-=======
     //{ provide: APP_BASE_HREF, useValue: window['_app_base'] || '/' },
->>>>>>> dda079b7d76ddff2ab28413ae058611f858f0442
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
   ],
