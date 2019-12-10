@@ -3,6 +3,7 @@ import 'zone.js/dist/zone-node';
 import 'reflect-metadata';
 
 import { enableProdMode } from '@angular/core';
+import { APP_BASE_HREF } from '@angular/common';
 import * as express from 'express';
 import { join } from 'path';
 import * as middleware from './src/middleware';
@@ -50,7 +51,7 @@ app.get('*.*', express.static(join(DIST_FOLDER, 'browser')));
 
 // All regular routes use the Universal engine
 app.get('*', (req, res) => {
-  res.render('index', { req });
+  res.render('index', { req, providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }] });
 });
 
 

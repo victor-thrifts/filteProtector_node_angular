@@ -34,8 +34,8 @@ export class Registersoftware1Component implements OnInit {
 
   ngOnInit() {
     this.registersoftwareForm = this.formBuilder.group({
-      registerKey: ['', [Validators.required, Validators.minLength(6)]],
-      companyName: ['', Validators.required],
+      RegisterKey: ['', [Validators.required, Validators.minLength(6)]],
+      CompanyName: ['', Validators.required],
     });
   }
 

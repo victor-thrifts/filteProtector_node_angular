@@ -17,4 +17,5 @@
 *.user
 node_modules/
 .vscode/
+dist/
 

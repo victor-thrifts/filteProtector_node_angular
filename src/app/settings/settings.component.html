@@ -1,10 +1,11 @@
 <label>设置保护文件夹</label>
 
 <input #protectedFolder placeholder="\this folder\that\"/>
+<textarea #protectedFolder placeholder="\this folder\that\" rows="3" cols="50"></textarea>
 
 <label>设置保护进程程序</label>
 
-<input #exeName placeholder="xxx.exe"/>
+<textarea #exeName placeholder="xxx.exe" rows="3" cols="50"></textarea>
 
 <br>
 <button (click)="save(protectedFolder.value, exeName.value)">保存设置</button>

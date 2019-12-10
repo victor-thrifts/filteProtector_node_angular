@@ -7,9 +7,11 @@ import { db } from '.';
 function save(keyreg: Keyreg){
     return new Promise(function(resolve,reject){
         try{
-            bcrypt.hashSync(keyreg.RegisterKey, 10);
-            const stmt = db.prepare('DELETE FROM RegisterInfo; INSERT INTO RegisterInfo(RegisterKey, CompanyName) VALUES(?, ?)');
-            return resolve(stmt.run(keyreg.RegisterKey, keyreg.CompanyName));
+            keyreg.RegisterKey = bcrypt.hashSync(keyreg.RegisterKey, 10);
+            const stmt = db.prepare('DELETE FROM RegisterInfo');
+            stmt.run();
+            const stmt1 = db.prepare('INSERT INTO RegisterInfo(RegisterKey, CompanyName) VALUES(?, ?)');
+            return resolve(stmt1.run(keyreg.RegisterKey, keyreg.CompanyName));
         } catch (err) {
             if (!db.inTransaction) throw err; // (transaction was forcefully rolled back)
             return reject(err);            
@@ -22,6 +24,7 @@ async function authsoft() {
     if (keyreg && bcrypt.compareSync("#@!#@!", keyreg.RegisterKey)) {
         return keyreg;
     }
+    return null;
 }
 
 

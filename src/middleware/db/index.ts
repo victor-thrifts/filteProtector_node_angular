@@ -1,6 +1,7 @@
 import { Inject, Injectable, PLATFORM_ID, Provider } from '@angular/core';
 const db_acclog = require('./acclog.controller');
 const db_user = require('./user.controller');
+const db_keyreg = require('./keyreg.controller');
 
 
 
