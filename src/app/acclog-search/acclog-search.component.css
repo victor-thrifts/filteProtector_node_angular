@@ -27,10 +27,10 @@
 .search-result li a:active {
   color: white;
 }
-#search-box {
+/*#search-box {
   width: 200px;
   height: 20px;
-}
+}*/
 
 
 ul.search-result {

@@ -57,7 +57,7 @@ export class LoginComponent implements OnInit {
                 data => {
                     let Isadmin = this.f.username.value == 'admin'? true: false;
                     let loggedIn = true;
-                    this.router.navigate([this.returnUrl]);
+                    this.router.navigate(['/dashboard']);
                     this.alertService.setMessage({Isadmin:Isadmin, loggedIn:loggedIn});
                 },
                 error => {

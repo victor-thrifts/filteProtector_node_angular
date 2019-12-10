@@ -1,9 +1,7 @@
-
-<a [routerLink]="['/']">
-    <h1>{{title}}</h1>
-</a>
-
-<h1 class="button fancy-button">
+	<!--<a [routerLink]="['/']">
+	    <h1>{{title}}</h1>
+	</a>-->
+<!--<h1 class="button fancy-button">
     <i class="material-icons">account_box</i>
     <div *ngIf="loggedIn; then ifBlock else elseBlock"></div>
     <ng-template #ifBlock>
@@ -21,4 +19,87 @@
             <a [routerLink]="['/login']">Login</a>
         </nav>
     </ng-template>
-</h1>
+</h1>-->
+<!--<div class="homePage">
+	<div class="header">
+		 <div class="logo">中食药嘉和eGMP信息化系统<span><a [routerLink]="['/']">（{{title}}）</a></span></div>
+		 <div class="user">
+		 	<span class="el-dropdown-link">
+	            <span>欢迎您{{user}}</span>
+	        </span>
+		 </div>
+	</div>
+	<div class="left">
+		<div class="logo">
+			<img src="../../assets/n-logo-1.png">
+		</div>
+		<h1 class="button fancy-button">
+		    <i class="material-icons">account_box</i>
+		    <div *ngIf="loggedIn; then ifBlock else elseBlock"></div>
+		    <ng-template #ifBlock>
+		        <i [matMenuTriggerFor]="menu">{{user}}</i>
+		        <mat-menu #menu="matMenu">
+		            <button mat-menu-item><a routerLink="/dashboard">最近日志</a></button>
+		            <button mat-menu-item><a routerLink="/accloges">日志列表</a></button>
+		            <button mat-menu-item><a [routerLink]="['/login']">登出</a></button>
+		            <button mat-menu-item *ngIf="Isadmin"><a [routerLink]="['/users']">账号管理</a></button>     
+		            <button mat-menu-item *ngIf="Isadmin"><a [routerLink]="['/settings']">设置</a></button>       
+		        </mat-menu>
+		    </ng-template>
+		    <ng-template #elseBlock>
+		        <nav>
+		            <a [routerLink]="['/login']">Login</a>
+		        </nav>
+		    </ng-template>
+		</h1>
+	</div>
+	<div class="right-container">
+		
+	</div>	
+</div>-->
+<div class="header" *ngIf="loggedIn">
+	 <div class="logo">
+		<img src="../../assets/n-logo-1.png">
+	</div>
+	 <div class="title">中食药嘉和eGMP信息化系统<span><a [routerLink]="['/']">（{{title}}）</a></span></div>
+	 <div class="user">
+        <span>欢迎您{{user}}</span>
+        <a [routerLink]="['/login']" class="layout">退出</a>
+	 </div>
+</div>
+<mat-sidenav-container class = "tp-container">
+   <mat-sidenav mode = "side" opened *ngIf="loggedIn">
+	<!--<h1 class="button fancy-button">
+	    <i class="material-icons">account_box</i>
+	    <div *ngIf="loggedIn; then ifBlock else elseBlock"></div>
+	    <ng-template #ifBlock>
+	        <i [matMenuTriggerFor]="menu">{{user}}</i>
+	        <mat-menu #menu="matMenu">
+	            <button mat-menu-item><a routerLink="/dashboard">最近日志</a></button>
+	            <button mat-menu-item><a routerLink="/accloges">日志列表</a></button>
+	            <button mat-menu-item><a [routerLink]="['/login']">登出</a></button>
+	            <button mat-menu-item *ngIf="Isadmin"><a [routerLink]="['/users']">账号管理</a></button>     
+	            <button mat-menu-item *ngIf="Isadmin"><a [routerLink]="['/settings']">设置</a></button>       
+	        </mat-menu>
+	    </ng-template>
+	    <ng-template #elseBlock>
+	        <nav>
+	            <a [routerLink]="['/login']">Login</a>
+	        </nav>
+	    </ng-template>
+	</h1>-->
+      <section class = "tp-section">
+      	<span [routerLinkActive]="['active']">
+      		<a routerLink="/dashboard">
+      			<span class="glyphicon glyphicon-calendar margin-r10"></span>最近日志
+      		</a>
+      	</span>
+      </section>
+      <section class = "tp-section"><span [routerLinkActive]="['active']"><a routerLink="/accloges"><span class="glyphicon glyphicon-th-list margin-r10"></span>日志列表</a></span></section>
+      <section class = "tp-section"><span *ngIf="Isadmin"><a [routerLink]="['/users']" [routerLinkActive]="['active']"><span class="glyphicon glyphicon-user margin-r10"></span>账号管理</a></span></section>
+      <section class = "tp-section"><span *ngIf="Isadmin"><a [routerLink]="['/settings']" [routerLinkActive]="['active']"><span class="glyphicon glyphicon-cog margin-r10"></span>设置</a></span></section>    
+   </mat-sidenav>
+   <mat-sidenav-content>
+   	 <router-outlet></router-outlet>
+   </mat-sidenav-content>
+</mat-sidenav-container>

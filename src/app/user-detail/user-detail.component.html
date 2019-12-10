@@ -1,4 +1,44 @@
-<div *ngIf="user">
+<div class="row" *ngIf="user">
+  <div class="col-md-1"></div>
+  <div class="col-md-5">
+  	<h2 class="margin-b20">{{ user.Name }}详情：</h2>
+		<form class="form-horizontal">
+		  <div class="form-group">
+		    <label class="col-md-2 control-label">编号：</label>
+		    <div class="col-md-10">
+		       <p class="form-control-static">{{user.rowid}}</p>
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="account" class="col-md-2 control-label">账号：</label>
+		    <div class="col-md-10">
+		      <input type="text" class="form-control" id="account" [(ngModel)]="user.Name" placeholder="账号">
+		    </div>
+		  </div>
+			<div class="form-group">
+		    <label for="accountPsd" class="col-md-2 control-label">口令：</label>
+		    <div class="col-md-10">
+		      <input type="password" [(ngModel)]="user.Password" placeholder="口令" class="form-control" id="accountPsd">
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="firstName" class="col-md-2 control-label">用户姓名：</label>
+		    <div class="col-md-10">
+		      <input type="text" class="form-control" id="firstName" [(ngModel)]="user.firstName" placeholder="姓名">
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <div class="col-md-offset-2 col-md-10">
+		    	<button type="button" class="btn btn-primary btn-left" (click)="goBack()">返回</button>
+    			<button type="button" class="btn btn-primary" (click)="save()">保存</button>
+		    </div>
+		  </div>
+	</form>
+  </div>
+  <div class="col-md-6"></div>
+</div>
+<!--原来代码-->
+<!--<div *ngIf="user">
     <h2>{{ user.Name }} 详情：</h2>
     <div><span>编号: </span>{{user.rowid}}</div>
     <div>
@@ -11,4 +51,4 @@
     
     <button (click)="goBack()">返回</button>
     <button (click)="save()">保存</button>
-</div>
+</div>-->

@@ -25,6 +25,7 @@ import { JwtInterceptor, ErrorInterceptor } from './_helpers';
 import { AlertComponent, TopBarComponent } from './_directives';
 import { AuthGuard } from './_guards';
 import {MatMenuModule} from '@angular/material/menu';
+import {MatSidenavModule} from '@angular/material'
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
@@ -48,6 +49,7 @@ const RESULT_KEY = makeStateKey<string>('result');
     BrowserAnimationsModule,
     MatFormFieldModule,
     MatInputModule,
+    MatSidenavModule,
   ],
   declarations: [
     AppComponent,
@@ -71,7 +73,11 @@ const RESULT_KEY = makeStateKey<string>('result');
     AlertService, 
     AuthGuard,
     KeyregService,
+<<<<<<< HEAD
    // { provide: APP_BASE_HREF, useValue: APP_BASE_HREF },
+=======
+    //{ provide: APP_BASE_HREF, useValue: window['_app_base'] || '/' },
+>>>>>>> dda079b7d76ddff2ab28413ae058611f858f0442
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
   ],

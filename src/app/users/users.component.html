@@ -1,5 +1,60 @@
-<br>
-<h1>系统用户列表</h1>
+<div class="row">
+  <div class="col-md-1"></div>
+  <div class="col-md-10">
+  	<h2>系统用户列表</h2>
+  	<div class="text-right margin-b20">
+		    <button type="button" class="btn btn-primary" [routerLink]="['/register']">添加账号</button>      
+		</div>
+	  <table class="table table-bordered table-hover table-striped">
+	  	<thead>
+	  		<tr>
+	  			<th>序号</th>
+			  	<th>用户名</th>
+			  	<th>用户类型</th>
+			  	<th>firstName</th>
+			  	<th>lastName</th>
+			  	<th>操作</th>
+			  </tr>
+	  	</thead>
+		  <tbody>
+		  	<tr *ngFor="let user of users"  routerLink="/users/{{user.rowid}}">
+		  		<td align="center">{{user.rowid}}</td>
+		  		<td>{{user.Name}}</td>
+		  		<td>{{user.Type}}</td>
+		  		<td>{{user.firstName}}</td>
+		  		<td>{{user.lastName}}</td>
+		  		<td>
+		  			<span *ngIf="user.Name!=='admin'">
+		          <button type="button" class="btn btn-primary" title="删除用户" (click)="delete(user);$event.stopPropagation()">x</button>
+			      </span>
+		  		</td>	
+		  	</tr>
+		  </tbody>
+		</table>
+		<!--分页-->
+		<nav aria-label="Page navigation" class="text-center">
+		  <ul class="pagination">
+		    <li>
+		        <span aria-hidden="true">&laquo;</span>
+		    </li>
+		    <li class="active"><a href="#">1</a></li>
+		    <li><a href="#">2</a></li>
+		    <li><a href="#">3</a></li>
+		    <li><a href="#">4</a></li>
+		    <li><a href="#">5</a></li>
+		    <li>
+		        <span aria-hidden="true">&raquo;</span>
+		    </li>
+		  </ul>
+		</nav>
+		<footer>
+      <p>Copyright &copy;2016-2019  中食药<sup>®</sup>嘉和天下（北京）国际医学科技研究院 &nbsp;&nbsp; V1.0.0</p>
+      <p style="margin: 10px 0 0 0;">售后服务手机号和微信号：<span style="color:#45aeea">13552994462</span></p>
+    </footer>
+  </div>
+  <div class="col-md-1"></div>
+</div>
+<!--原来代码-->
 <!-- <div class="grid grid-pad">
   <a *ngFor="let user of users" class="col-1-4"
       routerLink="/users/{{user.rowid}}">

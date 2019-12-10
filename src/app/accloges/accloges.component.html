@@ -1,23 +1,67 @@
 <!-- <h2>保护文件名称</h2> -->
+<div class="row">
+  <div class="col-md-1"></div>
+  <div class="col-md-10">
+  	<form class="form-inline margin-b20">
+	    <div class="form-group">
+	        <label for='acclogName'>保护文件名称：</label>
+	        <input type="text" id="acclogName" #acclogName class="form-control" placeholder="保护文件名称" />
+	    </div>
+	  </form>
+	  <h2>日志列表</h2>
+	  <table class="table table-bordered table-hover table-striped">
+	  	<thead>
+	  		<tr>
+	  			<th>序号</th>
+			  	<th>文件名称</th>
+			  	<th>存取时间</th>
+			  </tr>
+	  	</thead>
+		  <tbody>
+		  	<tr *ngFor="let acclog of accloges">
+		  		<td align="center">{{acclog.rowid}}</td>
+		  		<td>{{acclog.FileName}}</td>
+		  		<td>{{acclog.AccessTime}}</td>
+		  	</tr>
+		  </tbody>
+		</table>
+		<!--分页-->
+		<nav aria-label="Page navigation" class="text-center">
+	  <ul class="pagination">
+	    <li>
+	        <span aria-hidden="true">&laquo;</span>
+	    </li>
+	    <li class="active"><a href="#">1</a></li>
+	    <li><a href="#">2</a></li>
+	    <li><a href="#">3</a></li>
+	    <li><a href="#">4</a></li>
+	    <li><a href="#">5</a></li>
+	    <li>
+	        <span aria-hidden="true">&raquo;</span>
+	    </li>
+	  </ul>
+	</nav>
+	<footer>
+	  <p>Copyright &copy;2016-2019  中食药<sup>®</sup>嘉和天下（北京）国际医学科技研究院 &nbsp;&nbsp; V1.0.0</p>
+	  <p style="margin: 10px 0 0 0;">售后服务手机号和微信号：<span style="color:#45aeea">13552994462</span></p>
+	</footer>
+  </div>
+  <div class="col-md-1"></div>
+</div>
 
-<div>
-  <label>保护文件名称:
-    <input #acclogName />
-  </label>
   <!-- (click) passes input value to add() and then clears the input 
   <button (click)="add(acclogName.value); acclogName.value=''">
     add
   </button>-->
-</div>
 
-<ul class="accloges">
+<!--<ul class="accloges">
   <li *ngFor="let acclog of accloges">
     <a routerLink="/accloges/{{acclog.rowid}}">
       <span class="badge">{{acclog.rowid}}</span> 文件名称： {{acclog.FileName}}   存取时间： {{acclog.AccessTime}}
     </a>
     <!-- <button class="delete" title="delete acclog"
     (click)="delete(acclog);$event.stopPropagation()">x</button> -->
-  </li>
+  <!--</li>
 </ul>
 
 <div>
@@ -49,5 +93,5 @@
         <div>Page size: {{pageEvent.pageSize}}</div>
         <div>Page index: {{pageEvent.pageIndex}}</div>
       </div>
-</div>
+</div>-->
 

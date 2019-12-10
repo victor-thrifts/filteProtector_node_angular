@@ -1,3 +1,52 @@
+<div class="row">
+  <div class="col-md-1"></div>
+  <div class="col-md-10">
+  	<acclog-search></acclog-search>
+  	<h2>最近日志列表</h2>
+	  <table class="table table-bordered table-hover table-striped">
+	  	<thead>
+	  		<tr>
+	  			<th>序号</th>
+			  	<th>文件名称</th>
+			  	<th>操作</th>
+			  	<th>时间</th>
+			  	<th>操作程序</th>
+			  </tr>
+	  	</thead>
+		  <tbody>
+		  	<tr *ngFor="let acclog of accloges"  routerLink="/accloges/{{acclog.rowid}}">
+		  		<td align="center">{{acclog.rowid}}</td>
+		  		<td>{{acclog.FileName}}</td>
+		  		<td>{{acclog.AccessType}}</td>
+		  		<td>{{acclog.AccessTime}}</td>
+		  		<td>{{acclog.Author}}</td>	  		
+		  	</tr>
+		  </tbody>
+		</table>
+		<!--分页-->
+		<nav aria-label="Page navigation" class="text-center">
+		  <ul class="pagination">
+		    <li>
+		        <span aria-hidden="true">&laquo;</span>
+		    </li>
+		    <li class="active"><a href="#">1</a></li>
+		    <li><a href="#">2</a></li>
+		    <li><a href="#">3</a></li>
+		    <li><a href="#">4</a></li>
+		    <li><a href="#">5</a></li>
+		    <li>
+		        <span aria-hidden="true">&raquo;</span>
+		    </li>
+		  </ul>
+		</nav>
+		<footer>
+      <p>Copyright &copy;2016-2019  中食药<sup>®</sup>嘉和天下（北京）国际医学科技研究院 &nbsp;&nbsp; V1.0.0</p>
+      <p style="margin: 10px 0 0 0;">售后服务手机号和微信号：<span style="color:#45aeea">13552994462</span></p>
+    </footer>
+  </div>
+  <div class="col-md-1"></div>
+</div>
+<!--原来代码-->
 <div><acclog-search></acclog-search></div>
 <br>
 <h1>最近日志列表</h1>

@@ -1,13 +1,35 @@
-<label>设置保护文件夹</label>
+	<div class="row margin-t50">
+	  <div class="col-md-1"></div>
+	  <div class="col-md-4">	  	
+		<form>
+		  <div class="form-group">
+		    <label for="exeName">设置保护文件夹</label>
+		    <input type="text" id="exeName" class="form-control" #protectedFolder  placeholder="\this folder\that\"/>
+		  </div>
+		  <div class="form-group">
+		    <label for="program">设置保护进程程序</label>
+		    <input type="text" id="program" class="form-control"  #exeName placeholder="xxx.exe">
+		  </div>		
+		  <button type="button" class="btn btn-primary btn-left" (click)="save(protectedFolder.value, exeName.value)">保存设置</button>
+	      <button type="button" class="btn btn-primary" (click)="goBack()">返回</button>
+		</form>
+	  </div>
+	  <div class="col-md-7"></div>
+	</div>
 
+<<<<<<< HEAD
 <input #protectedFolder placeholder="\this folder\that\"/>
 <textarea #protectedFolder placeholder="\this folder\that\" rows="3" cols="50"></textarea>
+=======
+>>>>>>> dda079b7d76ddff2ab28413ae058611f858f0442
 
-<label>设置保护进程程序</label>
 
+<<<<<<< HEAD
 <textarea #exeName placeholder="xxx.exe" rows="3" cols="50"></textarea>
 
 <br>
 <button (click)="save(protectedFolder.value, exeName.value)">保存设置</button>
 
 <button (click)="goBack()">返回</button>
+=======
+>>>>>>> dda079b7d76ddff2ab28413ae058611f858f0442
