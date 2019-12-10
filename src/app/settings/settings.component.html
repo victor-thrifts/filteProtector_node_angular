@@ -17,5 +17,12 @@
 	  <div class="col-md-7"></div>
 	</div>
 
+<textarea #protectedFolder placeholder="\this folder\that\" rows="3" cols="50"></textarea>
 
 
+<textarea #exeName placeholder="xxx.exe" rows="3" cols="50"></textarea>
+
+<br>
+<button (click)="save(protectedFolder.value, exeName.value)">保存设置</button>
+
+<button (click)="goBack()">返回</button>
