@@ -28,6 +28,19 @@ export class TopBarComponent implements OnInit{
             private alertService: AlertService,
             private authenticationService: AuthenticationService
     ) {
+        let currentUser = localStorage.getItem('currentUser');
+        this.loggedIn = !isNull(currentUser);
+        let {user, token} = JSON.parse(currentUser);
+        this.user = user;
+        this.token = token;
+        this.user = user;                
+        if(user=="admin") {
+            this.Isadmin = true;
+        }
+        else{
+            this.Isadmin = false;
+        }
+        
         // setInterval(() => {
         //     if(!isPlatformBrowser(platformId)) return;
         //     let currentUser = localStorage.getItem('currentUser');
