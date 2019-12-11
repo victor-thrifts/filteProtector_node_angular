@@ -4,4 +4,5 @@ export class Acclog {
   AccessType: string;
   AccessTime: string;
   Author: string;
+  UserName: String;
 }
