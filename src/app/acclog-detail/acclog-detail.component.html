@@ -5,15 +5,19 @@
 	  <table class="table table-bordered table-hover table-striped">
 		  <tbody>
 		  	<tr>
-		  		<th>编号：</th>
+		  		<th>序号：</th>
 		  		<td>{{acclog.rowid}}</td>
 		  	</tr>
 		  	<tr>
 		  		<th>文件名称：</th>
 		  		<td>{{acclog.FileName}}</td>
-		  	</tr>
+			</tr>
+			<tr>
+				<th>操作人：</th>
+				<td>{{acclog.UserName}}</td>
+			</tr> 
 		  	<tr>
-		  		<th>操作：</th>
+		  		<th>操作类型：</th>
 		  		<td>{{acclog.AccessType}}</td>
 		  	</tr>
 		  	<tr>
@@ -31,7 +35,7 @@
   <div class="col-md-1"></div>
 </div>
 <!--原来代码-->
-<div *ngIf="acclog">
+<!-- <div *ngIf="acclog">
   <h2> 日志记录详情：</h2>
   <br>
   <div>
@@ -46,5 +50,4 @@
       <div><span>操作程序: </span>{{acclog.Author}}</div>    
   </div>
   <button (click)="goBack()">返回</button>
-  <!-- <button (click)="save()">保存</button> -->
-</div>
+</div> -->

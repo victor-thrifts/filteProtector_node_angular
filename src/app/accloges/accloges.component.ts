@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Acclog } from '../_models/acclog';
-import { AcclogService } from '../_services'; 
-
+import { AcclogService } from '../_services';
 @Component({
   selector: 'app-accloges',
   templateUrl: './accloges.component.html',
@@ -16,7 +15,6 @@ export class AcclogesComponent implements OnInit {
   pageCount = 0; //总页数
   pageLenght = 6; // 显示页数数量
   pageSizeOptions: number[] = [5, 10, 25, 100];
-
   constructor(private acclogService: AcclogService) { }
 
   ngOnInit() {

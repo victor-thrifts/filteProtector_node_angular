@@ -2,30 +2,32 @@
 <div class="row">
   <div class="col-md-1"></div>
   <div class="col-md-10">
-  	<form class="form-inline margin-b20">
+  	<!-- <form class="form-inline margin-b20">
 	    <div class="form-group">
 	        <label for='acclogName'>保护文件名称：</label>
 	        <input type="text" id="acclogName" #acclogName class="form-control" placeholder="保护文件名称" />
 	    </div>
-	</form>
+	</form> -->
 	<h2>日志列表</h2>
 	<table class="table table-bordered table-hover table-striped">
 	<thead>
 		<tr>
 			<th>序号</th>
 			<th>文件名称</th>
+			<th>操作类型</th>
 			<th>操作人</th>
-			<th>操作</th>
-			<th>存取时间</th>
-			</tr>
+			<th>操作时间</th>
+			<th>操作程序</th>
+		</tr>
 	</thead>
 		<tbody>
-		<tr *ngFor="let acclog of accloges">
+		<tr *ngFor="let acclog of accloges" routerLink="/accloges/{{acclog.rowid}}">
 			<td align="center">{{acclog.rowid}}</td>
-			<td><a routerLink="/accloges/{{acclog.rowid}}">{{acclog.FileName}}</a></td>
-			<td><a routerLink="/accloges/{{acclog.rowid}}">{{acclog.UserName}}</a></td>
-			<td><a routerLink="/accloges/{{acclog.rowid}}">{{acclog.AccessType}}</a></td>
-			<td><a routerLink="/accloges/{{acclog.rowid}}">{{acclog.AccessTime}}</a></td>
+			<td>{{acclog.FileName}}</td>
+			<td>{{acclog.AccessType}}</td>
+			<td>{{acclog.UserName}}</td>
+			<td>{{acclog.AccessTime}}</td>
+			<td>{{acclog.Author}}</td>
 		</tr>
 		</tbody>
 	</table>

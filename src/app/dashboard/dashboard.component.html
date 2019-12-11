@@ -1,25 +1,27 @@
 <div class="row">
   <div class="col-md-1"></div>
   <div class="col-md-10">
-  	<acclog-search></acclog-search>
+  	<!-- <acclog-search></acclog-search> -->
   	<h2>最近日志列表</h2>
 	  <table class="table table-bordered table-hover table-striped">
 	  	<thead>
 	  		<tr>
-	  			<th>序号</th>
-			  	<th>文件名称</th>
-			  	<th>操作</th>
-			  	<th>时间</th>
-			  	<th>操作程序</th>
-			  </tr>
+				<th>序号</th>
+				<th>文件名称</th>
+				<th>操作类型</th>
+				<th>操作人</th>
+				<th>操作时间</th>
+				<th>操作程序</th>
+			</tr>
 	  	</thead>
 		  <tbody>
 		  	<tr *ngFor="let acclog of accloges"  routerLink="/accloges/{{acclog.rowid}}">
-		  		<td align="center">{{acclog.rowid}}</td>
-		  		<td>{{acclog.FileName}}</td>
-		  		<td>{{acclog.AccessType}}</td>
-		  		<td>{{acclog.AccessTime}}</td>
-		  		<td>{{acclog.Author}}</td>	  		
+				<td align="center">{{acclog.rowid}}</td>
+				<td>{{acclog.FileName}}</td>
+				<td>{{acclog.AccessType}}</td>
+				<td>{{acclog.UserName}}</td>
+				<td>{{acclog.AccessTime}}</td>
+				<td>{{acclog.Author}}</td>		
 		  	</tr>
 		  </tbody>
 		</table>
@@ -31,7 +33,7 @@
   <div class="col-md-1"></div>
 </div>
 <!--原来代码-->
-<div><acclog-search></acclog-search></div>
+<!-- <div><acclog-search></acclog-search></div>
 <br>
 <h1>最近日志列表</h1>
 <div class="grid grid-pad">
@@ -41,4 +43,4 @@
       <h4>{{acclog.FileName}}, {{acclog.AccessType}}, {{acclog.AccessTime}}, {{acclog.Author}}</h4>
     </div>
   </a>
-</div>
+</div> -->
