@@ -14,9 +14,10 @@ export class AcclogesComponent implements OnInit {
   accloges: Acclog[]; //数据集合
   page = 1; // 当前页
   pageSize = 20; // 每页条数
-  pages = []; // 显示页数
+  pages = []; // 显示页数集合
   count:number; // 总条数
   pageCount = 0; //总页数
+  pageLenght = 6; // 显示页数数量
   pageSizeOptions: number[] = [5, 10, 25, 100];
 
   constructor(private acclogService: AcclogService) { }
@@ -63,17 +64,20 @@ ngOnInit() {
         });
   }
 
-  next(): void {
-    // if(this.page = this.pageCount){
-    //   return;
-    // }
+  next(dis:number): void {
+    if(dis == this.pageCount){
+      return;
+    }
     this.page = this.page + 1;
     this.acclogService.getAccloges(this.page, this.pageSize)
     .subscribe(accloges => this.accloges = accloges);
     this.calculateIndexes ();
   }
 
-  prev(): void {
+  prev(dis:number): void {
+    if(dis == 1){
+      return;
+    }
     this.page = this.page - 1;
     this.acclogService.getAccloges(this.page, this.pageSize)
     .subscribe(accloges => this.accloges = accloges);
@@ -94,15 +98,15 @@ ngOnInit() {
     this.pages = [];
     this.pageCount = Math.ceil(this.count/this.pageSize);
     // 普通情况，页数中没有首页和尾页
-    var start = Math.round(this.page - 4 / 2);
-    var end = Math.round(this.page + 4 / 2)-1;
+    var start = Math.round(this.page - this.pageLenght / 2);
+    var end = Math.round(this.page + this.pageLenght / 2)-1;
     //页数中有首页
     if (start <1) {
       // console.log(start+"小于1")
       start = 1;
       // 默认显示的最后一个数字为设置的页码显示长度
-      end = 4;
-      if (end >= 2) {
+      end = this.pageLenght;
+      if (end >= this.pageCount) {
           // console.log(end+"Da于"+length)
           // 短于设置的页码数，则为其本身长度
           end = this.pageCount;
@@ -111,7 +115,7 @@ ngOnInit() {
         //页数中有尾页
         //     console.log(end+"大于等于"+length)
         end = this.pageCount;
-        start = end - 4 + 1;
+        start = end - this.pageLenght + 1;
         if (start <= 1) {
             start = 1;
         }

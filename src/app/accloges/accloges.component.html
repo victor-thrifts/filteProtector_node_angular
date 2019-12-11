@@ -29,7 +29,7 @@
 	<nav aria-label="Page navigation" class="text-center">
 	<ul class="pagination">
 		<li [ngClass]="{'disabled':1 == page}" >
-			<span aria-hidden="false" (click)="prev()">&laquo;</span>
+			<span aria-hidden="false" (click)="prev(page)">&laquo;</span>
 		</li>
 		<!-- <li class="active" ng-repeat="page in pages" >
 			<a (click)="selectPage(page)">{{page+1}}</a>
@@ -41,8 +41,9 @@
 		<li><a href="#">4</a></li>
 		<li><a href="#">5</a></li> -->
 		<li [ngClass]="{'disabled':pageCount == page}">
-			<a href="javascript:;" (click)="next()">&raquo;</a>
+			<a href="javascript:;" (click)="next(page)">&raquo;</a>
 		</li>
+		<li><span >共{{count}}条数据</span></li>
 	</ul>
 	</nav>
 	<footer>
