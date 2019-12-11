@@ -91,13 +91,13 @@
       <section class = "tp-section">
       	<span [routerLinkActive]="['active']">
       		<a routerLink="/dashboard">
-      			<span class="glyphicon glyphicon-calendar margin-r10"></span>最近日志
+      			<span class="glyphicon glyphicon-calendar margin-r10"></span>最近日志2
       		</a>
       	</span>
       </section>
       <section class = "tp-section"><span [routerLinkActive]="['active']"><a routerLink="/accloges"><span class="glyphicon glyphicon-th-list margin-r10"></span>日志列表</a></span></section>
-      <section class = "tp-section"><span *ngIf="Isadmin"><a [routerLink]="['/users']" [routerLinkActive]="['active']"><span class="glyphicon glyphicon-user margin-r10"></span>账号管理</a></span></section>
-      <section class = "tp-section"><span *ngIf="Isadmin"><a [routerLink]="['/settings']" [routerLinkActive]="['active']"><span class="glyphicon glyphicon-cog margin-r10"></span>设置</a></span></section>    
+      <section class = "tp-section"><span *ngIf="Isadmin" [routerLinkActive]="['active']"><a [routerLink]="['/users']" [routerLinkActive]="['active']"><span class="glyphicon glyphicon-user margin-r10"></span>账号管理</a></span></section>
+      <section class = "tp-section"><span *ngIf="Isadmin" [routerLinkActive]="['active']"><a [routerLink]="['/settings']" [routerLinkActive]="['active']"><span class="glyphicon glyphicon-cog margin-r10"></span>设置</a></span></section>    
    </mat-sidenav>
    <mat-sidenav-content>
    	 <router-outlet></router-outlet>
