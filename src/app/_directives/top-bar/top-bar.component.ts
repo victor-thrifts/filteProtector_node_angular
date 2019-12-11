@@ -28,19 +28,22 @@ export class TopBarComponent implements OnInit{
             private alertService: AlertService,
             private authenticationService: AuthenticationService
     ) {
+        if(!isPlatformBrowser(platformId)) return;
         let currentUser = localStorage.getItem('currentUser');
         this.loggedIn = !isNull(currentUser);
-        let {user, token} = JSON.parse(currentUser);
-        this.user = user;
-        this.token = token;
-        this.user = user;                
-        if(user=="admin") {
-            this.Isadmin = true;
+        if(this.loggedIn){
+            let {user, token} = JSON.parse(currentUser);
+            this.user = user;
+            this.token = token;
+            this.user = user;                
+            if(user=="admin") {
+                this.Isadmin = true;
+            }
+            else{
+                this.Isadmin = false;
+            }
         }
-        else{
-            this.Isadmin = false;
-        }
-        
+
         // setInterval(() => {
         //     if(!isPlatformBrowser(platformId)) return;
         //     let currentUser = localStorage.getItem('currentUser');
@@ -63,6 +66,7 @@ export class TopBarComponent implements OnInit{
     }
 
     ngOnInit() {
+        if(!isPlatformBrowser(this.platformId)) return;
         this.subscription = this.alertService.getMessage().subscribe(message => { 
             if(message && (message.type == 'message') ){
                 let {loggedIn, Isadmin} = message.text; 
@@ -81,10 +85,12 @@ export class TopBarComponent implements OnInit{
     }
 
     ngOnDestroy() {
+        if(!isPlatformBrowser(this.platformId)) return;
         this.subscription.unsubscribe();
     }
 
     logout(){
+        if(!isPlatformBrowser(this.platformId)) return;
         this.authenticationService.logout();
         this.loggedIn = !isNull(localStorage.getItem('currentUser'));
         this.cdr.detectChanges();
