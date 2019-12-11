@@ -15,6 +15,7 @@
 			<th>序号</th>
 			<th>文件名称</th>
 			<th>操作人</th>
+			<th>操作</th>
 			<th>存取时间</th>
 			</tr>
 	</thead>
@@ -23,6 +24,7 @@
 			<td align="center">{{acclog.rowid}}</td>
 			<td><a routerLink="/accloges/{{acclog.rowid}}">{{acclog.FileName}}</a></td>
 			<td><a routerLink="/accloges/{{acclog.rowid}}">{{acclog.UserName}}</a></td>
+			<td><a routerLink="/accloges/{{acclog.rowid}}">{{acclog.AccessType}}</a></td>
 			<td><a routerLink="/accloges/{{acclog.rowid}}">{{acclog.AccessTime}}</a></td>
 		</tr>
 		</tbody>

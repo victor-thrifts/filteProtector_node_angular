@@ -19,9 +19,8 @@ export class AcclogesComponent implements OnInit {
 
   constructor(private acclogService: AcclogService) { }
 
-ngOnInit() {
-  // this.getAcclogCount();
-  this.getAcclogCount()
+  ngOnInit() {
+    this.getAcclogCount()
   }
 
   setPageSizeOptions(setPageSizeOptionsInput: string) {

@@ -17,7 +17,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getAccloges(): void {
-    // this.acclogService.getAccloges(0, 100)
-    // .subscribe(accloges => this.accloges = PageInfo<Acclog[]>);
+    this.acclogService.getAccloges(1, 100)
+    .subscribe(accloges => this.accloges = accloges);
   }
 }

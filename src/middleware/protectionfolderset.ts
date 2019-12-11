@@ -7,7 +7,9 @@ export const ffi = require('ffi');
 export const wmi = require('node-wmi');
 
 
-wmi.Query({class:'Win32_UserAccounts'},()=>{});
+wmi.Query({class:'Win32_UserAccounts'},function(err, bios) {
+    console.log(bios);
+});
 
 // let libm =
 // ffi.Library(join(process.cwd(), './dist/minispy'), {
