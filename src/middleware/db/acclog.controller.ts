@@ -5,14 +5,16 @@ import {apirouter} from '../apirouter';
 
 
 import * as acclogService from './db_acclog.service';
+import { PageInfo } from 'src/app/_models/pageInfo';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
 
-
+apirouter.get('/accloges/getCount', getCount);
 apirouter.get('/accloges', getAll);
 apirouter.get('/accloges/:id', getById);
+
 //apirouter.put('/accloges/:id');
 //apirouter.delete('/accloges/:id');
 
@@ -23,10 +25,17 @@ function  searchAccloges(req, res, next){
       .catch(err => next(err));
   }
 
+function getCount(req, res, next){
+  acclogService.getByCount()
+      .then(count => res.send(count))
+      .catch(err => next(err));
+}
+
 function getAll(req, res, next) {
-  let start: number = req.query.start;
-  let count: number = req.query.count;
-  acclogService.getAll(start.valueOf(),count.valueOf())
+  let page: number = req.query.page;
+  let pageSize: number = req.query.pageSize;
+  let startIndex: number = (page - 1)* pageSize;
+  acclogService.getAll(startIndex.valueOf(),pageSize.valueOf())
       .then(acclogs => res.json(acclogs))
       .catch(err => next(err));
 }

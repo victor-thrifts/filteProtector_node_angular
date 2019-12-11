@@ -2,6 +2,7 @@
 const bcrypt = require('bcryptjs');
 import { Acclog } from '../../app/_models/acclog';
 import { db } from '.';
+import { Counts } from 'src/app/_models/counts';
 
 async function getAll(startid, count) {
     var accloges: Acclog[];
@@ -13,6 +14,18 @@ async function getAll(startid, count) {
             return reject(err);
         }
     });
+}
+
+async function getByCount() {
+    var count : number;
+    return new Promise(function(resolve,reject){
+        try{
+            const getCount = db.prepare('SELECT count(*) AS count FROM backupFileAccessLog'); 
+            return resolve(count = getCount.get());
+        } catch (err) {
+            return reject(err);
+        }
+    })
 }
 
 async function getById(id) {
@@ -54,4 +67,4 @@ function save(acclogParam)
     
 }
 
-export { getById, getAll, getByName, save }
+export { getById, getAll, getByCount, getByName, save }
