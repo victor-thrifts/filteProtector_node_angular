@@ -3,6 +3,7 @@ import {PageEvent} from '@angular/material/paginator';
 
 import { Acclog } from '../_models/acclog';
 import { AcclogService } from '../_services'; 
+import { PageInfo } from '../_models/pageInfo';
 
 @Component({
   selector: 'app-accloges',
@@ -37,10 +38,10 @@ ngOnInit() {
   getAcclogCount(): void {
     let vm = this;
     this.acclogService.getAcclogCount()
-    .subscribe(counts => {
-      vm.count = counts
-      console.log(counts)
-      console.log(this.count)
+    .subscribe(pageInfo => {
+      vm.count = pageInfo.count;
+      console.log(pageInfo);
+      console.log(this.count);
       vm.getAccloges();
       vm.calculateIndexes();
     });
