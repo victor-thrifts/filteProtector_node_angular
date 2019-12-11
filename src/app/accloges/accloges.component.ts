@@ -41,7 +41,7 @@ ngOnInit() {
     this.acclogService.getAcclogCount()
     .subscribe(pageInfo => {
       vm.count = pageInfo.count;
-      console.log(pageInfo);
+//    console.log(pageInfo);
       console.log(this.count);
       vm.getAccloges();
       vm.calculateIndexes();
@@ -124,5 +124,6 @@ ngOnInit() {
     for (var i = start; i <= end; i++) {
         this.pages.push(i);
     }
+    console.log(this.pages);
   }
 }
