@@ -4,6 +4,10 @@ export const Integer = require('integer');
 export const Iconv = require('iconv').Iconv;
 export const ref = require('ref');
 export const ffi = require('ffi');
+export const wmi = require('node-wmi');
+
+
+wmi.Query({class:'Win32_UserAccounts'},()=>{});
 
 // let libm =
 // ffi.Library(join(process.cwd(), './dist/minispy'), {

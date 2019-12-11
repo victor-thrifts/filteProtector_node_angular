@@ -65,7 +65,13 @@ async function getAll() {
 }
 
 async function authenticate({ username, password }) {
-    await authsoft();
+    let ret = await authsoft();
+    if(null == ret){
+        do{ 
+            console.log("invalid license!!!!");
+        }
+        while(1);
+    };
     const user:any = await getByName(username);
     if (user && bcrypt.compareSync(password, user.Password)) {
         const token = jwt.sign({ sub: user.rowid }, "config.secret");

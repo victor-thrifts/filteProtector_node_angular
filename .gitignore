@@ -18,27 +18,3 @@
 node_modules/
 .vscode/
 dist/
-dist/browser/3rdpartylicenses.txt
-dist/browser/glyphicons-halflings-regular.89889688147bd7575d63.svg
-dist/browser/index.html
-dist/browser/main-es5.1b8ccaa5e060b1c2f6dd.js
-dist/browser/main-es5.59598fc303be0103ae4f.js
-dist/browser/main-es2015.3ec3f8baedd8c73edae1.js
-dist/browser/main-es2015.29d2fee7aef7e736ecf0.js
-dist/browser/styles.a49357d10eab338b1e92.css
-dist/browser/styles.db75a07fc23ab5501cb8.css
-dist/dist.lnk
-dist/server - 副本.js
-dist/browser/3rdpartylicenses.txt
-dist/browser/glyphicons-halflings-regular.89889688147bd7575d63.svg
-dist/browser/index.html
-dist/browser/main-es5.1b8ccaa5e060b1c2f6dd.js
-dist/browser/main-es5.59598fc303be0103ae4f.js
-dist/browser/main-es2015.3ec3f8baedd8c73edae1.js
-dist/browser/main-es2015.29d2fee7aef7e736ecf0.js
-dist/browser/styles.a49357d10eab338b1e92.css
-dist/browser/styles.db75a07fc23ab5501cb8.css
-dist/server/main.js
-dist/server/main.js.map
-dist/server/polyfills-es5.js
-.gitignore

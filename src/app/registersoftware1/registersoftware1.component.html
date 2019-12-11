@@ -2,12 +2,12 @@
 
 <form [formGroup]="registersoftwareForm" (ngSubmit)="onSubmit()"  class="registersoft-form">
     <mat-form-field class="registersoft-full-width">
-        <input matInput type="password"  formControlName="registerKey" [ngClass]="{ 'is-invalid': submitted && f.registerKey.errors }" 
+        <input matInput type="password"  formControlName="RegisterKey" [ngClass]="{ 'is-invalid': submitted && f.RegisterKey.errors }" 
         placeholder="软件注册KEY：" value="......">
     </mat-form-field>
     
     <mat-form-field class="registersoft-full-width">
-        <textarea matInput formControlName="companyName" [ngClass]="{ 'is-invalid': submitted && f.companyName.errors }"
+        <textarea matInput formControlName="CompanyName" [ngClass]="{ 'is-invalid': submitted && f.CompanyName.errors }"
         placeholder="公司名称："></textarea>
     </mat-form-field>
 
