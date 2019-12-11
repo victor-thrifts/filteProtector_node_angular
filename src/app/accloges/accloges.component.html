@@ -34,7 +34,7 @@
 		<!-- <li class="active" ng-repeat="page in pages" >
 			<a (click)="selectPage(page)">{{page+1}}</a>
 		</li> -->
-		<li *ngFor="let ii of pages" [ngClass]="{'active':ii == page}"><a href="javascript:void(0);" >{{ ii }}</a></li>
+		<li *ngFor="let ii of pages" [ngClass]="{'active':ii == page}"><a href="javascript:void(0);" (click)="selectPage(ii)" >{{ ii }}</a></li>
 		<!-- <li class="active"><a href="#" >1</a></li> -->
 		<!-- <li><a href="#">2</a></li>
 		<li><a href="#">3</a></li>

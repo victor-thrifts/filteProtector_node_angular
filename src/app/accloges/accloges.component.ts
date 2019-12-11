@@ -81,7 +81,10 @@ ngOnInit() {
   }
 
   selectPage(page:number): void {
-    alert(page);
+    this.page = page;
+    this.acclogService.getAccloges(this.page, this.pageSize)
+    .subscribe(accloges => this.accloges = accloges);
+    this.calculateIndexes ();
   }
 
   // 分页算法
