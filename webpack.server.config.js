@@ -20,7 +20,11 @@ module.exports = {
         options: {
             basePath: ['.\\dist']
         }
-      }
+      },
+      {test: /\.(jpe?g|png|gif|svg)(\?v=\d+\.\d+\.\d+)?$/,
+       loader: 'url-loader?name=img/[name].[hash].[ext]'
+      },
+      {test: /\.css$/, loader: 'css-loader'}
     ]
   },
   plugins: [
