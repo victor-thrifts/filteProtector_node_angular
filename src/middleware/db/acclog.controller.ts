@@ -5,7 +5,6 @@ import {apirouter} from '../apirouter';
 
 
 import * as acclogService from './db_acclog.service';
-import { PageInfo } from 'src/app/_models/pageInfo';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })

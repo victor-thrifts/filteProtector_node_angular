@@ -9,7 +9,6 @@ import { catchError, map, tap } from 'rxjs/operators';
 
 import { Acclog } from '../_models/acclog';
 import { AlertService } from './alert.service';
-import { Counts } from '../_models/counts';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -42,12 +41,12 @@ export class AcclogService {
       );
   }
 
-  getAcclogCount (): Observable<Counts> {
+  getAcclogCount (): Observable<number> {
     const url = `${this.acclogesUrl}/getCount`;
-    return this.http.get<Counts>(url)
+    return this.http.get<number>(url)
       .pipe(
         tap(count => this.log('fetched accloges')),
-        catchError(this.handleError<Counts>('getAcclogCount'))
+        catchError(this.handleError<number>('getAcclogCount'))
       );
   }
 

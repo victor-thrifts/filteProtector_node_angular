@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Acclog} from '../_models/acclog';
 import { AcclogService } from '../_services';
-import { PageInfo } from '../_models/pageInfo';
 
 @Component({
   selector: 'app-dashboard',

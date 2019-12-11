@@ -2,7 +2,6 @@
 const bcrypt = require('bcryptjs');
 import { Acclog } from '../../app/_models/acclog';
 import { db } from '.';
-import { Counts } from 'src/app/_models/counts';
 
 async function getAll(startid, count) {
     var accloges: Acclog[];

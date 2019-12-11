@@ -3,8 +3,6 @@ import {PageEvent} from '@angular/material/paginator';
 
 import { Acclog } from '../_models/acclog';
 import { AcclogService } from '../_services'; 
-import { PageInfo } from '../_models/pageInfo';
-import { Counts } from '../_models/counts';
 
 @Component({
   selector: 'app-accloges',
@@ -12,7 +10,6 @@ import { Counts } from '../_models/counts';
   styleUrls: ['./accloges.component.css']
 })
 export class AcclogesComponent implements OnInit {
-  pageInfo: PageInfo;
   accloges: Acclog[]; //数据集合
   page = 1; // 当前页
   pageSize = 20; // 每页条数
@@ -41,8 +38,8 @@ ngOnInit() {
     let vm = this;
     this.acclogService.getAcclogCount()
     .subscribe(counts => {
-      vm.count = counts.count
-      console.log(counts.count)
+      vm.count = counts
+      console.log(counts)
       console.log(this.count)
       vm.getAccloges();
       vm.calculateIndexes();
