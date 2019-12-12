@@ -40,6 +40,22 @@ wmi.Query({class:'Win32_UserAccount'},(err, bios) => {
     console.log(bios);
 });
 
+
+async function  getUserBySid(sid){
+    return new Promise(function(resovle,reject){
+        try {
+            bios.forEach(element => {
+                if(element.SID == sid){
+                    return resovle(element.Name);
+                }         
+            });
+        } catch(err) {
+            return resovle("");
+        }
+    });
+}
+
+
 export class ProtectionFolderSet{
     constructor(){}
 
@@ -83,17 +99,6 @@ export class ProtectionFolderSet{
         }, 1000);
     };
 
-    async getUserBySid(sid){
-        return new Promise(function(resovle,reject){
-            bios.forEach(element => {
-                if(element.SID == sid){
-                    return resovle(element.Name);
-                }         
-            });
-            return reject("");
-        });
-    }
-
     callback = ffi.Callback(
         'void', ['string', 'char', 'string', 'string', 'string'], 
         async function(fName, tag, time, writer,sid) {
@@ -106,7 +111,7 @@ export class ProtectionFolderSet{
             }else if(tag1 == "R"){
                 tag1 = "重命名";
             }
-            let userName = await this.getUserBySid(sid);
+            let userName = await getUserBySid(sid);
             console.log("tag: %s\n", tag1);
             console.log("time: %s", time);
             console.log("author: %s", writer);
