@@ -1,5 +1,7 @@
 import { join } from 'path';
 import { save } from './db/db_acclog.service';
+import { promise } from 'protractor';
+import { userInfo } from 'os';
 export const Integer = require('integer');
 export const Iconv = require('iconv').Iconv;
 export const ref = require('ref');
@@ -15,19 +17,20 @@ wmi.Query({class:'Win32_UserAccounts'},function(err, bios) {
     console.log(bios);
 });
 
-// let libm =
-// ffi.Library(join(process.cwd(), './dist/minispy'), {
-//     'setProtectionFolder': ['pointer', ['string']],
-//     'getProtectionFolder': ['string', ['void']],
-//     'setOpenProcess':      ['void', ['string']],
-//     'GetRecords':		   ['int',  ['void']],
-//     'SetGetRecCb': ['int', [
-//     ffi.Function(ref.types.void,[
-//     ref.types.CString, 
-//     ref.types.char, 
-//     ref.types.CString, 
-//     ref.types.CString])]]
-// });
+let libm =
+ffi.Library(join(process.cwd(), './dist/minispy'), {
+    'setProtectionFolder': ['pointer', ['string']],
+    'getProtectionFolder': ['string', ['void']],
+    'setOpenProcess':      ['void', ['string']],
+    'GetRecords':		   ['int',  ['void']],
+    'SetGetRecCb': ['int', [
+    ffi.Function(ref.types.void,[
+    ref.types.CString, 
+    ref.types.char, 
+    ref.types.CString, 
+    ref.types.CString,
+    ref.types.CString])]]
+});
 
 let bb = Integer(1);
 bb.plus(11);
@@ -41,12 +44,17 @@ Buffer.concat([abuf,],len+len1);
 console.log(abuf.toString('ascii'));
 
 
+var bios: any;
+wmi.Query({class:'Win32_UserAccounts'},(err, bios) => {
+    console.log(bios);
+});
+
 export class ProtectionFolderSet{
     constructor(){}
 
     getProtectionFolder(){
          let pFolder = null;
-        // pFolder = libm.getProtectionFolder(null);
+         pFolder = libm.getProtectionFolder(null);
          console.log(pFolder);
          let buf = ref.allocCString(pFolder);
          console.log(buf.toString());
@@ -60,7 +68,7 @@ export class ProtectionFolderSet{
         abuf = Buffer.concat([abuf,unicode_null],len+len1);
         cstr1 = abuf.toString('ascii');
         console.log(cstr1);
-        //libm.setProtectionFolder(cstr1);
+        libm.setProtectionFolder(cstr1);
     }
 
     setOpenProcess(cstr1){
@@ -71,22 +79,33 @@ export class ProtectionFolderSet{
         abuf = Buffer.concat([abuf,unicode_null],len+len1);
         cstr1 = abuf.toString('ascii');
         console.log(cstr1);
-        //libm.setOpenProcess(cstr1);
+        libm.setOpenProcess(cstr1);
     }
 
     checklogs()
     {
         console.log('check the minisy log now!');
         setTimeout(()=>{
-            //libm.SetGetRecCb(this.callback);
-            //libm.GetRecords(null);
+            libm.SetGetRecCb(this.callback);
+            libm.GetRecords(null);
             this.checklogs();
         }, 1000);
     };
 
+    async getUserBySid(sid){
+        return new Promise(function(resovle,reject){
+            bios.forEach(element => {
+                if(element.SID == sid){
+                    return resovle(element.Name);
+                }         
+            });
+            return reject("");
+        });
+    }
+
     callback = ffi.Callback(
-        'void', ['string', 'char', 'string', 'string'], 
-        function(fName, tag, time, writer,sid) {
+        'void', ['string', 'char', 'string', 'string', 'string'], 
+        async function(fName, tag, time, writer,sid) {
             let tag1 = String.fromCharCode(tag); 
             console.log("fileName: %s\n", fName);
             if(tag1 == "W") {
@@ -96,19 +115,11 @@ export class ProtectionFolderSet{
             }else if(tag1 == "R"){
                 tag1 = "重命名";
             }
-            let userName = '';
-            wmi.Query({class:'Win32_UserAccounts'},(err, bios) => {
-                bios.forEach(element => {
-                    if(element.SID == sid){
-                        userName = element.Name;
-                    }
-                });
-                console.log(bios);
-            });
+            let userName = await this.getUserBySid(sid);
             console.log("tag: %s\n", tag1);
             console.log("time: %s", time);
             console.log("author: %s", writer);
-            save({FileName: fName, AccessType: tag1, AccessTime: time, Author: writer,UserName: userName});
+            save({FileName: fName, AccessType: tag1, AccessTime: time, Author: writer, UserName: userName});
         }
     )
 }
