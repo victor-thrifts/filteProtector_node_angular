@@ -6,8 +6,13 @@ module.exports = {
   resolve: { extensions: ['.js', '.ts'] },
   target: 'node',
   mode: 'none',
+  node:{
+    global: true,
+    __filename: 'mock',
+    __dirname: 'mock',
+  },
   // this makes sure we include node_modules and other 3rd party libraries
-  externals: [/node_modules/],
+  externals: [ /node_modules/ ],
   output: {
     path: path.join(__dirname, 'dist'),
     filename: '[name].js'

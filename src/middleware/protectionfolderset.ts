@@ -8,15 +8,6 @@ export const ref = require('ref');
 export const ffi = require('ffi');
 export const wmi = require('node-wmi');
 
-
-wmi.Query({class:'Win32_UserAccounts'},function(err, bios) {
-    var bb= [];
-    bb.forEach(element => {
-        console.log(element)
-    });
-    console.log(bios);
-});
-
 let libm =
 ffi.Library(join(process.cwd(), './dist/minispy'), {
     'setProtectionFolder': ['pointer', ['string']],
@@ -45,7 +36,7 @@ console.log(abuf.toString('ascii'));
 
 
 var bios: any;
-wmi.Query({class:'Win32_UserAccounts'},(err, bios) => {
+wmi.Query({class:'Win32_UserAccount'},(err, bios) => {
     console.log(bios);
 });
 
