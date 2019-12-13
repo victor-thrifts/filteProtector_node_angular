@@ -62,8 +62,11 @@ function save(acclogParam)
 {
     const insert = db.prepare(
         'INSERT INTO backupFileAccessLog(FileName, AccessType, AccessTime, Author, UserName)  VALUES(@FileName, @AccessType, @AccessTime, @Author, @UserName)');
-    insert.run(acclogParam); 
-    
+    try{
+        insert.run(acclogParam); 
+    }catch(err){
+        console.log(err);
+    }
 }
 
 export { getById, getAll, getByCount, getByName, save }

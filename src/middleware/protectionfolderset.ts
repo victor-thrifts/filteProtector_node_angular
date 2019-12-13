@@ -41,11 +41,12 @@ wmi.Query({class:'Win32_UserAccount'},(err, bios) => {
 });
 
 
-async function  getUserBySid(sid){
+async function  getUserBySid(sid:string){
     return new Promise(function(resovle,reject){
         try {
             bios.forEach(element => {
-                if(element.SID == sid){
+                let id: string = element.SID;
+                if(id == sid.trim()){
                     return resovle(element.Name);
                 }         
             });
@@ -111,11 +112,14 @@ export class ProtectionFolderSet{
             }else if(tag1 == "R"){
                 tag1 = "重命名";
             }
-            let userName = await getUserBySid(sid);
             console.log("tag: %s\n", tag1);
             console.log("time: %s", time);
             console.log("author: %s", writer);
-            save({FileName: fName, AccessType: tag1, AccessTime: time, Author: writer, UserName: userName});
+            getUserBySid(sid).then(
+                userName => {
+                    save({FileName: fName, AccessType: tag1, AccessTime: time, Author: writer, UserName: userName});
+                }
+            )     
         }
     )
 }
