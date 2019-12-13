@@ -37,16 +37,19 @@ function save(user:User){
             const stmt = db.prepare('SELECT Name, Password from SystemUsers WHERE Name=? AND Type=?');
             if(!user.Type) user.Type = 1;
             var row = stmt.get(user.Name, user.Type);
-            if (user.Password) {
-                user.Password = bcrypt.hashSync(user.Password, 10);
-            }
             if(row){
+                if (user.Password) {
+                    user.Password = bcrypt.hashSync(user.Password, 10);
+                }else{
+                    user.Password = row.Password;
+                }
                 console.log('Exists, Update');
                 const stmt = db.prepare('UPDATE SystemUsers SET Password=?, firstName=?, lastName=?  WHERE Name=? and Type=?');
                 return resolve(stmt.run(user.Password, user.firstName, user.lastName, user.Name, user.Type));
-            }
-            else
-            {
+            }else{
+                if (user.Password) {
+                    user.Password = bcrypt.hashSync(user.Password, 10);
+                }
                 console.log('not Exists, Insert');
                 const stmt = db.prepare('INSERT INTO SystemUsers(Name, Type, Password, firstName, lastName) VALUES(?,?,?,?,?)');
                 return resolve(stmt.run(user.Name, user.Type, user.Password, user.firstName, user.lastName));
@@ -93,14 +96,17 @@ async function create(userParam: User) {
 
 async function update(id: number, userParam: User) {
     const user = await getById(id);
-
     // validate
     if (!user) throw 'User not found';
-    if (user.Name !== userParam.Name && await getByName(userParam.Name)) {
-        throw 'Username "' + userParam.Name + '" is already taken';
+    if (user.Name !== userParam.Name) throw 'Username "' + userParam.Name + '" is already taken';
+    if (userParam.Password) {
+        userParam.Password = bcrypt.hashSync(userParam.Password, 10);
+    }else{
+        userParam.Password = user.Password;
     }
-    
-    await save(userParam);
+    console.log('Exists, Update');
+    const stmt = db.prepare('UPDATE SystemUsers SET Password=?, firstName=?, lastName=?  WHERE rowid=?');
+    stmt.run(userParam.Password, userParam.firstName, userParam.lastName, userParam.rowid);
 }
 
 export { authenticate, create, getAll, getById, update, _delete};

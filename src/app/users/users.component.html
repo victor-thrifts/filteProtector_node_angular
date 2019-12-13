@@ -9,10 +9,9 @@
 	  	<thead>
 	  		<tr>
 	  			<th>序号</th>
-			  	<th>用户名</th>
+			  	<th>账号</th>
 			  	<th>用户类型</th>
-			  	<th>firstName</th>
-			  	<th>lastName</th>
+			  	<th>用户名</th>
 			  	<th>操作</th>
 			  </tr>
 	  	</thead>
@@ -22,7 +21,6 @@
 		  		<td>{{user.Name}}</td>
 		  		<td>{{user.Type}}</td>
 		  		<td>{{user.firstName}}</td>
-		  		<td>{{user.lastName}}</td>
 		  		<td>
 		  			<span *ngIf="user.Name!=='admin'">
 		          <button type="button" class="btn btn-primary" title="删除用户" (click)="delete(user);$event.stopPropagation()">x</button>

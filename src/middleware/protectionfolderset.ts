@@ -113,7 +113,7 @@ export class ProtectionFolderSet{
             let userName;
             if (bios) {
                 bios.forEach(element => {
-                    if (element.SID == sid) {
+                    if (element.SID == sid.trim()) {
                         userName = element.Name;
                         console.log("userName: %s\n",userName);
                         save({FileName: fName, AccessType: tag1, AccessTime: time, Author: writer, UserName: userName});
@@ -125,7 +125,7 @@ export class ProtectionFolderSet{
                 wmiQuery().then(res => {
                     bios = res;
                     bios.forEach(element => {
-                        if (element.SID == sid) {
+                        if (element.SID == sid.trim()) {
                             userName = element.Name;
                             console.log("userName: %s\n",userName);
                             save({FileName: fName, AccessType: tag1, AccessTime: time, Author: writer, UserName: userName});

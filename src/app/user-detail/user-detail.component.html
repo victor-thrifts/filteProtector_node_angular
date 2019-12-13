@@ -10,21 +10,27 @@
 		    </div>
 		  </div>
 		  <div class="form-group">
-		    <label for="account" class="col-md-2 control-label">账号：</label>
+		    <label class="col-md-2 control-label">账号：</label>
 		    <div class="col-md-10">
-		      <input type="text" class="form-control" id="account" [(ngModel)]="user.Name" placeholder="账号">
-		    </div>
-		  </div>
-			<div class="form-group">
-		    <label for="accountPsd" class="col-md-2 control-label">口令：</label>
-		    <div class="col-md-10">
-		      <input type="password" [(ngModel)]="user.Password" placeholder="口令" class="form-control" id="accountPsd">
+		       <p class="form-control-static">{{user.Name}}</p>
 		    </div>
 		  </div>
 		  <div class="form-group">
-		    <label for="firstName" class="col-md-2 control-label">用户姓名：</label>
+		    <label for="firstName" class="col-md-2 control-label">用户名：</label>
 		    <div class="col-md-10">
-		      <input type="text" class="form-control" id="firstName" [(ngModel)]="user.firstName" placeholder="姓名">
+		      <input type="text" class="form-control" name="firstName" id="firstName" [(ngModel)]="user.firstName" placeholder="姓名">
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="accountPsd" class="col-md-2 control-label">密码：</label>
+		    <div class="col-md-10">
+		      <input type="password" [(ngModel)]="user.Password" placeholder="默认为空不修改密码" name="Password" class="form-control" id="accountPsd">
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="accountPsd" class="col-md-2 control-label">确认密码：</label>
+		    <div class="col-md-10">
+		      <input type="password" [(ngModel)]="user.ConfirmPassword" placeholder="再次输入密码" name="Password" class="form-control" id="accountPsd">
 		    </div>
 		  </div>
 		  <div class="form-group">

@@ -24,6 +24,7 @@ export class RegisterComponent implements OnInit {
         this.registerForm = this.formBuilder.group({
             firstName: ['', Validators.required],
             //lastName: ['', Validators.required],
+            ConfirmPassword:[''],
             Name: ['', Validators.required],
             Password: ['', [Validators.required, Validators.minLength(6)]]
         });
@@ -39,7 +40,11 @@ export class RegisterComponent implements OnInit {
         if (this.registerForm.invalid) {
             return;
         }
-
+        console.log(this.registerForm.value);
+        if(this.registerForm.value.ConfirmPassword != this.registerForm.value.Password){
+            alert("密码输入不一致");
+            return;
+        }
         this.loading = true;
         this.userService.register(this.registerForm.value)
             .pipe(first())
