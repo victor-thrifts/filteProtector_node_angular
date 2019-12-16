@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Acclog } from '../_models/acclog';
 import { AcclogService } from '../_services';
+import * as pdfMake from 'pdfmake/build/pdfmake';
+import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 @Component({
   selector: 'app-accloges',
   templateUrl: './accloges.component.html',
@@ -56,6 +58,49 @@ export class AcclogesComponent implements OnInit {
         });
   }
 
+  exportLog(): void{
+    
+    pdfMake.vfs = pdfFonts.pdfMake.vfs;
+    var docDefinition = {
+      content: [
+        {
+          layout: 'lightHorizontalLines',
+          table: {
+            headerRows: 1,
+            widths: [ '*', 'auto', 100, '*' ,'*','*'],
+            body: [
+              [ '序号', '文件名称', '操作类型', '操作人' ,'操作时间','操作程序'],
+              [ '1', 'aaaa.txt', '修改', 'admin','2019-08-07','aaa.exe' ],
+              [ '2', 'aaaa.txt', '修改', 'admin','2019-08-07','aaa.exe' ],
+              [ '3', 'aaaa.txt', '修改', 'admin','2019-08-07','aaa.exe' ],
+              [ '4', 'aaaa.txt', '修改', 'admin','2019-08-07','aaa.exe' ],
+              [ '5', 'aaaa.txt', '修改', 'admin','2019-08-07','aaa.exe' ],
+              [ '6', 'aaaa.txt', '修改', 'admin','2019-08-07','aaa.exe' ]
+            ]
+          }
+        }
+      ],
+      defaultStyle: {
+        font: 'jdstj'
+      }
+    };
+    pdfMake.fonts = {
+      Roboto: {
+          normal: 'Roboto-Regular.ttf',
+          bold: 'Roboto-Medium.ttf',
+          italics: 'Roboto-Italic.ttf',
+          bolditalics: 'Roboto-Italic.ttf'
+      },
+      jdstj: {
+          normal: 'jdstj.ttf',
+          bold: 'jdstj.ttf',
+          italics: 'jdstj.ttf',
+          bolditalics: 'jdstj.ttf',
+      }
+    };
+    pdfMake.createPdf(docDefinition).download();
+    alert("aaaaaaaaaaaaaaaaa");
+  }
   next(dis:number): void {
     if(dis == this.pageCount){
       return;
