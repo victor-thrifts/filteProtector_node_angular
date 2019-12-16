@@ -10,7 +10,7 @@ export class JwtInterceptor implements HttpInterceptor {
         // add authorization header with jwt token if available
         let isPlatBrowser = isPlatformBrowser(this.platformId) ? true : false;
         if(!isPlatBrowser) return next.handle(request);
-        let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        let currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
         if (currentUser && currentUser.token) {
             request = request.clone({
                 setHeaders: { 
