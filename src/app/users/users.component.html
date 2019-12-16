@@ -3,7 +3,7 @@
   <div class="col-md-10">
   	<h2>系统用户列表</h2>
   	<div class="text-right margin-b20">
-		    <button type="button" class="btn btn-primary" [routerLink]="['/register']">添加账号</button>      
+		    <button type="button" class="btn btn-primary" [routerLink]="['/register']">添加账号</button>
 		</div>
 	  <table class="table table-bordered table-hover table-striped">
 	  	<thead>
@@ -19,13 +19,16 @@
 		  	<tr *ngFor="let user of users"  routerLink="/users/{{user.rowid}}">
 		  		<td align="center">{{user.rowid}}</td>
 		  		<td>{{user.Name}}</td>
-		  		<td>{{user.Type}}</td>
+		  		<td>
+            <span *ngIf="user.Type == 0">管理员</span>
+            <span *ngIf="user.Type == 1">普通用户</span>
+          </td>
 		  		<td>{{user.firstName}}</td>
 		  		<td>
 		  			<span *ngIf="user.Name!=='admin'">
 		          <button type="button" class="btn btn-primary" title="删除用户" (click)="delete(user);$event.stopPropagation()">x</button>
 			      </span>
-		  		</td>	
+		  		</td>
 		  	</tr>
 		  </tbody>
 		</table>
@@ -43,7 +46,7 @@
     <div class="module">
       <h4>{{user.Name}}</h4>
       <br>
-      <h3>{{user.firstName}}, {{user.lastName}}</h3>  
+      <h3>{{user.firstName}}, {{user.lastName}}</h3>
     </div>
   </a>
 </div> -->
@@ -55,7 +58,7 @@
           {{user.rowid}}
           <br>
           {{user.Name}}, {{user.Type}}, {{user.firstName}}, {{user.lastName}}
-        </span> 
+        </span>
       </a>
       <span *ngIf="user.Name!=='admin'">
           <button class="delete" title="删除用户"
@@ -66,5 +69,5 @@
 
 <div>
     <!-- <button (click)="add(userName.value); userName.value=''">     </button>-->
-    <!--<a [routerLink]="['/register']" class="btn btn-link">添加账号</a>      
+    <!--<a [routerLink]="['/register']" class="btn btn-link">添加账号</a>
 </div>-->
