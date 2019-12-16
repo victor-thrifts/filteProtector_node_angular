@@ -38,8 +38,9 @@ function getCurrent(req, res, next) {
 
 function getById(req, res, next) {
     userService.getById(req.params.id)
-        .then(user => user ? res.json(user) : res.sendStatus(404))
-        .catch(err => next(err));
+        .then(user => {
+            user ? res.json(user) : res.sendStatus(404);
+        }).catch(err => next(err));
 }
 
 function update(req, res, next) {

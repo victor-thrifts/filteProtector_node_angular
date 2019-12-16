@@ -28,8 +28,9 @@ export class TopBarComponent implements OnInit{
             private alertService: AlertService,
             private authenticationService: AuthenticationService
     ) {
+        
         if(!isPlatformBrowser(platformId)) return;
-        let currentUser = localStorage.getItem('currentUser');
+        let currentUser = sessionStorage.getItem('currentUser');
         this.loggedIn = !isNull(currentUser);
         if(this.loggedIn){
             let {user, token} = JSON.parse(currentUser);
@@ -73,7 +74,7 @@ export class TopBarComponent implements OnInit{
                 this.loggedIn = loggedIn;
                 this.Isadmin = Isadmin;
                 if(loggedIn){
-                    let {user, token} = JSON.parse(localStorage.getItem('currentUser'));
+                    let {user, token} = JSON.parse(sessionStorage.getItem('currentUser'));
                     this.user = user;
                     this.token = token;
                 }
@@ -92,7 +93,7 @@ export class TopBarComponent implements OnInit{
     logout(){
         if(!isPlatformBrowser(this.platformId)) return;
         this.authenticationService.logout();
-        this.loggedIn = !isNull(localStorage.getItem('currentUser'));
+        this.loggedIn = !isNull(sessionStorage.getItem('currentUser'));
         this.cdr.detectChanges();
         this.router.navigate(['login']);
     }

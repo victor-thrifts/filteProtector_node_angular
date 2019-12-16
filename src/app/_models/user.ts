@@ -5,4 +5,5 @@ export class User {
     Type:  Number;
     firstName: string;
     lastName: string;
+    ConfirmPassword: string;
 }

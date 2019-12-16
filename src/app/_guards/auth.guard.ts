@@ -14,7 +14,7 @@ export class AuthGuard implements CanActivate {
     }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        if (isPlatBrowser && localStorage.getItem('currentUser')) {
+        if (isPlatBrowser && sessionStorage.getItem('currentUser')) {
             // logged in so return true
             return true;
         }

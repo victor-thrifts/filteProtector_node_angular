@@ -25,9 +25,13 @@ export class UserDetailComponent implements OnInit {
   }
 
   getUser(): void {
-    const id: any = this.route.snapshot.paramMap.get('id');
-    this.usersService.getById(id)
-      .subscribe(user => this.user = user);
+    const id = +this.route.snapshot.paramMap.get('id');
+    this.usersService.getById(id).subscribe(user => {
+      this.user = user;
+      this.user.Password = null;
+      console.log(this.user)
+    });
+    // $scope.$apply();
   }
 
   goBack(): void {
@@ -35,6 +39,18 @@ export class UserDetailComponent implements OnInit {
   }
 
   save(): void {
+    console.log(this.user);
+    if(this.user.firstName == null || this.user.firstName == ''){
+      alert("用户名必填");
+    }
+    if(this.user.Password != null && this.user.Password != '' && this.user.Password.length < 6){
+      alert("密码必须大于六位");
+      return;
+    }
+    if(this.user.Password != this.user.ConfirmPassword && this.user.Password !=''){
+      alert("密码输入不一致");
+      return;
+    }
     this.usersService.update(this.user)
       .subscribe(()=>this.goBack());
   }
