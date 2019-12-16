@@ -17,6 +17,7 @@ export class AcclogesComponent implements OnInit {
   pageCount = 0; //总页数
   pageLenght = 6; // 显示页数数量
   pageSizeOptions: number[] = [5, 10, 25, 100];
+  pdf: Acclog[];
   constructor(private acclogService: AcclogService) { }
 
   ngOnInit() {
@@ -57,50 +58,64 @@ export class AcclogesComponent implements OnInit {
           this.accloges = this.accloges.filter(h => h !== acclog);
         });
   }
-
-  exportLog(): void{
-    
-    pdfMake.vfs = pdfFonts.pdfMake.vfs;
-    var docDefinition = {
-      content: [
-        {
-          layout: 'lightHorizontalLines',
-          table: {
-            headerRows: 1,
-            widths: [ '*', 'auto', 100, '*' ,'*','*'],
-            body: [
-              [ '序号', '文件名称', '操作类型', '操作人' ,'操作时间','操作程序'],
-              [ '1', 'aaaa.txt', '修改', 'admin','2019-08-07','aaa.exe' ],
-              [ '2', 'aaaa.txt', '修改', 'admin','2019-08-07','aaa.exe' ],
-              [ '3', 'aaaa.txt', '修改', 'admin','2019-08-07','aaa.exe' ],
-              [ '4', 'aaaa.txt', '修改', 'admin','2019-08-07','aaa.exe' ],
-              [ '5', 'aaaa.txt', '修改', 'admin','2019-08-07','aaa.exe' ],
-              [ '6', 'aaaa.txt', '修改', 'admin','2019-08-07','aaa.exe' ]
-            ]
+  exportLog() {
+    // console.log(this.count);
+    this.acclogService.getAccloges(1, this.count).subscribe(
+      pdf => {
+        this.pdf = pdf;
+        if (this.count === this.pdf.length) {
+          let arrayData = [];
+          let first = ['序号', '文件名称', '操作类型', '操作人', '操作时间', '操作程序'];
+          arrayData.push(first);
+          for (let i = 0; i < this.count; i++) {
+            let arr = new Array();
+            arr[0] = this.pdf[i].rowid;
+            arr[1] = this.pdf[i].FileName;
+            arr[2] = this.pdf[i].AccessType;
+            arr[3] = this.pdf[i].UserName;
+            arr[4] = this.pdf[i].AccessTime;
+            arr[5] = this.pdf[i].Author;
+            arrayData.push(arr);
           }
+          this.pdfmakes(arrayData);
         }
-      ],
-      defaultStyle: {
-        font: 'jdstj'
       }
-    };
+    );
+  }
+
+  pdfmakes(arrayData) {
+    pdfMake.vfs = pdfFonts.pdfMake.vfs;
     pdfMake.fonts = {
       Roboto: {
-          normal: 'Roboto-Regular.ttf',
-          bold: 'Roboto-Medium.ttf',
-          italics: 'Roboto-Italic.ttf',
-          bolditalics: 'Roboto-Italic.ttf'
+        normal: 'Roboto-Regular.ttf',
+        bold: 'Roboto-Medium.ttf',
+        italics: 'Roboto-Italic.ttf',
+        bolditalics: 'Roboto-Italic.ttf'
       },
+      /*这里是加入的微软雅黑字体*/
       jdstj: {
-          normal: 'jdstj.ttf',
-          bold: 'jdstj.ttf',
-          italics: 'jdstj.ttf',
-          bolditalics: 'jdstj.ttf',
+        normal: 'jdstj.ttf',
+        bold: 'jdstj.ttf',
+        italics: 'jdstj.ttf',
+        bolditalics: 'jdstj.ttf',
       }
+    }
+    let data = {
+      content: [{
+        layout: 'lightHorizontalLines', // optional
+        table: {
+          headerRows: 1,
+          widths: [ 40, 100, 60, 65 ,65,100],
+          body: arrayData
+        }
+      }],
+      defaultStyle: {
+        font: 'jdstj'
+      },
     };
-    pdfMake.createPdf(docDefinition).download();
-    alert("aaaaaaaaaaaaaaaaa");
+    pdfMake.createPdf(data).download('日志列表');
   }
+
   next(dis:number): void {
     if(dis == this.pageCount){
       return;
@@ -162,4 +177,5 @@ export class AcclogesComponent implements OnInit {
         this.pages.push(i);
     }
   }
+
 }
