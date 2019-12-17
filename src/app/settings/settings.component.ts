@@ -47,7 +47,10 @@ export class SettingsComponent implements OnInit {
     return this.http.put<Settings>(`${origin}/api/settings`, this.settings).pipe(
       tap(_=>this.log('puted settings')),
       catchError(this.handleError<Settings>(`update`))     
-    ).subscribe(()=>this.goBack());
+    ).subscribe(()=>{
+      alert("保存成功");  
+      this.goBack()
+    });
   }
 
   private handleError<T> (operation = 'operation', result?: T) {
