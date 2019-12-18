@@ -32,9 +32,12 @@
     <div class="form-group">
         <label for="Type" >用户类型：</label>
         <select  placeholder="姓名" formControlName="Type" class="form-control">
-            <!-- <option value="1" >默认普通用户</option> -->
+            <!-- <option value="" >默认普通用户</option> -->
             <option *ngFor="let type of types" [ngValue]="type.name"  >{{type.abbrev}}</option>
         </select>
+        <div *ngIf="submitted && f.Type.errors" class="invalid-feedback">
+            <div *ngIf="f.Type.errors.required">用户类型为必填</div>
+        </div>
     </div>
     <div class="form-group">
         <button [disabled]="loading" class="btn btn-primary">确认</button>
