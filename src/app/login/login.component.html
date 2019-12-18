@@ -10,7 +10,7 @@
           <h3>欢迎登录</h3>
           <div class="login-main">
            	<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-           		<p  class="form-control-static login-prompt">admin用户初始口令为admin,请登陆成功后修改</p>
+           		<!-- <p  class="form-control-static login-prompt">admin用户初始口令为admin,请登陆成功后修改</p> -->
 					    <div class="form-group">
 					        <label for="username">用户名</label>
 					        <input type="text" id="username" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
