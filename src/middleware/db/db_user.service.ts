@@ -31,29 +31,14 @@ async function _delete(id: Number) {
     await stmt.run(id);
 }
 
-function save(user:User){
+function insert(user:User){
     return new Promise(function(resolve,reject){
         try{
-            const stmt = db.prepare('SELECT Name, Password from SystemUsers WHERE Name=? AND Type=?');
             if(!user.Type) user.Type = 1;
-            var row = stmt.get(user.Name, user.Type);
-            if(row){
-                if (user.Password) {
-                    user.Password = bcrypt.hashSync(user.Password, 10);
-                }else{
-                    user.Password = row.Password;
-                }
-                console.log('Exists, Update');
-                const stmt = db.prepare('UPDATE SystemUsers SET Password=?, firstName=?, lastName=?  WHERE Name=? and Type=?');
-                return resolve(stmt.run(user.Password, user.firstName, user.lastName, user.Name, user.Type));
-            }else{
-                if (user.Password) {
-                    user.Password = bcrypt.hashSync(user.Password, 10);
-                }
-                console.log('not Exists, Insert');
-                const stmt = db.prepare('INSERT INTO SystemUsers(Name, Type, Password, firstName, lastName) VALUES(?,?,?,?,?)');
-                return resolve(stmt.run(user.Name, user.Type, user.Password, user.firstName, user.lastName));
-            }
+            user.Password = bcrypt.hashSync(user.Password, 10);
+            console.log('not Exists, Insert');
+            const stmt = db.prepare('INSERT INTO SystemUsers(Name, Type, Password, firstName, lastName) VALUES(?,?,?,?,?)');
+            return resolve(stmt.run(user.Name, user.Type, user.Password, user.firstName, user.lastName));
         } catch (err) {
             if (!db.inTransaction) throw err; // (transaction was forcefully rolled back)
             return reject(err);            
@@ -88,25 +73,25 @@ async function authenticate({ username, password }) {
 async function create(userParam: User) {
     // validate
     if (await getByName( userParam.Name )) {
-        throw 'Name "' + userParam.Name + '" is already taken';
+        throw '账号 "' + userParam.Name + '" 已存在';
     }
     // save user
-    await save(userParam);
+    await insert(userParam);
 }
 
 async function update(id: number, userParam: User) {
     const user = await getById(id);
     // validate
-    if (!user) throw 'User not found';
-    if (user.Name !== userParam.Name) throw 'Username "' + userParam.Name + '" is already taken';
+    if (!user) throw '用户已不存在';
+    if (user.Name !== userParam.Name) throw '账号 "' + userParam.Name + '" 已存在';
     if (userParam.Password) {
         userParam.Password = bcrypt.hashSync(userParam.Password, 10);
     }else{
         userParam.Password = user.Password;
     }
-    console.log('Exists, Update');
-    const stmt = db.prepare('UPDATE SystemUsers SET Password=?, firstName=?, lastName=?  WHERE rowid=?');
-    stmt.run(userParam.Password, userParam.firstName, userParam.lastName, userParam.rowid);
+    console.log('User, Update');
+    const stmt = db.prepare('UPDATE SystemUsers SET Password=?, firstName=?, lastName=? ,Type=? WHERE rowid=?');
+    stmt.run(userParam.Password, userParam.firstName, userParam.lastName, userParam.Type, userParam.rowid);
 }
 
 export { authenticate, create, getAll, getById, update, _delete};

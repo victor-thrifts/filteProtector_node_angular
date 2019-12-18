@@ -12,6 +12,10 @@ import { Location } from '@angular/common';
 export class UserDetailComponent implements OnInit {
 
   user: User;
+  types = [
+    {name:0,abbrev:'管理员'},
+    {name:1,abbrev:'普通用户'}
+  ];
   constructor(
     private route: ActivatedRoute,
     private usersService: UserService,
@@ -52,7 +56,9 @@ export class UserDetailComponent implements OnInit {
       return;
     }
     this.usersService.update(this.user)
-      .subscribe(()=>this.goBack());
+      .subscribe(
+        data => {this.goBack()},
+        error =>{alert("保存失败")});
   }
 
 }
