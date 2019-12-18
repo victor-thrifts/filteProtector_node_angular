@@ -113,7 +113,7 @@ export class AcclogesComponent implements OnInit {
         font: 'jdstj'
       },
     };
-    pdfMake.createPdf(data).download('日志列表');
+    pdfMake.createPdf(data).download();
   }
 
   next(dis:number): void {
