@@ -16,8 +16,8 @@
 			  </tr>
 	  	</thead>
 		  <tbody>
-		  	<tr *ngFor="let user of users"  routerLink="/users/{{user.rowid}}">
-		  		<td align="center">{{user.rowid}}</td>
+		  	<tr *ngFor="let user of users;index as i;"  routerLink="/users/{{user.rowid}}">
+		  		<td align="center">{{i+1}}</td>
 		  		<td>{{user.Name}}</td>
 		  		<td>
             <span *ngIf="user.Type == 0">管理员</span>
