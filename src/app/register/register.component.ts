@@ -11,7 +11,10 @@ export class RegisterComponent implements OnInit {
     registerForm: FormGroup;
     loading = false;
     submitted = false;
-
+    types = [
+        {name:0,abbrev:'管理员'},
+        {name:1,abbrev:'普通用户'}
+    ];
     constructor(
         private formBuilder: FormBuilder,
         private location: Location,
@@ -23,7 +26,7 @@ export class RegisterComponent implements OnInit {
     ngOnInit() {
         this.registerForm = this.formBuilder.group({
             firstName: ['', Validators.required],
-            //lastName: ['', Validators.required],
+            Type: ['', Validators.required],
             ConfirmPassword:[''],
             Name: ['', Validators.required],
             Password: ['', [Validators.required, Validators.minLength(6)]]
@@ -56,7 +59,8 @@ export class RegisterComponent implements OnInit {
                     this.loading = false;
                 },
                 error => {
-                    this.alertService.error(error);
+                    alert(error);
+                    // this.alertService.error(error);
                     this.loading = false;
                 });
     }
