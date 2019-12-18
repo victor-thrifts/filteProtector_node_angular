@@ -8,20 +8,20 @@ export const ref = require('ref');
 export const ffi = require('ffi');
 export const wmi = require('node-wmi');
 
-// let libm =
-// ffi.Library(join(process.cwd(), './dist/minispy'), {
-//     'setProtectionFolder': ['pointer', ['string']],
-//     'getProtectionFolder': ['string', ['void']],
-//     'setOpenProcess':      ['void', ['string']],
-//     'GetRecords':		   ['int',  ['void']],
-//     'SetGetRecCb': ['int', [
-//     ffi.Function(ref.types.void,[
-//     ref.types.CString, 
-//     ref.types.char, 
-//     ref.types.CString, 
-//     ref.types.CString,
-//     ref.types.CString])]]
-// });
+let libm =
+ffi.Library(join(process.cwd(), './dist/minispy'), {
+    'setProtectionFolder': ['pointer', ['string']],
+    'getProtectionFolder': ['string', ['void']],
+    'setOpenProcess':      ['void', ['string']],
+    'GetRecords':		   ['int',  ['void']],
+    'SetGetRecCb': ['int', [
+    ffi.Function(ref.types.void,[
+    ref.types.CString, 
+    ref.types.char, 
+    ref.types.CString, 
+    ref.types.CString,
+    ref.types.CString])]]
+});
 
 let bb = Integer(1);
 bb.plus(11);
@@ -57,7 +57,7 @@ export class ProtectionFolderSet{
 
     getProtectionFolder(){
          let pFolder = null;
-        //  pFolder = libm.getProtectionFolder(null);
+         pFolder = libm.getProtectionFolder(null);
          console.log(pFolder);
          let buf = ref.allocCString(pFolder);
          console.log(buf.toString());
@@ -71,7 +71,7 @@ export class ProtectionFolderSet{
         abuf = Buffer.concat([abuf,unicode_null],len+len1);
         cstr1 = abuf.toString('ascii');
         console.log(cstr1);
-        // libm.setProtectionFolder(cstr1);
+        libm.setProtectionFolder(cstr1);
     }
 
     setOpenProcess(cstr1){
@@ -82,15 +82,15 @@ export class ProtectionFolderSet{
         abuf = Buffer.concat([abuf,unicode_null],len+len1);
         cstr1 = abuf.toString('ascii');
         console.log(cstr1);
-        // libm.setOpenProcess(cstr1);
+        libm.setOpenProcess(cstr1);
     }
 
     checklogs()
     {
         console.log('check the minisy log now!');
         setTimeout(()=>{
-            // libm.SetGetRecCb(this.callback);
-            // libm.GetRecords(null);
+            libm.SetGetRecCb(this.callback);
+            libm.GetRecords(null);
             this.checklogs();
         }, 1000);
     };
@@ -98,14 +98,21 @@ export class ProtectionFolderSet{
     callback = ffi.Callback(
         'void', ['string', 'char', 'string', 'string', 'string'], 
         async function(fName, tag, time, writer,sid) {
-            let tag1 = String.fromCharCode(tag); 
-            if(tag1 == "W") {
-                tag1 = "修改";
-            }else if(tag1 = "D"){
-                tag1 = "删除";  
-            }else if(tag1 == "R"){
+            let tag1 = String.fromCharCode(tag);
+            switch(tag1)
+            {
+            case "W":
+                    tag1 = "修改";
+                    break;
+            case "D":
+                    tag1 = "删除";
+                    break;
+            case "R":
                 tag1 = "重命名";
-            }
+                break;
+            default:
+                tag1 = "修改"; 
+            } 
             console.log("fileName: %s\n", fName);
             console.log("tag: %s\n", tag1);
             console.log("time: %s", time);
