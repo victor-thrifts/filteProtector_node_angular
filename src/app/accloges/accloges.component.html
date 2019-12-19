@@ -3,6 +3,7 @@
   <div class="col-md-1"></div>
   <div class="col-md-10">
 	<h2>日志列表</h2>
+    <button nz-button nzType="dashed" (click)="showDeleteConfirm()">Delete</button>
 
 	<form class="form-inline margin-b20" >
 	    <div class="form-group">
@@ -16,7 +17,7 @@
 		</div>
 	</form>
 	<div class="text-right margin-b20">
-		<button type="button" class="btn btn-primary" (click)="exportLog()" >导出日志</button>      
+		<button type="button" class="btn btn-primary" (click)="exportLog()" >导出日志</button>
 	</div>
 	<table class="table table-bordered table-hover table-striped">
 	<thead>
@@ -61,7 +62,7 @@
   <div class="col-md-1"></div>
 </div>
 
-  <!-- (click) passes input value to add() and then clears the input 
+  <!-- (click) passes input value to add() and then clears the input
   <button (click)="add(acclogName.value); acclogName.value=''">
     add
   </button>-->
@@ -81,7 +82,7 @@
         List length:
         <input matInput [(ngModel)]="length">
       </mat-form-field>
-      
+
       <mat-form-field>
         Page size:
         <input matInput [(ngModel)]="pageSize">
@@ -92,13 +93,13 @@
                [ngModel]="pageSizeOptions"
                (ngModelChange)="setPageSizeOptions($event)">
       </mat-form-field>
-      
+
       <mat-paginator [length]="length"
                     [pageSize]="pageSize"
                     [pageSizeOptions]="pageSizeOptions"
                     (page)="pageEvent = $event">
       </mat-paginator>
-      
+
       <div *ngIf="pageEvent">
         <h5>Page Change Event Properties</h5>
         <div>List length: {{pageEvent.length}}</div>

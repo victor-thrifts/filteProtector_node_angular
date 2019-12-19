@@ -1,5 +1,5 @@
 import { NgModule }       from '@angular/core';
-import { BrowserModule, TransferState }  from '@angular/platform-browser'; 
+import { BrowserModule, TransferState }  from '@angular/platform-browser';
 import { BrowserTransferStateModule, makeStateKey } from '@angular/platform-browser';
 import { FormsModule }    from '@angular/forms';
 import { ReactiveFormsModule }  from '@angular/forms';
@@ -33,6 +33,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UserDetailComponent } from './user-detail/user-detail.component';
 import { SettingsComponent } from './settings/settings.component';
 import { Registersoftware1Component } from './registersoftware1/registersoftware1.component';
+import { NgZorroAntdModule, NZ_I18N, zh_CN } from 'ng-zorro-antd';
 
 const RESULT_KEY = makeStateKey<string>('result');
 
@@ -50,6 +51,7 @@ const RESULT_KEY = makeStateKey<string>('result');
     MatFormFieldModule,
     MatInputModule,
     MatSidenavModule,
+    NgZorroAntdModule,
   ],
   declarations: [
     AppComponent,
@@ -66,16 +68,17 @@ const RESULT_KEY = makeStateKey<string>('result');
     SettingsComponent,
     Registersoftware1Component,
   ],
-  providers: [ 
-    AcclogService, 
-    AuthenticationService, 
-    UserService, 
-    AlertService, 
+  providers: [
+    AcclogService,
+    AuthenticationService,
+    UserService,
+    AlertService,
     AuthGuard,
     KeyregService,
     //{ provide: APP_BASE_HREF, useValue: window['_app_base'] || '/' },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: NZ_I18N, useValue: zh_CN },
   ],
   bootstrap: [ AppComponent ]
 })
@@ -85,7 +88,7 @@ export class AppModule {
   constructor(
     private tstate: TransferState,
     @Inject(PLATFORM_ID) private platformId: Object
-  ) 
+  )
   {
       let appId: string = Inject(APP_ID);
       const platform = isPlatformBrowser(platformId) ?

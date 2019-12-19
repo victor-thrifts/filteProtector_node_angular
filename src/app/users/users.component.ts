@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../_models';
 import { UserService } from '../_services';
+import { NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'app-user',
@@ -10,8 +11,8 @@ import { UserService } from '../_services';
 export class UsersComponent implements OnInit {
 
   users: User[] = [];
-  
-  constructor(private userService: UserService) { }
+
+  constructor(private userService: UserService, private modalService: NzModalService) { }
 
   ngOnInit() {
     this.getUsers();
@@ -27,6 +28,14 @@ export class UsersComponent implements OnInit {
         .subscribe(() => {
           this.users = this.users.filter(h => h !== user);
         });
+  }
+
+  showDeleteConfirm(user: User): void {
+    this.modalService.confirm({
+      nzTitle: '提示',
+      nzContent: '请确认是否删除!',
+      nzOnOk: () => console.log(user),
+    });
   }
 
 }

@@ -50,6 +50,7 @@
     "iconv": "^2.3.5",
     "integer": "^2.1.0",
     "jquery": "^3.4.1",
+    "ng-zorro-antd": "^8.5.2",
     "node-wmi": "0.0.5",
     "pdfmake": "^0.1.63",
     "ref": "^1.3.5",
