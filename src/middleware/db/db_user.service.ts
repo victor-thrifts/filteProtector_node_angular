@@ -65,7 +65,8 @@ async function authenticate({ username, password }) {
         const token = jwt.sign({ sub: user.rowid }, "config.secret");
         password = user.Password;
         return {
-            user: username,
+            user: user.Name,
+            type: user.Type,
             token
         };
     }

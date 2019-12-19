@@ -54,7 +54,7 @@ export class LoginComponent implements OnInit {
             .pipe(first())
             .subscribe(
                 data => {
-                    let Isadmin = this.f.username.value == 'admin'? true: false;
+                    let Isadmin = data.type == 0? true: false;
                     let loggedIn = true;
                     this.router.navigate(['/dashboard']);
                     this.alertService.setMessage({Isadmin:Isadmin, loggedIn:loggedIn});
