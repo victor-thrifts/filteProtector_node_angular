@@ -6,4 +6,5 @@ export class User {
     firstName: string;
     lastName: string;
     ConfirmPassword: string;
+    remark: string;
 }
