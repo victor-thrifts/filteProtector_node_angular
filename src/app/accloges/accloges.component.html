@@ -6,15 +6,19 @@
     <button nz-button nzType="dashed" (click)="showDeleteConfirm()">Delete</button>
 
 	<form class="form-inline margin-b20" >
-	    <div class="form-group">
-	        <label for='FileName'>文件名称：</label>
-			<input type="text" id="FileName"  name="FileName" class="form-control" [(ngModel)] = 'acclogeForm.FileName' />
-			<label for='AccessType'>操作类型：</label>
-			<input type="text" id="AccessType"  name="AccessType" class="form-control" [(ngModel)] = 'acclogeForm.AccessType' />
-			<label for='UserName'>操作人：</label>
-			<input type="text" id="UserName"  name="UserName" class="form-control" [(ngModel)] = 'acclogeForm.UserName' />
+	    <div class="form-group margin-r10">
+	      <label for='FileName'>文件名称：</label>
+				<input type="text" id="FileName"  name="FileName" class="form-control" [(ngModel)] = 'acclogeForm.FileName' />
+			</div>
+			<div class="form-group margin-r10">
+				<label for='AccessType'>操作类型：</label>
+				<input type="text" id="AccessType"  name="AccessType" class="form-control" [(ngModel)] = 'acclogeForm.AccessType' />
+			</div>
+			<div class="form-group margin-r10">
+				<label for='UserName'>操作人：</label>
+				<input type="text" id="UserName"  name="UserName" class="form-control" [(ngModel)] = 'acclogeForm.UserName' />
+			</div>
 			<button class="btn btn-primary btn-left" (click)="queryFileLog()" >查询</button>
-		</div>
 	</form>
 	<div class="text-right margin-b20">
 		<button type="button" class="btn btn-primary" (click)="exportLog()" >导出日志</button>
