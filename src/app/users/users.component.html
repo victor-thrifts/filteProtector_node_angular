@@ -26,8 +26,6 @@
 		  		<td>{{user.firstName}}</td>
 		  		<td>
 		  			<span *ngIf="user.Name!=='admin'">
-		          <!--<button type="button" class="btn btn-primary" title="删除用户"  (click)="delete(user);$event.stopPropagation()">x</button>-->
-		          <button type="button" class="btn btn-primary btn-sm" title="删除用户" (click)="showDeleteConfirm(user);$event.stopPropagation()">x</button>
 		          <button type="button" class="btn btn-primary" title="删除用户" (click)="showModal(user);$event.stopPropagation()">x</button>
 			      </span>
 		  		</td>
