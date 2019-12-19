@@ -3,11 +3,24 @@ const bcrypt = require('bcryptjs');
 import { Acclog } from '../../app/_models/acclog';
 import { db } from '.';
 
-async function getAll(startid, count) {
-    var accloges: Acclog[];
+async function getAll(startid, count,FileName,UserName,AccessType) {
+    let accloges: Acclog[];
     return new Promise(function(resovle,reject){
         try{
-            const stmt = db.prepare('SELECT rowid, * FROM backupFileAccessLog ORDER BY rowid DESC LIMIT ? OFFSET ?');
+            let sql = 'SELECT rowid, * FROM backupFileAccessLog  WHERE 1=1 ';
+            if(FileName){
+                FileName = '%' + FileName + '%'
+                sql += "AND FileName LIKE '" + FileName + "' "
+            }
+            if(UserName){
+                sql += "AND UserName='"+ UserName +  "' "
+            }
+            if(AccessType){
+                sql += "AND AccessType='" + AccessType + "' "
+            }
+            sql += 'ORDER BY rowid DESC LIMIT ? OFFSET ?'
+            console.log(sql);
+            const stmt = db.prepare(sql);
             return resovle(accloges = stmt.all(count, startid));
         } catch (err) {
             return reject(err);
@@ -25,6 +38,30 @@ async function getByCount() {
             return reject(err);
         }
     })
+}
+
+async function getCountByQuery (FileName,UserName,AccessType) {
+    var count : number;
+    return new Promise(function(resolve,reject){
+        try{
+            let sql = 'SELECT count(*) AS count FROM backupFileAccessLog  WHERE 1=1 ';
+            if(FileName){
+                FileName = '%' + FileName + '%'
+                sql += "AND FileName LIKE '" + FileName + "' "
+            }
+            if(UserName){
+                sql += "AND UserName='"+ UserName +  "' "
+            }
+            if(AccessType){
+                sql += "AND AccessType='" + AccessType + "' "
+            }
+            const getCount = db.prepare(sql);
+            return resolve(count = getCount.get());
+        } catch (err) {
+            return reject(err);
+        }
+    })
+    
 }
 
 async function getById(id) {
@@ -66,4 +103,4 @@ function save(acclogParam)
 
 }
 
-export { getById, getAll, getByCount, getByName, save }
+export { getById, getAll, getByCount, getByName, save ,getCountByQuery }

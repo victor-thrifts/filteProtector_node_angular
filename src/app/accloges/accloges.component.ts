@@ -3,6 +3,7 @@ import { Acclog } from '../_models/acclog';
 import { AcclogService } from '../_services';
 import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+import { FormBuilder } from '@angular/forms';
 @Component({
   selector: 'app-accloges',
   templateUrl: './accloges.component.html',
@@ -18,7 +19,9 @@ export class AcclogesComponent implements OnInit {
   pageLenght = 6; // 显示页数数量
   pageSizeOptions: number[] = [5, 10, 25, 100];
   pdf: Acclog[];
-  constructor(private acclogService: AcclogService) { }
+  acclogeForm = {FileName:'',AccessType:'',UserName:''};
+  constructor(private acclogService: AcclogService) {   
+  }
 
   ngOnInit() {
     this.getAcclogCount()
@@ -29,13 +32,13 @@ export class AcclogesComponent implements OnInit {
   }
 
   getAccloges(): void {
-    this.acclogService.getAccloges(this.page, this.pageSize)
+    this.acclogService.getAccloges(this.page, this.pageSize, this.acclogeForm)
     .subscribe(accloges => this.accloges = accloges);
   }
 
   getAcclogCount(): void {
     let vm = this;
-    this.acclogService.getAcclogCount()
+    this.acclogService.getAcclogCountByQuery(this.acclogeForm)
     .subscribe(pageInfo => {
       vm.count = pageInfo.count;
       vm.getAccloges();
@@ -58,9 +61,15 @@ export class AcclogesComponent implements OnInit {
           this.accloges = this.accloges.filter(h => h !== acclog);
         });
   }
+
+  queryFileLog(){
+    this.page = 1;
+    this.getAcclogCount();
+  }
+
   exportLog() {
     // console.log(this.count);
-    this.acclogService.getAccloges(1, this.count).subscribe(
+    this.acclogService.getAccloges(1, this.count,this.acclogeForm).subscribe(
       pdf => {
         this.pdf = pdf;
         if (this.count === this.pdf.length) {
@@ -121,7 +130,7 @@ export class AcclogesComponent implements OnInit {
       return;
     }
     this.page = this.page + 1;
-    this.acclogService.getAccloges(this.page, this.pageSize)
+    this.acclogService.getAccloges(this.page, this.pageSize,this.acclogeForm)
     .subscribe(accloges => this.accloges = accloges);
     this.calculateIndexes ();
   }
@@ -131,14 +140,14 @@ export class AcclogesComponent implements OnInit {
       return;
     }
     this.page = this.page - 1;
-    this.acclogService.getAccloges(this.page, this.pageSize)
+    this.acclogService.getAccloges(this.page, this.pageSize,this.acclogeForm)
     .subscribe(accloges => this.accloges = accloges);
     this.calculateIndexes ();
   }
 
   selectPage(page:number): void {
     this.page = page;
-    this.acclogService.getAccloges(this.page, this.pageSize)
+    this.acclogService.getAccloges(this.page, this.pageSize,this.acclogeForm)
     .subscribe(accloges => this.accloges = accloges);
     this.calculateIndexes ();
   }

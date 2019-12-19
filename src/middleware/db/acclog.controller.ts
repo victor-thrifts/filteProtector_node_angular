@@ -11,9 +11,9 @@ const httpOptions = {
 };
 
 apirouter.get('/accloges/getCount', getCount);
+apirouter.get('/accloges/getCountByQuery', getCountByQuery);
 apirouter.get('/accloges', getAll);
 apirouter.get('/accloges/:id', getById);
-
 //apirouter.put('/accloges/:id');
 //apirouter.delete('/accloges/:id');
 
@@ -29,12 +29,23 @@ function getCount(req, res, next){
       .then(count => res.send(count))
       .catch(err => next(err));
 }
+function getCountByQuery(req, res, next){
+  let FileName: string = req.query.FileName;
+  let UserName: string = req.query.UserName;
+  let AccessType: string = req.query.AccessType;
+  acclogService.getCountByQuery(FileName,UserName,AccessType)
+      .then(count => res.send(count))
+      .catch(err => next(err));
+}
 
 function getAll(req, res, next) {
   let page: number = req.query.page;
   let pageSize: number = req.query.pageSize;
+  let FileName: string = req.query.FileName;
+  let UserName: string = req.query.UserName;
+  let AccessType: string = req.query.AccessType;
   let startIndex: number = (page - 1)* pageSize;
-  acclogService.getAll(startIndex.valueOf(),pageSize.valueOf())
+  acclogService.getAll(startIndex.valueOf(),pageSize.valueOf(),FileName,UserName,AccessType)
       .then(acclogs => res.json(acclogs))
       .catch(err => next(err));
 }
