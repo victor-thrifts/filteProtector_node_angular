@@ -8,6 +8,7 @@ import { AlertService } from '../_services';
 class Settings{
   protectedFolder: string;
   exeName:  string;
+  remark: string;
 }
 
 
@@ -26,7 +27,7 @@ export class SettingsComponent implements OnInit {
     private alertService: AlertService,
     @Inject(PLATFORM_ID) private platformId: Object,
     @Optional() @Inject(APP_BASE_HREF) private origin: string
-    ) { 
+    ) {
       this.isPlatformBrowser = isPlatformBrowser(platformId) ? true : false;
     }
 
@@ -38,17 +39,22 @@ export class SettingsComponent implements OnInit {
     this.location.back();
   }
 
-  save(protectedFolder, exeName) {
+  save(protectedFolder, exeName, remark) {
+    if(remark == undefined || remark == ""){
+      document.getElementById("dis").style.display = "";
+      return
+    }
     if(!this.isPlatformBrowser) return;
     let origin = '';
     if(this.origin) origin = this.origin;
     this.settings.protectedFolder = protectedFolder;
     this.settings.exeName = exeName;
+    this.settings.remark = remark;
     return this.http.put<Settings>(`${origin}/api/settings`, this.settings).pipe(
       tap(_=>this.log('puted settings')),
-      catchError(this.handleError<Settings>(`update`))     
+      catchError(this.handleError<Settings>(`update`))
     ).subscribe(()=>{
-      alert("保存成功");  
+      alert("保存成功");
       this.goBack()
     });
   }

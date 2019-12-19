@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../_models';
 import { UserService } from '../_services';
-import { NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'app-user',
@@ -11,8 +10,10 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 export class UsersComponent implements OnInit {
 
   users: User[] = [];
-
-  constructor(private userService: UserService, private modalService: NzModalService) { }
+  isVisible = false;
+  remark = "";
+  user: User;
+  constructor(private userService: UserService) { }
 
   ngOnInit() {
     this.getUsers();
@@ -30,12 +31,24 @@ export class UsersComponent implements OnInit {
         });
   }
 
-  showDeleteConfirm(user: User): void {
-    this.modalService.confirm({
-      nzTitle: '提示',
-      nzContent: '请确认是否删除!',
-      nzOnOk: () => console.log(user),
-    });
+  showModal(user: User): void {
+    this.user = user;
+    this.isVisible = true;
+    this.remark = "";
   }
 
+  handleCancel(): void {
+    this.isVisible = false
+    document.getElementById("dis").style.display = "none";
+  }
+
+  handleOk(): void {
+    if(this.remark == undefined || this.remark == ""){
+      document.getElementById("dis").style.display = "";
+      return
+    }
+    console.log(this.user);
+    document.getElementById("dis").style.display = "none";
+    this.isVisible = false;
+  }
 }

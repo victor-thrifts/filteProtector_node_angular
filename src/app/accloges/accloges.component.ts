@@ -3,7 +3,6 @@ import { Acclog } from '../_models/acclog';
 import { AcclogService } from '../_services';
 import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
-import { NzModalService } from 'ng-zorro-antd/modal';
 @Component({
   selector: 'app-accloges',
   templateUrl: './accloges.component.html',
@@ -20,7 +19,8 @@ export class AcclogesComponent implements OnInit {
   pageSizeOptions: number[] = [5, 10, 25, 100];
   pdf: Acclog[];
   acclogeForm = {FileName:'',AccessType:'',UserName:''};
-  constructor(private acclogService: AcclogService,private modalService: NzModalService) {
+
+  constructor(private acclogService: AcclogService) {
   }
 
   ngOnInit() {
@@ -186,13 +186,4 @@ export class AcclogesComponent implements OnInit {
         this.pages.push(i);
     }
   }
-
-  showDeleteConfirm(): void {
-    this.modalService.confirm({
-      nzTitle: '提示',
-      nzContent: '请确认是否删除!',
-      nzOnOk: () => console.log('OK'),
-    });
-  }
-
 }
