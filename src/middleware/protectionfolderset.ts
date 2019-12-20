@@ -53,7 +53,7 @@ console.log("License 登陆用户个数：" + L_Staticstaial_users);
 console.log("License 服务数量：" + L_Staticstaial_count);
 console.log("License 可用时间（天）：" + L_Staticstical_expried);
 
-if(L_Staticstaial_check) 
+if(L_Staticstaial_check == 0 ) 
 {
     console.log("License 过期或不正确！！！");
 
