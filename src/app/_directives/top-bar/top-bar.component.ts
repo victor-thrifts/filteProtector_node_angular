@@ -47,7 +47,7 @@ export class TopBarComponent implements OnInit{
 
         // setInterval(() => {
         //     if(!isPlatformBrowser(platformId)) return;
-        //     let currentUser = localStorage.getItem('currentUser');
+        //     let currentUser = sessionStorage.getItem('currentUser');
         //     this.loggedIn = !isNull(currentUser);
         //     if(currentUser)
         //     {

@@ -9,12 +9,18 @@
 				<input type="text" id="FileName"  name="FileName" class="form-control" [(ngModel)] = 'acclogeForm.FileName' />
 			</div>
 			<div class="form-group margin-r10">
-				<label for='AccessType'>操作类型：</label>
-				<input type="text" id="AccessType"  name="AccessType" class="form-control" [(ngModel)] = 'acclogeForm.AccessType' />
-			</div>
-			<div class="form-group margin-r10">
 				<label for='UserName'>操作人：</label>
 				<input type="text" id="UserName"  name="UserName" class="form-control" [(ngModel)] = 'acclogeForm.UserName' />
+			</div>
+			<div class="form-group margin-r10">
+				<label for='AccessType'>操作类型：</label>
+				<select [(ngModel)]="acclogeForm.AccessType" placeholder="操作类型" name="AccessType" class="form-control">
+					<!-- <option value="" ></option> -->
+					<option value="新建" >新建</option>
+					<option value="修改" >修改</option>
+					<option value="删除" >删除</option>
+				</select>
+				<!-- <input type="text" id="AccessType"  name="AccessType" class="form-control" [(ngModel)] = 'acclogeForm.AccessType' /> -->
 			</div>
 			<button class="btn btn-primary btn-left" (click)="queryFileLog()" >查询</button>
 	</form>
