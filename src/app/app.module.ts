@@ -17,7 +17,8 @@ import { AcclogService }          from './_services/acclog.service';
 import { LoginComponent } from './login/login.component';
 import { UsersComponent } from './users/users.component';
 import { RegisterComponent } from './register/register.component';
-import { AlertService, AuthenticationService, UserService, KeyregService } from './_services';
+import { LogAllsComponent } from './logAll/logAlls.component';
+import { AlertService, AuthenticationService, UserService, KeyregService,LogAllService } from './_services';
 
 import { isPlatformBrowser, APP_BASE_HREF } from '@angular/common';
 import { JwtInterceptor, ErrorInterceptor } from './_helpers';
@@ -34,7 +35,6 @@ import { UserDetailComponent } from './user-detail/user-detail.component';
 import { SettingsComponent } from './settings/settings.component';
 import { Registersoftware1Component } from './registersoftware1/registersoftware1.component';
 import { NgZorroAntdModule, NZ_I18N, zh_CN } from 'ng-zorro-antd';
-
 const RESULT_KEY = makeStateKey<string>('result');
 
 @NgModule({
@@ -67,6 +67,7 @@ const RESULT_KEY = makeStateKey<string>('result');
     UserDetailComponent,
     SettingsComponent,
     Registersoftware1Component,
+    LogAllsComponent,
   ],
   providers: [
     AcclogService,
@@ -75,6 +76,7 @@ const RESULT_KEY = makeStateKey<string>('result');
     AlertService,
     AuthGuard,
     KeyregService,
+    LogAllService,
     //{ provide: APP_BASE_HREF, useValue: window['_app_base'] || '/' },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
