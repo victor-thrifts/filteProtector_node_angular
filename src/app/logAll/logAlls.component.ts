@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { Acclog } from '../_models/acclog';
-import { AcclogService } from '../_services';
+import {LogAllService } from '../_services';
 import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { LogAll } from '../_models/logAll';
 @Component({
-  selector: 'app-accloges',
-  templateUrl: './accloges.component.html',
-  styleUrls: ['./accloges.component.css']
+  selector: 'app-logAlls',
+  templateUrl: './logAlls.component.html',
+  styleUrls: ['./logAlls.component.css']
 })
-export class AcclogesComponent implements OnInit {
-  accloges: Acclog[]; //数据集合
+export class LogAllsComponent implements OnInit {
+  logAlls: LogAll[];
   page = 1; // 当前页
   pageSize = 20; // 每页条数
   pages = []; // 显示页数集合
@@ -17,59 +18,42 @@ export class AcclogesComponent implements OnInit {
   pageCount = 0; //总页数
   pageLenght = 6; // 显示页数数量
   pageSizeOptions: number[] = [5, 10, 25, 100];
-  pdf: Acclog[];
-  acclogeForm = {FileName:'',AccessType:'',UserName:''};
-
-  constructor(private acclogService: AcclogService) {
+  pdf: LogAll[];
+  logAllForm = {FileName:'',AccessType:'',UserName:''};//查询条件
+  constructor(private logAllService: LogAllService,private modalService: NzModalService) {
   }
 
   ngOnInit() {
-    this.getAcclogCount()
+    this.getLogAllCount()
   }
 
   setPageSizeOptions(setPageSizeOptionsInput: string) {
     this.pageSizeOptions = setPageSizeOptionsInput.split(',').map(str => +str);
   }
 
-  getAccloges(): void {
-    this.acclogService.getAccloges(this.page, this.pageSize, this.acclogeForm)
-    .subscribe(accloges => this.accloges = accloges);
+  getLogAlls(): void {
+    this.logAllService.getLogAlls(this.page, this.pageSize, this.logAllForm)
+    .subscribe(logAlls => this.logAlls = logAlls);
   }
 
-  getAcclogCount(): void {
+  getLogAllCount(): void {
     let vm = this;
-    this.acclogService.getAcclogCountByQuery(this.acclogeForm)
+    this.logAllService.getLogAllCountByQuery(this.logAllForm)
     .subscribe(pageInfo => {
       vm.count = pageInfo.count;
-      vm.getAccloges();
+      vm.getLogAlls();
       vm.calculateIndexes();
     });
   }
 
-  add(name: string): void {
-    name = name.trim();
-    if (!name) { return; }
-    this.acclogService.addAcclog(name)
-      .subscribe(acclog => {
-        this.accloges.push(acclog);
-      });
-  }
-
-  delete(acclog: Acclog): void {
-    this.acclogService.deleteAcclog(acclog)
-        .subscribe(() => {
-          this.accloges = this.accloges.filter(h => h !== acclog);
-        });
-  }
-
   queryFileLog(){
     this.page = 1;
-    this.getAcclogCount();
+    this.getLogAllCount();
   }
 
   exportLog() {
     // console.log(this.count);
-    this.acclogService.getAccloges(1, this.count,this.acclogeForm).subscribe(
+    this.logAllService.getLogAlls(1, this.count,this.logAllForm).subscribe(
       pdf => {
         this.pdf = pdf;
         if (this.count === this.pdf.length) {
@@ -78,12 +62,12 @@ export class AcclogesComponent implements OnInit {
           arrayData.push(first);
           for (let i = 0; i < this.count; i++) {
             let arr = new Array();
-            arr[0] = this.pdf[i].rowid;
-            arr[1] = this.pdf[i].FileName;
-            arr[2] = this.pdf[i].AccessType;
-            arr[3] = this.pdf[i].UserName;
-            arr[4] = this.pdf[i].AccessTime;
-            arr[5] = this.pdf[i].Author;
+            // arr[0] = this.pdf[i].rowid;
+            // arr[1] = this.pdf[i].FileName;
+            // arr[2] = this.pdf[i].AccessType;
+            // arr[3] = this.pdf[i].UserName;
+            // arr[4] = this.pdf[i].AccessTime;
+            // arr[5] = this.pdf[i].Author;
             arrayData.push(arr);
           }
           this.pdfmakes(arrayData);
@@ -130,8 +114,8 @@ export class AcclogesComponent implements OnInit {
       return;
     }
     this.page = this.page + 1;
-    this.acclogService.getAccloges(this.page, this.pageSize,this.acclogeForm)
-    .subscribe(accloges => this.accloges = accloges);
+    this.logAllService.getLogAlls(this.page, this.pageSize,this.logAllForm)
+    .subscribe(logAlls => this.logAlls = logAlls);
     this.calculateIndexes ();
   }
 
@@ -140,15 +124,15 @@ export class AcclogesComponent implements OnInit {
       return;
     }
     this.page = this.page - 1;
-    this.acclogService.getAccloges(this.page, this.pageSize,this.acclogeForm)
-    .subscribe(accloges => this.accloges = accloges);
+    this.logAllService.getLogAlls(this.page, this.pageSize,this.logAllForm)
+    .subscribe(logAlls => this.logAlls = logAlls);
     this.calculateIndexes ();
   }
 
   selectPage(page:number): void {
     this.page = page;
-    this.acclogService.getAccloges(this.page, this.pageSize,this.acclogeForm)
-    .subscribe(accloges => this.accloges = accloges);
+    this.logAllService.getLogAlls(this.page, this.pageSize,this.logAllForm)
+    .subscribe(logAlls => this.logAlls = logAlls);
     this.calculateIndexes ();
   }
 
@@ -186,4 +170,13 @@ export class AcclogesComponent implements OnInit {
         this.pages.push(i);
     }
   }
+
+  showDeleteConfirm(): void {
+    this.modalService.confirm({
+      nzTitle: '提示',
+      nzContent: '请确认是否删除!',
+      nzOnOk: () => console.log('OK'),
+    });
+  }
+
 }

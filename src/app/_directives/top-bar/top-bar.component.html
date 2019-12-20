@@ -95,10 +95,11 @@
       		</a>
       	</span>
       </section>
-      <section class = "tp-section"><span [routerLinkActive]="['active']"><a routerLink="/accloges"><span class="glyphicon glyphicon-th-list margin-r10"></span>日志列表</a></span></section>
+      <section class = "tp-section"><span [routerLinkActive]="['active']"><a routerLink="/accloges"><span class="glyphicon glyphicon-th-list margin-r10"></span>文件日志</a></span></section>
+	  <section class = "tp-section"><span *ngIf="Isadmin" [routerLinkActive]="['active']"><a [routerLink]="['/logAlls']" [routerLinkActive]="['active']"><span class="glyphicon glyphicon-th-list margin-r10"></span>操作日志</a></span></section>   
       <section class = "tp-section"><span *ngIf="Isadmin" [routerLinkActive]="['active']"><a [routerLink]="['/users']" [routerLinkActive]="['active']"><span class="glyphicon glyphicon-user margin-r10"></span>账号管理</a></span></section>
-      <section class = "tp-section"><span *ngIf="Isadmin" [routerLinkActive]="['active']"><a [routerLink]="['/settings']" [routerLinkActive]="['active']"><span class="glyphicon glyphicon-cog margin-r10"></span>设置</a></span></section>    
-   </mat-sidenav>
+      <section class = "tp-section"><span *ngIf="Isadmin" [routerLinkActive]="['active']"><a [routerLink]="['/settings']" [routerLinkActive]="['active']"><span class="glyphicon glyphicon-cog margin-r10"></span>设置目录</a></span></section>    
+	</mat-sidenav>
    <mat-sidenav-content>
    	 <router-outlet></router-outlet>
    </mat-sidenav-content>

@@ -62,3 +62,9 @@
     }
   }
   
+.userTable > tbody > tr > td,.userTable > thead > tr > td{
+	vertical-align: middle;
+}
+.userTable > tbody > tr,.userTable > thead > tr{
+	height: 47px;
+}

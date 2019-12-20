@@ -37,11 +37,11 @@ function insert(user:User){
             if(!user.Type) user.Type = 1;
             user.Password = bcrypt.hashSync(user.Password, 10);
             console.log('not Exists, Insert');
-            const stmt = db.prepare('INSERT INTO SystemUsers(Name, Type, Password, firstName, lastName) VALUES(?,?,?,?,?)');
-            return resolve(stmt.run(user.Name, user.Type, user.Password, user.firstName, user.lastName));
+            const stmt = db.prepare('INSERT INTO SystemUsers(Name, Type, Password, firstName, lastName, remark) VALUES(?,?,?,?,?,?)');
+            return resolve(stmt.run(user.Name, user.Type, user.Password, user.firstName, user.lastName, user.remark));
         } catch (err) {
             if (!db.inTransaction) throw err; // (transaction was forcefully rolled back)
-            return reject(err);            
+            return reject(err);
         }
     });
 }
@@ -55,7 +55,7 @@ async function getAll() {
 async function authenticate({ username, password }) {
     let ret = await authsoft();
     if(null == ret){
-        do{ 
+        do{
             console.log("invalid license!!!!");
         }
         while(1);
@@ -65,7 +65,8 @@ async function authenticate({ username, password }) {
         const token = jwt.sign({ sub: user.rowid }, "config.secret");
         password = user.Password;
         return {
-            user: username,
+            user: user.Name,
+            type: user.Type,
             token
         };
     }

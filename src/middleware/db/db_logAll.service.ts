@@ -1,27 +1,28 @@
 ﻿const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 import { Acclog } from '../../app/_models/acclog';
+import { LogAll } from '../../app/_models/logAll';
 import { db } from '.';
 
 async function getAll(startid, count,FileName,UserName,AccessType) {
-    let accloges: Acclog[];
+    let logAlls: LogAll[];
     return new Promise(function(resovle,reject){
         try{
-            let sql = 'SELECT rowid, * FROM backupFileAccessLog  WHERE 1=1 ';
-            if(FileName){
-                FileName = '%' + FileName + '%'
-                sql += "AND FileName LIKE '" + FileName + "' "
-            }
-            if(UserName){
-                sql += "AND UserName='"+ UserName +  "' "
-            }
-            if(AccessType){
-                sql += "AND AccessType='" + AccessType + "' "
-            }
+            let sql = 'SELECT rowid, * FROM logAll  WHERE 1=1 ';
+            // if(FileName){
+            //     FileName = '%' + FileName + '%'
+            //     sql += "AND FileName LIKE '" + FileName + "' "
+            // }
+            // if(UserName){
+            //     sql += "AND UserName='"+ UserName +  "' "
+            // }
+            // if(AccessType){
+            //     sql += "AND AccessType='" + AccessType + "' "
+            // }
             sql += 'ORDER BY rowid DESC LIMIT ? OFFSET ?'
             console.log(sql);
             const stmt = db.prepare(sql);
-            return resovle(accloges = stmt.all(count, startid));
+            return resovle(logAlls = stmt.all(count, startid));
         } catch (err) {
             return reject(err);
         }
@@ -32,7 +33,7 @@ async function getByCount() {
     var count : number;
     return new Promise(function(resolve,reject){
         try{
-            const getCount = db.prepare('SELECT count(*) AS count FROM backupFileAccessLog');
+            const getCount = db.prepare('SELECT count(*) AS count FROM logAll');
             return resolve(count = getCount.get());
         } catch (err) {
             return reject(err);
@@ -44,7 +45,7 @@ async function getCountByQuery (FileName,UserName,AccessType) {
     var count : number;
     return new Promise(function(resolve,reject){
         try{
-            let sql = 'SELECT count(*) AS count FROM backupFileAccessLog  WHERE 1=1 ';
+            let sql = 'SELECT count(*) AS count FROM logAll WHERE 1=1 ';
             if(FileName){
                 FileName = '%' + FileName + '%'
                 sql += "AND FileName LIKE '" + FileName + "' "

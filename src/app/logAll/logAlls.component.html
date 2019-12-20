@@ -1,0 +1,72 @@
+<!-- <h2>保护文件名称</h2> -->
+<div class="row">
+  <div class="col-md-1"></div>
+  <div class="col-md-10">
+	<h2>日志列表</h2>
+
+	<form class="form-inline margin-b20" >
+	    <div class="form-group margin-r10">
+	      <label for='FileName'>文件名称：</label>
+				<input type="text" id="FileName"  name="FileName" class="form-control" [(ngModel)] = 'logAllForm.FileName' />
+			</div>
+			<div class="form-group margin-r10">
+				<label for='AccessType'>操作类型：</label>
+				<input type="text" id="AccessType"  name="AccessType" class="form-control" [(ngModel)] = 'logAllForm.AccessType' />
+			</div>
+			<div class="form-group margin-r10">
+				<label for='UserName'>操作人：</label>
+				<input type="text" id="UserName"  name="UserName" class="form-control" [(ngModel)] = 'logAllForm.UserName' />
+			</div>
+			<button class="btn btn-primary btn-left" (click)="queryFileLog()" >查询</button>
+	</form>
+	<div class="text-right margin-b20">
+		<button type="button" class="btn btn-primary" (click)="exportLog()" >导出日志</button>
+	</div>
+	<table class="table table-bordered table-hover table-striped">
+	<thead>
+		<tr>
+			<th>序号</th>
+			<th>时间</th>
+			<th>操作账号</th>
+			<th>操作者IP</th>
+			<th>模块</th>
+			<th>操作对象</th>
+			<th>动作</th>
+			<th>备注</th>
+			<th>操作</th>
+		</tr>
+	</thead>
+		<tbody>
+		<tr *ngFor="let logAll of logAlls" routerLink="/logAlles/{{logAll.rowid}}">
+			<td align="center">{{logAll.rowid}}</td>
+			<td>{{logAll.LogDate}}</td>
+			<td>{{logAll.UserName}}</td>
+			<td>{{logAll.Ip}}</td>
+			<td>{{logAll.Module}}</td>
+			<td>{{logAll.Operand}}</td>
+			<td>{{logAll.Action}}</td>
+			<td>{{logAll.Remark}}</td>
+			<td><a>详情</a></td>
+		</tr>
+		</tbody>
+	</table>
+	<!--分页-->
+	<nav aria-label="Page navigation" class="text-center">
+	<ul class="pagination">
+		<li [ngClass]="{'disabled':1 == page}" >
+			<span aria-hidden="false" (click)="prev(page)">&laquo;</span>
+		</li>
+		<li *ngFor="let ii of pages" [ngClass]="{'active':ii == page}"><a href="javascript:void(0);" (click)="selectPage(ii)" >{{ ii }}</a></li>
+		<li [ngClass]="{'disabled':pageCount == page}">
+			<a href="javascript:;" (click)="next(page)">&raquo;</a>
+		</li>
+		<li class="disabled"><span>共{{count}}条数据</span></li>
+	</ul>
+	</nav>
+	<!-- <footer>
+		<p>Copyright &copy;2016-2019  中食药<sup>®</sup>嘉和天下（北京）国际医学科技研究院 &nbsp;&nbsp; V1.0.0</p>
+		<p style="margin: 10px 0 0 0;">售后服务手机号和微信号：<span style="color:#45aeea">13552994462</span></p>
+	</footer> -->
+  		</div>
+  <div class="col-md-1"></div>
+</div>

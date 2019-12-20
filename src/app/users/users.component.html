@@ -1,11 +1,11 @@
 <div class="row">
-  <div class="col-md-1"></div>
-  <div class="col-md-10">
+  <div class="col-md-1 col-sm-1"></div>
+  <div class="col-md-10 col-sm-10">
   	<h2>系统用户列表</h2>
   	<div class="text-right margin-b20">
 		    <button type="button" class="btn btn-primary" [routerLink]="['/register']">添加账号</button>
 		</div>
-	  <table class="table table-bordered table-hover table-striped">
+	  <table class="table table-bordered table-hover table-striped userTable">
 	  	<thead>
 	  		<tr>
 	  			<th>序号</th>
@@ -17,7 +17,7 @@
 	  	</thead>
 		  <tbody>
 		  	<tr *ngFor="let user of users;index as i;"  routerLink="/users/{{user.rowid}}">
-		  		<td align="center">{{i+1}}</td>
+		  		<td>{{i+1}}</td>
 		  		<td>{{user.Name}}</td>
 		  		<td>
             <span *ngIf="user.Type == 0">管理员</span>
@@ -26,7 +26,7 @@
 		  		<td>{{user.firstName}}</td>
 		  		<td>
 		  			<span *ngIf="user.Name!=='admin'">
-		          <button type="button" class="btn btn-primary" title="删除用户" (click)="delete(user);$event.stopPropagation()">x</button>
+		          <button type="button" class="btn btn-primary" title="删除用户" (click)="showModal(user);$event.stopPropagation()">x</button>
 			      </span>
 		  		</td>
 		  	</tr>
@@ -37,7 +37,14 @@
       <p style="margin: 10px 0 0 0;">售后服务手机号和微信号：<span style="color:#45aeea">13552994462</span></p>
     </footer> -->
   </div>
+  <div class="col-md-1 col-sm-1"></div>
   <div class="col-md-1"></div>
+  <nz-modal [(nzVisible)]="isVisible" nzTitle="提示" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+    <p>请确认是否删除!</p>
+    <span>备注:</span>
+    <input id="c" type="text" [(ngModel)] = 'remark'/><span style="color: red;">&nbsp;&nbsp;*</span>
+    <p style="color: red;display:none" id="dis">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请填写备注!</p>
+  </nz-modal>
 </div>
 <!--原来代码-->
 <!-- <div class="grid grid-pad">

@@ -1,5 +1,5 @@
 import { NgModule }       from '@angular/core';
-import { BrowserModule, TransferState }  from '@angular/platform-browser'; 
+import { BrowserModule, TransferState }  from '@angular/platform-browser';
 import { BrowserTransferStateModule, makeStateKey } from '@angular/platform-browser';
 import { FormsModule }    from '@angular/forms';
 import { ReactiveFormsModule }  from '@angular/forms';
@@ -17,7 +17,8 @@ import { AcclogService }          from './_services/acclog.service';
 import { LoginComponent } from './login/login.component';
 import { UsersComponent } from './users/users.component';
 import { RegisterComponent } from './register/register.component';
-import { AlertService, AuthenticationService, UserService, KeyregService } from './_services';
+import { LogAllsComponent } from './logAll/logAlls.component';
+import { AlertService, AuthenticationService, UserService, KeyregService,LogAllService } from './_services';
 
 import { isPlatformBrowser, APP_BASE_HREF } from '@angular/common';
 import { JwtInterceptor, ErrorInterceptor } from './_helpers';
@@ -33,7 +34,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UserDetailComponent } from './user-detail/user-detail.component';
 import { SettingsComponent } from './settings/settings.component';
 import { Registersoftware1Component } from './registersoftware1/registersoftware1.component';
-
+import { NgZorroAntdModule, NZ_I18N, zh_CN } from 'ng-zorro-antd';
 const RESULT_KEY = makeStateKey<string>('result');
 
 @NgModule({
@@ -50,6 +51,7 @@ const RESULT_KEY = makeStateKey<string>('result');
     MatFormFieldModule,
     MatInputModule,
     MatSidenavModule,
+    NgZorroAntdModule,
   ],
   declarations: [
     AppComponent,
@@ -65,17 +67,20 @@ const RESULT_KEY = makeStateKey<string>('result');
     UserDetailComponent,
     SettingsComponent,
     Registersoftware1Component,
+    LogAllsComponent,
   ],
-  providers: [ 
-    AcclogService, 
-    AuthenticationService, 
-    UserService, 
-    AlertService, 
+  providers: [
+    AcclogService,
+    AuthenticationService,
+    UserService,
+    AlertService,
     AuthGuard,
     KeyregService,
+    LogAllService,
     //{ provide: APP_BASE_HREF, useValue: window['_app_base'] || '/' },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: NZ_I18N, useValue: zh_CN },
   ],
   bootstrap: [ AppComponent ]
 })
@@ -85,7 +90,7 @@ export class AppModule {
   constructor(
     private tstate: TransferState,
     @Inject(PLATFORM_ID) private platformId: Object
-  ) 
+  )
   {
       let appId: string = Inject(APP_ID);
       const platform = isPlatformBrowser(platformId) ?

@@ -2,15 +2,30 @@
 <div class="row">
   <div class="col-md-1"></div>
   <div class="col-md-10">
-  	<!-- <form class="form-inline margin-b20">
-	    <div class="form-group">
-	        <label for='acclogName'>保护文件名称：</label>
-	        <input type="text" id="acclogName" #acclogName class="form-control" placeholder="保护文件名称" />
-	    </div>
-	</form> -->
 	<h2>日志列表</h2>
+	<form class="form-inline margin-b20" >
+	    <div class="form-group margin-r10">
+	      <label for='FileName'>文件名称：</label>
+				<input type="text" id="FileName"  name="FileName" class="form-control" [(ngModel)] = 'acclogeForm.FileName' />
+			</div>
+			<div class="form-group margin-r10">
+				<label for='UserName'>操作人：</label>
+				<input type="text" id="UserName"  name="UserName" class="form-control" [(ngModel)] = 'acclogeForm.UserName' />
+			</div>
+			<div class="form-group margin-r10">
+				<label for='AccessType'>操作类型：</label>
+				<select [(ngModel)]="acclogeForm.AccessType" placeholder="操作类型" name="AccessType" class="form-control">
+					<!-- <option value="" ></option> -->
+					<option value="新建" >新建</option>
+					<option value="修改" >修改</option>
+					<option value="删除" >删除</option>
+				</select>
+				<!-- <input type="text" id="AccessType"  name="AccessType" class="form-control" [(ngModel)] = 'acclogeForm.AccessType' /> -->
+			</div>
+			<button class="btn btn-primary btn-left" (click)="queryFileLog()" >查询</button>
+	</form>
 	<div class="text-right margin-b20">
-		<button type="button" class="btn btn-primary" (click)="exportLog()" >导出日志</button>      
+		<button type="button" class="btn btn-primary" (click)="exportLog()" >导出日志</button>
 	</div>
 	<table class="table table-bordered table-hover table-striped">
 	<thead>
@@ -55,7 +70,7 @@
   <div class="col-md-1"></div>
 </div>
 
-  <!-- (click) passes input value to add() and then clears the input 
+  <!-- (click) passes input value to add() and then clears the input
   <button (click)="add(acclogName.value); acclogName.value=''">
     add
   </button>-->
@@ -75,7 +90,7 @@
         List length:
         <input matInput [(ngModel)]="length">
       </mat-form-field>
-      
+
       <mat-form-field>
         Page size:
         <input matInput [(ngModel)]="pageSize">
@@ -86,13 +101,13 @@
                [ngModel]="pageSizeOptions"
                (ngModelChange)="setPageSizeOptions($event)">
       </mat-form-field>
-      
+
       <mat-paginator [length]="length"
                     [pageSize]="pageSize"
                     [pageSizeOptions]="pageSizeOptions"
                     (page)="pageEvent = $event">
       </mat-paginator>
-      
+
       <div *ngIf="pageEvent">
         <h5>Page Change Event Properties</h5>
         <div>List length: {{pageEvent.length}}</div>
