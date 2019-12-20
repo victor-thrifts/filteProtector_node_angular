@@ -50,6 +50,7 @@ function update(req, res, next) {
 }
 
 function _delete(req, res, next) {
+  console.log(req.params.id);
     userService._delete(req.params.id)
         .then(() => res.json({}))
         .catch(err => next(err));
