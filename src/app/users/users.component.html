@@ -11,7 +11,8 @@
 	  			<th>序号</th>
 			  	<th>账号</th>
 			  	<th>用户类型</th>
-			  	<th>用户名</th>
+          <th>用户名</th>
+          <th>备注</th>
 			  	<th>操作</th>
 			  </tr>
 	  	</thead>
@@ -23,12 +24,14 @@
             <span *ngIf="user.Type == 0">管理员</span>
             <span *ngIf="user.Type == 1">普通用户</span>
           </td>
-		  		<td>{{user.firstName}}</td>
-		  		<td>
+          <td>{{user.firstName}}</td>
+          <td>{{user.remark}}</td>
+          <td><a routerLink="/users/{{user.rowid}}" >详情</a></td>
+		  		<!-- <td>
 		  			<span>
 		          <button type="button" class="btn btn-primary" title="修改" routerLink="/users/{{user.rowid}}">修改</button>
 			      </span>
-		  		</td>
+		  		</td> -->
 		  	</tr>
 		  </tbody>
 		</table>

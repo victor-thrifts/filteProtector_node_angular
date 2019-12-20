@@ -36,6 +36,7 @@
 			<th>操作人</th>
 			<th>操作时间</th>
 			<th>操作程序</th>
+			<th>操作</th>
 		</tr>
 	</thead>
 		<tbody>
@@ -46,6 +47,7 @@
 			<td>{{acclog.UserName}}</td>
 			<td>{{acclog.AccessTime}}</td>
 			<td>{{acclog.Author}}</td>
+			<td><a routerLink="/accloges/{{acclog.rowid}}" >详情</a></td>
 		</tr>
 		</tbody>
 	</table>
@@ -56,7 +58,7 @@
 			<span aria-hidden="false" (click)="prev(page)">&laquo;</span>
 		</li>
 		<li *ngFor="let ii of pages" [ngClass]="{'active':ii == page}"><a href="javascript:void(0);" (click)="selectPage(ii)" >{{ ii }}</a></li>
-		<li [ngClass]="{'disabled':pageCount == page}">
+		<li [ngClass]="{'disabled':pageCount == page || pageCount == 0}">
 			<a href="javascript:;" (click)="next(page)">&raquo;</a>
 		</li>
 		<li class="disabled"><span>共{{count}}条数据</span></li>

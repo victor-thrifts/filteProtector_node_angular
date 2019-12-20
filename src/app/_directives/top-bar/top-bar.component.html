@@ -10,8 +10,8 @@
             <button mat-menu-item><a routerLink="/dashboard">最近日志</a></button>
             <button mat-menu-item><a routerLink="/accloges">日志列表</a></button>
             <button mat-menu-item><a [routerLink]="['/login']">登出</a></button>
-            <button mat-menu-item *ngIf="Isadmin"><a [routerLink]="['/users']">账号管理</a></button>     
-            <button mat-menu-item *ngIf="Isadmin"><a [routerLink]="['/settings']">设置</a></button>       
+            <button mat-menu-item *ngIf="Isadmin"><a [routerLink]="['/users']">账号管理</a></button>
+            <button mat-menu-item *ngIf="Isadmin"><a [routerLink]="['/settings']">设置</a></button>
         </mat-menu>
     </ng-template>
     <ng-template #elseBlock>
@@ -42,8 +42,8 @@
 		            <button mat-menu-item><a routerLink="/dashboard">最近日志</a></button>
 		            <button mat-menu-item><a routerLink="/accloges">日志列表</a></button>
 		            <button mat-menu-item><a [routerLink]="['/login']">登出</a></button>
-		            <button mat-menu-item *ngIf="Isadmin"><a [routerLink]="['/users']">账号管理</a></button>     
-		            <button mat-menu-item *ngIf="Isadmin"><a [routerLink]="['/settings']">设置</a></button>       
+		            <button mat-menu-item *ngIf="Isadmin"><a [routerLink]="['/users']">账号管理</a></button>
+		            <button mat-menu-item *ngIf="Isadmin"><a [routerLink]="['/settings']">设置</a></button>
 		        </mat-menu>
 		    </ng-template>
 		    <ng-template #elseBlock>
@@ -54,8 +54,8 @@
 		</h1>
 	</div>
 	<div class="right-container">
-		
-	</div>	
+
+	</div>
 </div>-->
 <div class="header" *ngIf="loggedIn">
 	 <div class="logo">
@@ -63,7 +63,7 @@
 	</div>
 	 <div class="title">中食药嘉和eGMP信息化系统<span><a [routerLink]="['/']">（{{title}}）</a></span></div>
 	 <div class="user">
-        <span>欢迎您{{user}}</span>
+        <span>欢迎您 <a routerLink="/personal" title="进入个人中心">{{user}}</a></span>
         <a [routerLink]="['/login']" class="layout">退出</a>
 	 </div>
 </div>
@@ -78,8 +78,8 @@
 	            <button mat-menu-item><a routerLink="/dashboard">最近日志</a></button>
 	            <button mat-menu-item><a routerLink="/accloges">日志列表</a></button>
 	            <button mat-menu-item><a [routerLink]="['/login']">登出</a></button>
-	            <button mat-menu-item *ngIf="Isadmin"><a [routerLink]="['/users']">账号管理</a></button>     
-	            <button mat-menu-item *ngIf="Isadmin"><a [routerLink]="['/settings']">设置</a></button>       
+	            <button mat-menu-item *ngIf="Isadmin"><a [routerLink]="['/users']">账号管理</a></button>
+	            <button mat-menu-item *ngIf="Isadmin"><a [routerLink]="['/settings']">设置</a></button>
 	        </mat-menu>
 	    </ng-template>
 	    <ng-template #elseBlock>
@@ -96,9 +96,9 @@
       	</span>
       </section>
       <section class = "tp-section"><span [routerLinkActive]="['active']"><a routerLink="/accloges"><span class="glyphicon glyphicon-th-list margin-r10"></span>文件日志</a></span></section>
-	  <section class = "tp-section"><span *ngIf="Isadmin" [routerLinkActive]="['active']"><a [routerLink]="['/logAlls']" [routerLinkActive]="['active']"><span class="glyphicon glyphicon-th-list margin-r10"></span>操作日志</a></span></section>   
+	  <section class = "tp-section"><span *ngIf="Isadmin" [routerLinkActive]="['active']"><a [routerLink]="['/logAlls']" [routerLinkActive]="['active']"><span class="glyphicon glyphicon-th-list margin-r10"></span>操作日志</a></span></section>
       <section class = "tp-section"><span *ngIf="Isadmin" [routerLinkActive]="['active']"><a [routerLink]="['/users']" [routerLinkActive]="['active']"><span class="glyphicon glyphicon-user margin-r10"></span>账号管理</a></span></section>
-      <section class = "tp-section"><span *ngIf="Isadmin" [routerLinkActive]="['active']"><a [routerLink]="['/settings']" [routerLinkActive]="['active']"><span class="glyphicon glyphicon-cog margin-r10"></span>设置目录</a></span></section>    
+      <section class = "tp-section"><span *ngIf="Isadmin" [routerLinkActive]="['active']"><a [routerLink]="['/settings']" [routerLinkActive]="['active']"><span class="glyphicon glyphicon-cog margin-r10"></span>设置目录</a></span></section>
 	</mat-sidenav>
    <mat-sidenav-content>
    	 <router-outlet></router-outlet>

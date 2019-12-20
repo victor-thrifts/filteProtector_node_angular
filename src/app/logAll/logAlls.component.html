@@ -46,7 +46,7 @@
 			<td>{{logAll.Operand}}</td>
 			<td>{{logAll.Action}}</td>
 			<td>{{logAll.Remark}}</td>
-			<td><a>详情</a></td>
+			<td><a routerLink="/accloges/{{logAll.rowid}}" >详情</a></td>
 		</tr>
 		</tbody>
 	</table>
@@ -57,7 +57,7 @@
 			<span aria-hidden="false" (click)="prev(page)">&laquo;</span>
 		</li>
 		<li *ngFor="let ii of pages" [ngClass]="{'active':ii == page}"><a href="javascript:void(0);" (click)="selectPage(ii)" >{{ ii }}</a></li>
-		<li [ngClass]="{'disabled':pageCount == page}">
+		<li [ngClass]="{'disabled':pageCount == page || pageCount == 0}">
 			<a href="javascript:;" (click)="next(page)">&raquo;</a>
 		</li>
 		<li class="disabled"><span>共{{count}}条数据</span></li>

@@ -12,6 +12,7 @@
 				<th>操作人</th>
 				<th>操作时间</th>
 				<th>操作程序</th>
+				<th>操作</th>
 			</tr>
 	  	</thead>
 		  <tbody>
@@ -21,7 +22,8 @@
 				<td>{{acclog.AccessType}}</td>
 				<td>{{acclog.UserName}}</td>
 				<td>{{acclog.AccessTime}}</td>
-				<td>{{acclog.Author}}</td>		
+				<td>{{acclog.Author}}</td>	
+				<td><a href="#" routerLink="/accloges/{{acclog.rowid}}">详情</a></td>	
 		  	</tr>
 		  </tbody>
 		</table>
