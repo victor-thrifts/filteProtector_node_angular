@@ -27,10 +27,13 @@ export class RegisterComponent implements OnInit {
         this.registerForm = this.formBuilder.group({
             firstName: ['', Validators.required],
             Type: ['', Validators.required],
-            ConfirmPassword:[''],
             Name: ['', Validators.required],
-            remark: ['', Validators.required],
-            Password: ['', [Validators.required, Validators.minLength(6)]]
+            Password: ['',
+              [Validators.required, Validators.minLength(6),
+              Validators.pattern("^(?=.*[a-z])(?=.*\\d)[^]{6,}$")]],
+            ConfirmPassword:['',
+              [Validators.required, Validators.minLength(6),
+                Validators.pattern("^(?=.*[a-z])(?=.*\\d)[^]{6,}$")]]
         });
     }
 
@@ -39,14 +42,11 @@ export class RegisterComponent implements OnInit {
 
     onSubmit() {
         this.submitted = true;
-
-        // stop here if form is invalid
         if (this.registerForm.invalid) {
             return;
         }
-        console.log(this.registerForm.value);
-        if(this.registerForm.value.ConfirmPassword != this.registerForm.value.Password){
-            alert("密码输入不一致");
+        if(this.registerForm.value.ConfirmPassword.trim() != this.registerForm.value.Password.trim()){
+            alert("两次密码输入不一致");
             return;
         }
         this.loading = true;

@@ -1,0 +1,42 @@
+<div class="row" *ngIf="user">
+  <div class="col-md-1"></div>
+  <div class="col-md-4">
+    <h2>更改个人信息</h2>
+    <form [formGroup]="modifyForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="originalPwd">原始密码</label>
+        <input type="password" formControlName="originalPwd" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.originalPwd.errors }" />
+        <div *ngIf="submitted && f.originalPwd.errors" class="invalid-feedback">
+          <div *ngIf="f.originalPwd.errors.required" style="color: red">请输入原始密码</div>
+          <div *ngIf="f.originalPwd.errors.minlength == null && f.originalPwd.errors.pattern" style="color: red">密码至少是字母和数字组合</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="newPwd">新密码</label>
+        <input type="password" formControlName="newPwd" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.newPwd.errors }" />
+        <div *ngIf="submitted && f.newPwd.errors" class="invalid-feedback">
+          <div *ngIf="f.newPwd.errors.required" style="color: red">请输入新密码</div>
+          <div *ngIf="f.newPwd.errors.minlength" style="color: red">密码必须大于6位</div>
+          <div *ngIf="f.newPwd.errors.minlength == null && f.newPwd.errors.pattern" style="color: red">密码至少是字母和数字组合</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="confirmPwd">确认密码</label>
+        <input type="password" formControlName="confirmPwd" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.confirmPwd.errors }"/>
+        <div *ngIf="submitted && f.confirmPwd.errors" class="invalid-feedback">
+          <div *ngIf="f.confirmPwd.errors.required" style="color: red">请输入确认密码</div>
+          <div *ngIf="f.confirmPwd.errors.minlength" style="color: red">确认密码必须大于6位</div>
+          <div *ngIf="f.confirmPwd.errors.minlength == null && f.confirmPwd.errors.pattern" style="color: red">确认密码至少是字母和数字组合</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <button [disabled]="loading" class="btn btn-primary">确认</button>
+        <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+         <!--<a [routerLink]="['/users']" class="btn btn-link">Back</a>-->
+      </div>
+    </form>
+
+  </div>
+  <div class="col-md-7"></div>
+</div>
+

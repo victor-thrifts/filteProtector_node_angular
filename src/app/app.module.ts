@@ -18,6 +18,7 @@ import { LoginComponent } from './login/login.component';
 import { UsersComponent } from './users/users.component';
 import { RegisterComponent } from './register/register.component';
 import { LogAllsComponent } from './logAll/logAlls.component';
+import { PersonalComponent } from './personal/personal.component';
 import { AlertService, AuthenticationService, UserService, KeyregService,LogAllService } from './_services';
 
 import { isPlatformBrowser, APP_BASE_HREF } from '@angular/common';
@@ -68,6 +69,7 @@ const RESULT_KEY = makeStateKey<string>('result');
     SettingsComponent,
     Registersoftware1Component,
     LogAllsComponent,
+    PersonalComponent,
   ],
   providers: [
     AcclogService,
