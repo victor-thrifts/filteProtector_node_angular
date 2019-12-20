@@ -2,9 +2,9 @@
 <div class="row">
   <div class="col-md-1"></div>
   <div class="col-md-10">
-	<h2>日志列表</h2>
+	<h2 class="margin-b30">日志列表</h2>
 
-	<form class="form-inline margin-b20" >
+	<form class="form-inline margin-b30" >
 		<div class="form-group margin-r10">
 			<label for='UserName'>操作账号：</label>
 			<input type="text" id="UserName"  name="UserName" class="form-control" [(ngModel)] = 'logAllForm.UserName' />
@@ -17,11 +17,9 @@
 			<label for='Module'>模块：</label>
 			<input type="text" id="Module"  name="Module" class="form-control" [(ngModel)] = 'logAllForm.Module' />
 		</div>
-		<button class="btn btn-primary btn-left" (click)="queryFileLog()" >查询</button>
-	</form>
-	<div class="text-right margin-b20">
+		<button class="btn btn-primary margin-r50" (click)="queryFileLog()" >查询</button>
 		<button type="button" class="btn btn-primary" (click)="exportLog()" >导出日志</button>
-	</div>
+	</form>
 	<table class="table table-bordered table-hover table-striped">
 	<thead>
 		<tr>
