@@ -34,7 +34,7 @@ export class LogAllService {
 
   /** GET logAlles from the server */
   getLogAlls (page, pageSize,logAllForm): Observable<LogAll[]> {
-    const url = `${this.logAllsUrl}?page=${page}&pageSize=${pageSize}&FileName=${logAllForm.FileName}&AccessType=${logAllForm.AccessType}&UserName=${logAllForm.UserName}`;
+    const url = `${this.logAllsUrl}?page=${page}&pageSize=${pageSize}&Ip=${logAllForm.Ip}&Module=${logAllForm.Module}&UserName=${logAllForm.UserName}`;
     return this.http.get<LogAll[]>(url)
       .pipe(
         tap(logAlls => this.log('fetched logAlls')),
@@ -43,7 +43,7 @@ export class LogAllService {
   }
 
   getLogAllCountByQuery (logAllForm): Observable<PageInfo> {
-    const url = `${this.logAllsUrl}/getCountByQuery?FileName=${logAllForm.FileName}&AccessType=${logAllForm.AccessType}&UserName=${logAllForm.UserName}`;
+    const url = `${this.logAllsUrl}/getCountByQuery?Ip=${logAllForm.Ip}&Module=${logAllForm.Module}&UserName=${logAllForm.UserName}`;
     return this.http.get<PageInfo>(url)
       .pipe(
         tap(count => this.log('fetched logAlls')),
@@ -80,7 +80,7 @@ export class LogAllService {
       // if not search term, return empty logAll array.
       return of([]);
     }
-    return this.http.get<LogAll[]>(`${this.logAllsUrl}/?FileName=${term}`).pipe(
+    return this.http.get<LogAll[]>(`${this.logAllsUrl}/?Ip=${term}`).pipe(
       tap(_ => this.log(`found logAlls matching "${term}"`)),
       catchError(this.handleError<LogAll[]>('searchLogAlls', []))
     );

@@ -44,12 +44,19 @@
 		  <div class="form-group">
 		    <div class="col-md-offset-3 col-md-9">
 				<button type="button" class="btn btn-primary btn-left" (click)="save()">保存</button>
+				<button type="button" class="btn btn-primary btn-left" (click)="showModal(user)" *ngIf="user.Name!=='admin'">删除</button>
 				<button type="button" class="btn btn-primary " (click)="goBack()">返回</button>
 		    </div>
 		  </div>
 	</form>
   </div>
   <div class="col-md-6"></div>
+  <nz-modal [(nzVisible)]="isVisible" nzTitle="提示" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+    <p>请确认是否删除!</p>
+    <span>备注:</span>
+    <textarea type="text" [(ngModel)] = 'remark' rows="3" cols="50"><span style="color: red;">&nbsp;&nbsp;*</span></textarea>
+    <p style="color: red;display:none" id="dis">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请填写备注!</p>
+  </nz-modal>
 </div>
 <!--原来代码-->
 <!--<div *ngIf="user">

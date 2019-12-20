@@ -16,7 +16,7 @@
 			  </tr>
 	  	</thead>
 		  <tbody>
-		  	<tr *ngFor="let user of users;index as i;"  routerLink="/users/{{user.rowid}}">
+		  	<tr *ngFor="let user of users;index as i;">
 		  		<td>{{i+1}}</td>
 		  		<td>{{user.Name}}</td>
 		  		<td>
@@ -25,8 +25,8 @@
           </td>
 		  		<td>{{user.firstName}}</td>
 		  		<td>
-		  			<span *ngIf="user.Name!=='admin'">
-		          <button type="button" class="btn btn-primary" title="删除用户" (click)="showModal(user);$event.stopPropagation()">x</button>
+		  			<span>
+		          <button type="button" class="btn btn-primary" title="修改" routerLink="/users/{{user.rowid}}">修改</button>
 			      </span>
 		  		</td>
 		  	</tr>
@@ -39,12 +39,6 @@
   </div>
   <div class="col-md-1 col-sm-1"></div>
   <div class="col-md-1"></div>
-  <nz-modal [(nzVisible)]="isVisible" nzTitle="提示" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
-    <p>请确认是否删除!</p>
-    <span>备注:</span>
-    <input id="c" type="text" [(ngModel)] = 'remark'/><span style="color: red;">&nbsp;&nbsp;*</span>
-    <p style="color: red;display:none" id="dis">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请填写备注!</p>
-  </nz-modal>
 </div>
 <!--原来代码-->
 <!-- <div class="grid grid-pad">

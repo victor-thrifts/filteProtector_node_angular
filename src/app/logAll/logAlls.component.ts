@@ -19,7 +19,7 @@ export class LogAllsComponent implements OnInit {
   pageLenght = 6; // 显示页数数量
   pageSizeOptions: number[] = [5, 10, 25, 100];
   pdf: LogAll[];
-  logAllForm = {FileName:'',AccessType:'',UserName:''};//查询条件
+  logAllForm = {Ip:'',Module:'',UserName:''};//查询条件
   constructor(private logAllService: LogAllService,private modalService: NzModalService) {
   }
 

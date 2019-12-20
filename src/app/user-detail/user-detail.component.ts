@@ -12,6 +12,8 @@ import { Location } from '@angular/common';
 export class UserDetailComponent implements OnInit {
 
   user: User;
+  isVisible = false;
+  remark = "";
   types = [
     {name:0,abbrev:'管理员'},
     {name:1,abbrev:'普通用户'}
@@ -20,7 +22,7 @@ export class UserDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private usersService: UserService,
     private location: Location
-  ) { 
+  ) {
 
   }
 
@@ -33,7 +35,6 @@ export class UserDetailComponent implements OnInit {
     this.usersService.getById(id).subscribe(user => {
       this.user = user;
       this.user.Password = null;
-      console.log(this.user)
     });
     // $scope.$apply();
   }
@@ -59,6 +60,35 @@ export class UserDetailComponent implements OnInit {
       .subscribe(
         data => {this.goBack()},
         error =>{alert("保存失败")});
+  }
+
+  // delete(user: User): void {
+  //   this.userService.delete(user.rowid)
+  //     .subscribe(() => {
+  //       this.users = this.users.filter(h => h !== user);
+  //     });
+  // }
+
+  showModal(user: User): void {
+    this.user = user;
+    this.isVisible = true;
+    this.remark = "";
+  }
+
+  handleCancel(): void {
+    this.isVisible = false
+    document.getElementById("dis").style.display = "none";
+  }
+
+  handleOk(): void {
+    if(this.remark == undefined || this.remark == ""){
+      document.getElementById("dis").style.display = "";
+      return
+    }
+    console.log(this.user);
+    this.usersService.delete(this.user.rowid);
+    document.getElementById("dis").style.display = "none";
+    this.isVisible = false;
   }
 
 }

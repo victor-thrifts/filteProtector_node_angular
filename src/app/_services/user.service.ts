@@ -60,6 +60,7 @@ export class UserService {
         if(!this.isPlatformBrowser) return;
         let origin = '';
         if(this.origin) origin = this.origin;
+        console.log(`${origin}/api/users/` + id);
         return this.http.delete(`${origin}/api/users/` + id);
     }
 

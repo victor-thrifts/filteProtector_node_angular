@@ -1,24 +1,23 @@
 ﻿const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-import { Acclog } from '../../app/_models/acclog';
 import { LogAll } from '../../app/_models/logAll';
 import { db } from '.';
 
-async function getAll(startid, count,FileName,UserName,AccessType) {
+async function getAll(startid, count,Ip,Module,UserName) {
     let logAlls: LogAll[];
     return new Promise(function(resovle,reject){
         try{
             let sql = 'SELECT rowid, * FROM logAll  WHERE 1=1 ';
-            // if(FileName){
-            //     FileName = '%' + FileName + '%'
-            //     sql += "AND FileName LIKE '" + FileName + "' "
-            // }
-            // if(UserName){
-            //     sql += "AND UserName='"+ UserName +  "' "
-            // }
-            // if(AccessType){
-            //     sql += "AND AccessType='" + AccessType + "' "
-            // }
+            if(Ip){
+                Ip = '%' + Ip + '%'
+                sql += "AND Ip LIKE '" + Ip + "' "
+            }
+            if(Module){
+                sql += "AND Module='"+ Module +  "' "
+            }
+            if(UserName){
+                sql += "AND UserName='" + UserName + "' "
+            }
             sql += 'ORDER BY rowid DESC LIMIT ? OFFSET ?'
             console.log(sql);
             const stmt = db.prepare(sql);
@@ -41,20 +40,20 @@ async function getByCount() {
     })
 }
 
-async function getCountByQuery (FileName,UserName,AccessType) {
+async function getCountByQuery (Ip,Module,UserName) {
     var count : number;
     return new Promise(function(resolve,reject){
         try{
             let sql = 'SELECT count(*) AS count FROM logAll WHERE 1=1 ';
-            if(FileName){
-                FileName = '%' + FileName + '%'
-                sql += "AND FileName LIKE '" + FileName + "' "
+            if(Ip){
+                Ip = '%' + Ip + '%'
+                sql += "AND Ip LIKE '" + Ip + "' "
+            }
+            if(Module){
+                sql += "AND Module='"+ Module +  "' "
             }
             if(UserName){
-                sql += "AND UserName='"+ UserName +  "' "
-            }
-            if(AccessType){
-                sql += "AND AccessType='" + AccessType + "' "
+                sql += "AND UserName='" + UserName + "' "
             }
             const getCount = db.prepare(sql);
             return resolve(count = getCount.get());
@@ -68,7 +67,7 @@ async function getCountByQuery (FileName,UserName,AccessType) {
 async function getById(id) {
     return new Promise(function(resolve,reject){
         try{
-            const stmt = db.prepare('SELECT rowid, * FROM backupFileAccessLog WHERE rowid=?');
+            const stmt = db.prepare('SELECT rowid, * FROM logAll WHERE rowid=?');
             return resolve(stmt.get(id));
         } catch (err) {
             return reject(err);
@@ -76,32 +75,12 @@ async function getById(id) {
     })
 }
 
-async function getByName(name)
-{
-    const stmt = db.prepare('SELECT rowid, * FROM backupFileAccessLog WHERE FileName like %?%');
-    return await stmt.get(name);
-}
 
-async function saveAll(acclogs: Acclog[])
-{
+function save(acclogParam) {
     const insert = db.prepare(
-        'INSERT INTO backupFileAccessLog(FileName, AccessType, AccessTime, Author)' +
-        'VALUES(@FileName, @AccessType, @AccessTime, @Author)');
-    const insertMany = function (acclogs)
-    {
-        db.prepare("BEGIN TRANSACTION").run();
-        for (const log of acclogs) insert.run(log);
-        db.prepare("COMMIT TRANSACTION").run();
-    }
-    await insertMany(acclogs);
-}
-
-function save(acclogParam)
-{
-    const insert = db.prepare(
-        'INSERT INTO backupFileAccessLog(FileName, AccessType, AccessTime, Author, UserName)  VALUES(@FileName, @AccessType, @AccessTime, @Author, @UserName)');
+        'INSERT INTO logAll(UserName,Ip,LogDate,Module,Operand,Type,Describe,Details,Action,Remark)   VALUES(@UserName, @Ip, @LogDate, @Module, @Operand, @Type, @Describe, @Details, @Action, @Remark)');
     insert.run(acclogParam);
 
 }
 
-export { getById, getAll, getByCount, getByName, save ,getCountByQuery }
+export { getById, getAll, getByCount, save ,getCountByQuery }
