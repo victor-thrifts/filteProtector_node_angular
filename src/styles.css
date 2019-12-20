@@ -136,11 +136,17 @@ app-top-bar h1 {
 .margin-b20{
 	margin-bottom: 20px;
 }
+.margin-b30{
+	margin-bottom: 30px;
+}
 .margin-t50{
 	margin-top: 50px;
 }
 .margin-r10{
 	margin-right: 10px;
+}
+.margin-r50{
+	margin-right: 50px;
 }
 .btn-left{
 	margin-right: 20px;
