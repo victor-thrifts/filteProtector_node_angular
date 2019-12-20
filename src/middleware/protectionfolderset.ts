@@ -2,26 +2,86 @@ import { join } from 'path';
 import { save } from './db/db_acclog.service';
 import { promise } from 'protractor';
 import { userInfo } from 'os';
+import { exists } from 'fs';
 export const Integer = require('integer');
 export const Iconv = require('iconv').Iconv;
 export const ref = require('ref');
 export const ffi = require('ffi');
 export const wmi = require('node-wmi');
+const fs = require('fs');
+var cp  = require('child_process')
 
-let libm =
-ffi.Library(join(process.cwd(), './dist/minispy'), {
-    'setProtectionFolder': ['pointer', ['string']],
-    'getProtectionFolder': ['string', ['void']],
-    'setOpenProcess':      ['void', ['string']],
-    'GetRecords':		   ['int',  ['void']],
-    'SetGetRecCb': ['int', [
-    ffi.Function(ref.types.void,[
-    ref.types.CString, 
-    ref.types.char, 
-    ref.types.CString, 
-    ref.types.CString,
-    ref.types.CString])]]
+
+ffi.Library(join(process.cwd(), './dist/msvcr120d'), {
 });
+
+ffi.Library(join(process.cwd(), './dist/msvcp120d'), {
+});
+
+ffi.Library(join(process.cwd(), './dist/libcrypto-3'), {
+});
+
+let libj2c=
+ffi.Library(join(process.cwd(), './dist/JavaCallcpp32'), {
+    'check': ['int', ['void']],
+    'checked': ['int', ['pointer']],
+    'readLic': ['int', ['string']],
+    'GetLinInfo': ['int', ['string']]
+});
+
+
+let info = new Buffer(100);
+libj2c.GetLinInfo(info);
+info = ref.readCString(info, 0);
+
+export {L_Staticstaial_users, L_Staticstaial_count, L_Staticstical_expried, L_Staticstaial_check}
+
+fs.writeFileSync('./dist/lic/dms.lin', info);
+
+let liccounts = libj2c.readLic('./dist/');
+
+
+let L_Staticstaial_check = libj2c.check('');
+
+
+let intarr = new Int32Array(3);
+let checked = libj2c.checked(intarr);
+let L_Staticstaial_users = intarr[0];
+let L_Staticstaial_count = intarr[1];
+let L_Staticstical_expried = intarr[2];
+console.log("License 登陆用户个数：" + L_Staticstaial_users);
+console.log("License 服务数量：" + L_Staticstaial_count);
+console.log("License 可用时间（天）：" + L_Staticstical_expried);
+
+if(L_Staticstaial_check) 
+{
+    console.log("License 过期或不正确！！！");
+
+    var faultMessage = function() {
+    
+     cp.exec('cscript.exe  ./dist/message.vbs' + ' "提示" "License 过期或不正确！！！"', 
+        function(err, stdout, stderr) {
+        if (1) throw 'License Problem';
+        }
+     )}
+    faultMessage();
+    process.exit();
+} 
+
+// let libm =
+// ffi.Library(join(process.cwd(), './dist/minispy'), {
+//     'setProtectionFolder': ['pointer', ['string']],
+//     'getProtectionFolder': ['string', ['void']],
+//     'setOpenProcess':      ['void', ['string']],
+//     'GetRecords':		   ['int',  ['void']],
+//     'SetGetRecCb': ['int', [
+//     ffi.Function(ref.types.void,[
+//     ref.types.CString, 
+//     ref.types.char, 
+//     ref.types.CString, 
+//     ref.types.CString,
+//     ref.types.CString])]]
+// });
 
 let bb = Integer(1);
 bb.plus(11);
@@ -57,7 +117,7 @@ export class ProtectionFolderSet{
 
     getProtectionFolder(){
          let pFolder = null;
-         pFolder = libm.getProtectionFolder(null);
+         //pFolder = libm.getProtectionFolder(null);
          console.log(pFolder);
          let buf = ref.allocCString(pFolder);
          console.log(buf.toString());
@@ -71,7 +131,7 @@ export class ProtectionFolderSet{
         abuf = Buffer.concat([abuf,unicode_null],len+len1);
         cstr1 = abuf.toString('ascii');
         console.log(cstr1);
-        libm.setProtectionFolder(cstr1);
+        //libm.setProtectionFolder(cstr1);
     }
 
     setOpenProcess(cstr1){
@@ -82,15 +142,15 @@ export class ProtectionFolderSet{
         abuf = Buffer.concat([abuf,unicode_null],len+len1);
         cstr1 = abuf.toString('ascii');
         console.log(cstr1);
-        libm.setOpenProcess(cstr1);
+        //libm.setOpenProcess(cstr1);
     }
 
     checklogs()
     {
         console.log('check the minisy log now!');
         setTimeout(()=>{
-            libm.SetGetRecCb(this.callback);
-            libm.GetRecords(null);
+            //libm.SetGetRecCb(this.callback);
+            //libm.GetRecords(null);
             this.checklogs();
         }, 1000);
     };

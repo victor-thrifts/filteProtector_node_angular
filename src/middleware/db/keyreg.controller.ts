@@ -1,5 +1,6 @@
 import {apirouter} from '../apirouter';
 import * as  keyregService from './db_keyreg.service';
+import {L_Staticstaial_users, L_Staticstaial_count, L_Staticstical_expried, L_Staticstaial_check} from '../protectionfolderset';
 
 // routes
 apirouter.post('/soft/register', register);
