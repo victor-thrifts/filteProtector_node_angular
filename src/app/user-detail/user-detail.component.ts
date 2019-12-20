@@ -85,8 +85,11 @@ export class UserDetailComponent implements OnInit {
       document.getElementById("dis").style.display = "";
       return
     }
-    console.log(this.user);
-    this.usersService.delete(this.user.rowid);
+    this.usersService.delete(this.user.rowid).subscribe(user => {
+
+    },error => {
+      alert(error);
+    });
     document.getElementById("dis").style.display = "none";
     this.isVisible = false;
   }
