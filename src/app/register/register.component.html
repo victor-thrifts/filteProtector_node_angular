@@ -60,7 +60,7 @@
     <div class="col-md-9">
 	    <textarea placeholder="备注" formControlName="remark" type="text" class="form-control"  rows="3" cols="50" [ngClass]="{ 'is-invalid': submitted && f.remark.errors }"></textarea>
 	    <div *ngIf="submitted && f.remark.errors" class="invalid-feedback">
-	      <div *ngIf="f.remark.errors.required">请填写备注!</div>
+	      <div *ngIf="f.remark.errors.required" style="color: red">请填写备注!</div>
 	    </div>
     </div>
   </div>
