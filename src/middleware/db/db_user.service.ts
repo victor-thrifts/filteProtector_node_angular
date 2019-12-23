@@ -107,8 +107,8 @@ async function update(id: number, userParam: User) {
         userParam.Password = user.Password;
     }
     console.log('User, Update');
-    const stmt = db.prepare('UPDATE SystemUsers SET Password=?, firstName=?, lastName=? ,Type=? WHERE rowid=?');
-    stmt.run(userParam.Password, userParam.firstName, userParam.lastName, userParam.Type, userParam.rowid);
+    const stmt = db.prepare('UPDATE SystemUsers SET Password=?, firstName=?, lastName=? ,Type=?, remark=? WHERE rowid=?');
+    stmt.run(userParam.Password, userParam.firstName, userParam.lastName, userParam.Type, userParam.remark, userParam.rowid);
 }
 
 export { authenticate, create, getAll, getById, update, _delete};
