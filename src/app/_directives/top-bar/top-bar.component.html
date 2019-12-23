@@ -69,25 +69,6 @@
 </div>
 <mat-sidenav-container class = "tp-container">
    <mat-sidenav mode = "side" opened *ngIf="loggedIn">
-	<!--<h1 class="button fancy-button">
-	    <i class="material-icons">account_box</i>
-	    <div *ngIf="loggedIn; then ifBlock else elseBlock"></div>
-	    <ng-template #ifBlock>
-	        <i [matMenuTriggerFor]="menu">{{user}}</i>
-	        <mat-menu #menu="matMenu">
-	            <button mat-menu-item><a routerLink="/dashboard">最近日志</a></button>
-	            <button mat-menu-item><a routerLink="/accloges">日志列表</a></button>
-	            <button mat-menu-item><a [routerLink]="['/login']">登出</a></button>
-	            <button mat-menu-item *ngIf="Isadmin"><a [routerLink]="['/users']">账号管理</a></button>
-	            <button mat-menu-item *ngIf="Isadmin"><a [routerLink]="['/settings']">设置</a></button>
-	        </mat-menu>
-	    </ng-template>
-	    <ng-template #elseBlock>
-	        <nav>
-	            <a [routerLink]="['/login']">Login</a>
-	        </nav>
-	    </ng-template>
-	</h1>-->
       <section class = "tp-section">
       	<span [routerLinkActive]="['active']">
       		<a routerLink="/dashboard">
