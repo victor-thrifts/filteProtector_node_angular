@@ -3,7 +3,8 @@ const bcrypt = require('bcryptjs');
 import { db } from '.'
 import { User } from '../../app/_models/user';
 import { authsoft } from './db_keyreg.service'
-
+import { insertLogAll } from './db_logAll.service'
+import { LogAll } from '../../app/_models/logAll';
 async function getById(id: Number) {
     const stmt = db.prepare('SELECT rowid, * FROM SystemUsers WHERE rowid=?');
     var user: User = await stmt.get(id);
@@ -64,6 +65,21 @@ async function authenticate({ username, password }) {
     if (user && bcrypt.compareSync(password, user.Password)) {
         const token = jwt.sign({ sub: user.rowid }, "config.secret");
         password = user.Password;
+        //插入日志
+        let logAll={
+            UserName:username,
+            Module:"用户登录",
+            Action:"登录账号 " + username,
+            Describe:"成功登录账号 " + username,
+            LogDate:"2019-09-05 15:30:29",
+            Operand:"账号 " + username,
+            Details:JSON.stringify(user),
+            Type:"1",
+            Remark:"",
+            Ip:"127.0.0.1"
+        };
+        console.log(logAll);
+        await insertLogAll(logAll);
         return {
             user: user.Name,
             type: user.Type,

@@ -76,11 +76,11 @@ async function getById(id) {
 }
 
 
-function save(acclogParam) {
+async function insertLogAll(logAll) {
     const insert = db.prepare(
-        'INSERT INTO logAll(UserName,Ip,LogDate,Module,Operand,Type,Describe,Details,Action,Remark)   VALUES(@UserName, @Ip, @LogDate, @Module, @Operand, @Type, @Describe, @Details, @Action, @Remark)');
-    insert.run(acclogParam);
+        'INSERT INTO logAll(UserName,Ip,LogDate,Module,Operand,Type,Describe,Details,Action,Remark)   VALUES(?,?,?,?,?,?,?,?,?,?)');
+    insert.run(logAll.UserName,logAll.Ip,logAll.LogDate,logAll.Module,logAll.Operand,logAll.Type,logAll.Describe,logAll.Details,logAll.Action,logAll.Remark);
 
 }
 
-export { getById, getAll, getByCount, save ,getCountByQuery }
+export { getById, getAll, getByCount, insertLogAll ,getCountByQuery }
