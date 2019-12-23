@@ -71,7 +71,6 @@ async function authenticate({ username, password }) {
             Module:"用户登录",
             Action:"登录账号 " + username,
             Describe:"成功登录账号 " + username,
-            LogDate:"2019-09-05 15:30:29",
             Operand:"账号 " + username,
             Details:JSON.stringify(user),
             Type:"1",
