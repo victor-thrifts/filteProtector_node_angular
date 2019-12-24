@@ -66,4 +66,8 @@ export class RegisterComponent implements OnInit {
                     this.loading = false;
                 });
     }
+    
+    goBack(): void {
+        this.location.back();
+    }
 }
