@@ -14,6 +14,7 @@ import { AcclogDetailComponent }  from './acclog-detail/acclog-detail.component'
 import { AcclogesComponent }      from './accloges/accloges.component';
 import { AcclogSearchComponent }  from './acclog-search/acclog-search.component';
 import { AcclogService }          from './_services/acclog.service';
+import { CommonInterceptor }      from './_helpers/commonInterceptor.interceptor';
 import { LoginComponent } from './login/login.component';
 import { UsersComponent } from './users/users.component';
 import { RegisterComponent } from './register/register.component';
@@ -80,6 +81,7 @@ const RESULT_KEY = makeStateKey<string>('result');
     KeyregService,
     LogAllService,
     //{ provide: APP_BASE_HREF, useValue: window['_app_base'] || '/' },
+    { provide: HTTP_INTERCEPTORS, useClass: CommonInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: NZ_I18N, useValue: zh_CN },
