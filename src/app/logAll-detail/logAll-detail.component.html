@@ -42,7 +42,8 @@
         </tr>
       </tbody>
     </table>
-	<h2 class="margin-b20" *ngIf="logAll.Type == 1"> 用户详情：</h2>
+    
+    <h2 class="margin-b20" *ngIf="logAll.Type == 1"> 登录用户详情：</h2>
     <table class="table table-bordered table-hover table-striped" *ngIf="logAll.Type == 1">
       <tbody>
         <tr>
@@ -63,6 +64,25 @@
         </tr>
       </tbody>
     </table>
+
+    <h2 class="margin-b20" *ngIf="logAll.Type == 3"> 防空设置详情：</h2>
+    <table class="table table-bordered table-hover table-striped" *ngIf="logAll.Type == 3">
+      <tbody>
+        <tr>
+          <th>设置保护目录：</th>
+          <td>{{details.protectedFolder}}</td>
+        </tr>
+        <tr>
+          <th>设置保护进程程序：</th>
+          <td>{{details.exeName}}</td>
+        </tr>
+        <tr>
+          <th>设置保护进程程序：</th>
+          <td>{{details.remark}}</td>
+        </tr>
+      </tbody>
+    </table>
+
     <button type="button" class="btn btn-primary" (click)="goBack()">返回</button>
   </div>
   <div class="col-md-1"></div>

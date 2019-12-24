@@ -55,7 +55,7 @@ export class SettingsComponent implements OnInit {
       catchError(this.handleError<Settings>(`update`))
     ).subscribe(()=>{
       alert("保存成功");
-      this.goBack()
+      // this.goBack()
     });
   }
 
