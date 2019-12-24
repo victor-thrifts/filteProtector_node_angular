@@ -32,20 +32,44 @@ async function _delete(id: Number) {
     await stmt.run(id);
 }
 
-function insert(user:User){
-    return new Promise(function(resolve,reject){
-        try{
-            if(!user.Type) user.Type = 1;
-            user.Password = bcrypt.hashSync(user.Password, 10);
-            console.log('not Exists, Insert');
-            const stmt = db.prepare('INSERT INTO SystemUsers(Name, Type, Password, firstName, lastName, remark) VALUES(?,?,?,?,?,?)');
-            return resolve(stmt.run(user.Name, user.Type, user.Password, user.firstName, user.lastName, user.remark));
-        } catch (err) {
-            if (!db.inTransaction) throw err; // (transaction was forcefully rolled back)
-            return reject(err);
-        }
-    });
+async function insert(user:User, userName: String){
+  let newVar = await insertUser(user);
+  let parse = JSON.parse(JSON.stringify(newVar));
+  if (parse.changes === 1){
+    let logAll={
+                UserName: userName,
+                Ip: "127.0.0.1",
+                // LogDate:
+                Operand: user.Name,
+                Module: "账号管理",
+                Type: "2",
+                Describe: "创建账号",
+                Details: "",
+                Action: "创建",
+                Remark: user.remark
+              };
+     await insertLogAll(logAll);
+  }
+  return newVar;
 }
+
+async function insertUser(user:User){
+  return new Promise(function(resolve,reject){
+    try{
+      if(!user.Type) user.Type = 1;
+      user.Password = bcrypt.hashSync(user.Password, 10);
+      console.log('not Exists, Insert');
+      const stmt = db.prepare('INSERT INTO SystemUsers(Name, Type, Password, firstName, lastName, remark) VALUES(?,?,?,?,?,?)');
+      return resolve(stmt.run(user.Name, user.Type, user.Password, user.firstName, user.lastName, user.remark));
+    } catch (err) {
+      if (!db.inTransaction) throw err; // (transaction was forcefully rolled back)
+      return reject(err);
+    }
+  });
+}
+
+
+
 
 async function getAll() {
     const stmt = db.prepare('SELECT rowid, * FROM SystemUsers');
@@ -86,13 +110,13 @@ async function authenticate({ username, password }) {
         };
     }
 }
-async function create(userParam: User) {
+async function create(userParam: User, userNmae: String) {
     // validate
     if (await getByName( userParam.Name )) {
         throw '账号 "' + userParam.Name + '" 已存在';
     }
     // save user
-    await insert(userParam);
+    let len = await insert(userParam,userNmae);
 }
 
 async function update(id: number, userParam: User) {

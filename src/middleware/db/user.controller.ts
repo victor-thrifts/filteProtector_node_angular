@@ -19,7 +19,7 @@ function authenticate(req, res, next) {
 }
 
 function register(req, res, next) {
-    userService.create(req.body)
+    userService.create(req.body, req.header("username"))
         .then(() => res.json({}))
         .catch(err => next(err));
 }
