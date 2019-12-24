@@ -42,7 +42,7 @@ async function saveSettings(req, res, next)
         //插入日志
         let logAll={
             UserName:req.headers.username,
-            Module:"防空设置",
+            Module:"防控设置",
             Action:"添加目录 " + settings.protectedFolder,
             Describe:"添加目录 "  + settings.protectedFolder + " 添加程序 " + settings.exeName,
             Operand:"目录 " + settings.protectedFolder,
