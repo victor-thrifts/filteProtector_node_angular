@@ -1,24 +1,31 @@
 	<div class="row">
 	  <div class="col-md-1"></div>
 	  <div class="col-md-4">
-	  	<h2 class="margin-b30">最近日志列表</h2>
-		<form>
-		  <div class="form-group">
-		    <label for="fldName">设置保护文件夹</label>
-			<textarea #protectedFolder  id="fldName" class="form-control" type="text" placeholder="\this folder\that\" rows="3" cols="50"></textarea>
-		  </div>
-		  <div class="form-group">
-		    <label for="program">设置保护进程程序</label>
-			<textarea #exeName placeholder="xxx.exe" type="text" id="program" class="form-control"  rows="3" cols="50"></textarea>
-		  </div>
-      <div class="form-group">
-        <label for="remark">备注:<span style="color: red;">&nbsp;&nbsp;*</span></label>
-        <textarea #remark placeholder="备注" type="text" id="remark" class="form-control"  rows="3" cols="50"></textarea>
-        <p style="color: red;display:none" id="dis">请填写备注!</p>
-      </div>
-		  <button type="button" class="btn btn-primary btn-left" (click)="save(protectedFolder.value, exeName.value, remark.value)">保存设置</button>
+	    <h2 class="margin-b30">防控设置</h2> 
+	    <form>
+	      <div class="form-group">
+	        <label for="fldName">设置保护目录</label>
+	        <textarea #protectedFolder id="fldName" class="form-control" type="text" placeholder="\this folder\that\"
+	          rows="3" cols="50"></textarea>
+	        <p style="color: red;display:none" id="filePath">请填写保护目录!</p>
+	      </div>
+	      <div class="form-group">
+	        <label for="program">设置保护进程程序</label>
+	        <textarea #exeName placeholder="xxx.exe" type="text" id="program" class="form-control" rows="3"
+	          cols="50"></textarea>
+	        <p style="color: red;display:none" id="exe">请填写保护进程程序!</p>
+	      </div>
+	      <div class="form-group">
+	        <label for="remark">备注:
+				<!-- <span style="color: red;">&nbsp;&nbsp;*</span> -->
+			</label>
+	        <textarea #remark placeholder="备注" type="text" id="remark" class="form-control" rows="3" cols="50"></textarea>
+	        <p style="color: red;display:none" id="dis">请填写备注!</p>
+	      </div>
+	      <button type="button" class="btn btn-primary btn-left"
+	        (click)="save(protectedFolder.value, exeName.value, remark.value)">保存设置</button>
 	      <button type="button" class="btn btn-primary" (click)="goBack()">返回</button>
-		</form>
+	    </form>
 	  </div>
 	  <div class="col-md-7"></div>
 	</div>

@@ -1,79 +1,85 @@
 <div class="row">
   <div class="col-md-1"></div>
   <div class="col-md-4">
-<h2 class="margin-b30">添加用户</h2>
-<form class="form-horizontal" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-    <div class="form-group">
+    <h2 class="margin-b30">添加用户</h2>
+    <form class="form-horizontal" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
         <label for="firstName" class="col-md-3 control-label">用户名</label>
         <div class="col-md-9">
-	        <input type="text" formControlName="firstName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" />
-	        <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
-	            <div *ngIf="f.firstName.errors.required" style="color: red">请输入用户名</div>
-	        </div>
+          <input type="text" formControlName="firstName" class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" />
+          <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+            <div *ngIf="f.firstName.errors.required" style="color: red">请输入用户名</div>
+          </div>
         </div>
-    </div>
-    <div class="form-group">
+      </div>
+      <div class="form-group">
         <label for="Name" class="col-md-3 control-label">账号</label>
         <div class="col-md-9">
-	        <input type="text" formControlName="Name" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Name.errors }" />
-	        <div *ngIf="submitted && f.Name.errors" class="invalid-feedback">
-	            <div *ngIf="f.Name.errors.required" style="color: red">请输入账号</div>
-	        </div>
+          <input type="text" formControlName="Name" class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && f.Name.errors }" />
+          <div *ngIf="submitted && f.Name.errors" class="invalid-feedback">
+            <div *ngIf="f.Name.errors.required" style="color: red">请输入账号</div>
+          </div>
         </div>
-    </div>
-    <div class="form-group">
+      </div>
+      <div class="form-group">
         <label for="Password" class="col-md-3 control-label">密码</label>
         <div class="col-md-9">
-	        <input type="password" formControlName="Password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Password.errors }" />
-	        <div *ngIf="submitted && f.Password.errors" class="invalid-feedback">
-	            <div *ngIf="f.Password.errors.required" style="color: red">请输入密码</div>
-	            <div *ngIf="f.Password.errors.minlength" style="color: red">密码必须大于6位</div>
-	            <div *ngIf="f.Password.errors.minlength == null && f.Password.errors.pattern" style="color: red">密码至少是字母和数字组合</div>
-	        </div>
+          <input type="password" formControlName="Password" class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && f.Password.errors }" />
+          <div *ngIf="submitted && f.Password.errors" class="invalid-feedback">
+            <div *ngIf="f.Password.errors.required" style="color: red">请输入密码</div>
+            <div *ngIf="f.Password.errors.minlength" style="color: red">密码必须大于6位</div>
+            <div *ngIf="f.Password.errors.minlength == null && f.Password.errors.pattern" style="color: red">
+              密码至少是字母和数字组合</div>
+          </div>
         </div>
-    </div>
-    <div class="form-group" >
+      </div>
+      <div class="form-group">
         <label for="ConfirmPassword" class="col-md-3 control-label">确认密码</label>
         <div class="col-md-9">
-	        <input type="password" formControlName="ConfirmPassword" class="form-control" />
-		      <div *ngIf="submitted && f.ConfirmPassword.errors" class="invalid-feedback">
-		        <div *ngIf="f.ConfirmPassword.errors.required" style="color: red">请输入确认密码</div>
-		        <div *ngIf="f.ConfirmPassword.errors.minlength" style="color: red">确认密码必须大于6位</div>
-		        <div *ngIf="f.ConfirmPassword.errors.minlength == null && f.ConfirmPassword.errors.pattern" style="color: red">确认密码至少是字母和数字组合</div>
-		      </div>
+          <input type="password" formControlName="ConfirmPassword" class="form-control" />
+          <div *ngIf="submitted && f.ConfirmPassword.errors" class="invalid-feedback">
+            <div *ngIf="f.ConfirmPassword.errors.required" style="color: red">请输入确认密码</div>
+            <div *ngIf="f.ConfirmPassword.errors.minlength" style="color: red">确认密码必须大于6位</div>
+            <div *ngIf="f.ConfirmPassword.errors.minlength == null && f.ConfirmPassword.errors.pattern"
+              style="color: red">确认密码至少是字母和数字组合</div>
+          </div>
         </div>
-    </div>
-    <div class="form-group">
+      </div>
+      <div class="form-group">
         <label for="Type" class="col-md-3 control-label">用户类型：</label>
         <div class="col-md-9">
-	        <select  placeholder="姓名" formControlName="Type" class="form-control">
-	            <!-- <option value="" >默认普通用户</option> -->
-	            <option *ngFor="let type of types" [ngValue]="type.name">{{type.abbrev}}</option>
-	        </select>
-	        <div *ngIf="submitted && f.Type.errors" class="invalid-feedback">
-	            <div *ngIf="f.Type.errors.required" style="color: red">请选择用户类型</div>
-	        </div>
+          <select placeholder="姓名" formControlName="Type" class="form-control">
+            <!-- <option value="" >默认普通用户</option> -->
+            <option *ngFor="let type of types" [ngValue]="type.name">{{type.abbrev}}</option>
+          </select>
+          <div *ngIf="submitted && f.Type.errors" class="invalid-feedback">
+            <div *ngIf="f.Type.errors.required" style="color: red">请选择用户类型</div>
+          </div>
         </div>
-    </div>
-  <div class="form-group">
-    <label for="remark" class="col-md-3 control-label">备注:<span style="color: red;">&nbsp;&nbsp;*</span></label>
-    <div class="col-md-9">
-	    <textarea placeholder="备注" formControlName="remark" type="text" class="form-control"  rows="3" cols="50" [ngClass]="{ 'is-invalid': submitted && f.remark.errors }"></textarea>
-	    <div *ngIf="submitted && f.remark.errors" class="invalid-feedback">
-	      <div *ngIf="f.remark.errors.required" style="color: red">请填写备注!</div>
-	    </div>
-    </div>
-  </div>
-    <div class="form-group">
-    	<div class="col-md-offset-3 col-md-9">
-        <button [disabled]="loading" class="btn btn-primary">确认</button>
-        <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
-        <!-- <a [routerLink]="['/users']" class="btn btn-link">Back</a> -->
-    	</div>
-    </div>
-</form>
+      </div>
+      <div class="form-group">
+        <label for="remark" class="col-md-3 control-label">备注:<span style="color: red;">&nbsp;&nbsp;*</span></label>
+        <div class="col-md-9">
+          <textarea placeholder="备注" formControlName="remark" type="text" class="form-control" rows="3" cols="50"
+            [ngClass]="{ 'is-invalid': submitted && f.remark.errors }"></textarea>
+          <div *ngIf="submitted && f.remark.errors" class="invalid-feedback">
+            <div *ngIf="f.remark.errors.required" style="color: red">请填写备注!</div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-md-offset-3 col-md-9">
+          <button [disabled]="loading" class="btn btn-primary">确认</button>
+          <img *ngIf="loading"
+            src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+          <!-- <a [routerLink]="['/users']" class="btn btn-link">Back</a> -->
+        </div>
+      </div>
+    </form>
 
   </div>
   <div class="col-md-7"></div>
 </div>
-

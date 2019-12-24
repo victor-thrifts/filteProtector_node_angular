@@ -3,6 +3,7 @@ import { DB } from './db';
 import { apirouter } from './apirouter';
 import { errorHandler } from './error-handler';
 import { ProtectionFolderSet } from './protectionfolderset';
+import * as logAllService from './db/db_logAll.service';
 
 //export const Sequelize = require('sequelize');
 //const sequelize = new Sequelize({ storage:'BackupProtector.db', dialect: 'sqlite' });
@@ -38,7 +39,19 @@ async function saveSettings(req, res, next)
             console.log(settings.exeName);
             await protectionFolderSet.setOpenProcess(settings.exeName);
         }
-
+        //插入日志
+        let logAll={
+            UserName:req.headers.username,
+            Module:"防空设置",
+            Action:"添加目录 " + settings.protectedFolder,
+            Describe:"添加目录 "  + settings.protectedFolder + " 添加程序 " + settings.exeName,
+            Operand:"目录 " + settings.protectedFolder,
+            Details:JSON.stringify(settings),
+            Type:"3",
+            Remark:settings.remark,
+            Ip:"127.0.0.1"
+        };
+        logAllService.insertLogAll(logAll);
     }
     return res.json(settings);
 }
@@ -58,4 +71,5 @@ protectionFolderSet.checklogs();
 class Settings{
     protectedFolder: string;
     exeName:  string;
+    remark:string;
 }

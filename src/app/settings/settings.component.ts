@@ -40,11 +40,10 @@ export class SettingsComponent implements OnInit {
   }
 
   save(protectedFolder, exeName, remark) {
-    if(remark == undefined || remark == ""){
-      document.getElementById("dis").style.display = "";
-      return
-    }
-    if(!this.isPlatformBrowser) return;
+    // console.log(protectedFolder);
+    if(!protectedFolder) document.getElementById("filePath").style.display = "";
+    if(!remark) document.getElementById("dis").style.display = "";
+    if(!protectedFolder || !remark || !this.isPlatformBrowser) return;
     let origin = '';
     if(this.origin) origin = this.origin;
     this.settings.protectedFolder = protectedFolder;
@@ -55,7 +54,7 @@ export class SettingsComponent implements OnInit {
       catchError(this.handleError<Settings>(`update`))
     ).subscribe(()=>{
       alert("保存成功");
-      this.goBack()
+      // this.goBack()
     });
   }
 
