@@ -17,7 +17,6 @@ const httpOptions = {
 
 @Injectable()
 export class AcclogService {
-
   private acclogesUrl = 'api/accloges';  // URL to web api
   constructor(
     private http: HttpClient,

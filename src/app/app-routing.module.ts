@@ -13,7 +13,7 @@ import { SettingsComponent } from './settings/settings.component';
 import { Registersoftware1Component } from './registersoftware1/registersoftware1.component';
 import { LogAllsComponent } from './logAll/logAlls.component';
 import { PersonalComponent } from './personal/personal.component';
-
+import { LogAllDetailComponent } from './logAll-detail/logAll-detail.component';
 const routes: Routes = [
   { path: '', component: LoginComponent},
   //{ path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -27,6 +27,7 @@ const routes: Routes = [
   { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] },
   { path: 'registersoftware1', component: Registersoftware1Component},
   { path: 'logAlls', component: LogAllsComponent, canActivate: [AuthGuard] },
+  { path: 'logAll/:id', component: LogAllDetailComponent, canActivate: [AuthGuard] },
   { path: 'personal', component: PersonalComponent, canActivate: [AuthGuard] },
 ];
 
