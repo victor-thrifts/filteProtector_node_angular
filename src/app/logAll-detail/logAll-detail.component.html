@@ -42,7 +42,7 @@
         </tr>
       </tbody>
     </table>
-    
+
     <h2 class="margin-b20" *ngIf="logAll.Type == 1"> 登录用户详情：</h2>
     <table class="table table-bordered table-hover table-striped" *ngIf="logAll.Type == 1">
       <tbody>
@@ -62,6 +62,28 @@
           <th>备注：</th>
           <td>{{details.Remark}}</td>
         </tr>
+      </tbody>
+    </table>
+
+    <h2 class="margin-b20" *ngIf="logAll.Type == 2"> 创建用户详情：</h2>
+    <table class="table table-bordered table-hover table-striped" *ngIf="logAll.Type == 2">
+      <tbody>
+      <tr>
+        <th>账号：</th>
+        <td>{{details.Name}}</td>
+      </tr>
+      <tr>
+        <th>用户类型：</th>
+        <td>{{details.Type}}</td>
+      </tr>
+      <tr>
+        <th>用户名：</th>
+        <td>{{details.firstName}}</td>
+      </tr>
+      <tr>
+        <th>备注：</th>
+        <td>{{details.remark}}</td>
+      </tr>
       </tbody>
     </table>
 

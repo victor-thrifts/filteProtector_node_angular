@@ -36,6 +36,8 @@ async function insert(user:User, userName: String){
   let newVar = await insertUser(user);
   let parse = JSON.parse(JSON.stringify(newVar));
   if (parse.changes === 1){
+    user.ConfirmPassword = '';
+    user.Password = '';
     let logAll={
                 UserName: userName,
                 Ip: "127.0.0.1",
@@ -44,7 +46,7 @@ async function insert(user:User, userName: String){
                 Module: "账号管理",
                 Type: "2",
                 Describe: "创建账号",
-                Details: "",
+                Details: JSON.stringify(user),
                 Action: "创建",
                 Remark: user.remark
               };
