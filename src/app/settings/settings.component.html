@@ -7,16 +7,18 @@
 	        <label for="fldName">设置保护目录</label>
 	        <textarea #protectedFolder id="fldName" class="form-control" type="text" placeholder="\this folder\that\"
 	          rows="3" cols="50"></textarea>
-	        <p style="color: red;display:none" id="finame">请填写进程程序!</p>
+	        <p style="color: red;display:none" id="filePath">请填写保护目录!</p>
 	      </div>
 	      <div class="form-group">
 	        <label for="program">设置保护进程程序</label>
 	        <textarea #exeName placeholder="xxx.exe" type="text" id="program" class="form-control" rows="3"
 	          cols="50"></textarea>
-	        <p style="color: red;display:none" id="exe">请填写进程程序!</p>
+	        <p style="color: red;display:none" id="exe">请填写保护进程程序!</p>
 	      </div>
 	      <div class="form-group">
-	        <label for="remark">备注:<span style="color: red;">&nbsp;&nbsp;*</span></label>
+	        <label for="remark">备注:
+				<!-- <span style="color: red;">&nbsp;&nbsp;*</span> -->
+			</label>
 	        <textarea #remark placeholder="备注" type="text" id="remark" class="form-control" rows="3" cols="50"></textarea>
 	        <p style="color: red;display:none" id="dis">请填写备注!</p>
 	      </div>
