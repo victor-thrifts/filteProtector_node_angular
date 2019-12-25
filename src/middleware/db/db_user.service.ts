@@ -95,7 +95,7 @@ async function authenticate({ username, password }) {
         let logAll={
             UserName:username,
             Module:"用户登录",
-            Action:"登录账号 " + username,
+            Action:"登录账号",
             Describe:"成功登录账号 " + username,
             Operand:"账号 " + username,
             Details:JSON.stringify(user),

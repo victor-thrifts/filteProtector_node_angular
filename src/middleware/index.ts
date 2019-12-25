@@ -43,7 +43,7 @@ async function saveSettings(req, res, next)
         let logAll={
             UserName:req.headers.username,
             Module:"防控设置",
-            Action:"添加目录 " + settings.protectedFolder,
+            Action:"添加目录",
             Describe:"添加目录 "  + settings.protectedFolder + " 添加程序 " + settings.exeName,
             Operand:"目录 " + settings.protectedFolder,
             Details:JSON.stringify(settings),
