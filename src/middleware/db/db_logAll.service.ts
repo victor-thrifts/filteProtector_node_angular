@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 import { LogAll } from '../../app/_models/logAll';
 import { db } from '.';
 
-async function getAll(startid, count,Ip,Module,UserName) {
+async function getAll(startid, count,Ip,Module,UserName,dateArray) {
     let logAlls: LogAll[];
     return new Promise(function(resovle,reject){
         try{
@@ -17,6 +17,12 @@ async function getAll(startid, count,Ip,Module,UserName) {
             }
             if(UserName){
                 sql += "AND UserName='" + UserName + "' "
+            }
+            if (dateArray.length > 2){
+              let parse = JSON.parse(dateArray);
+              let start = dateFormat(new Date(parse[0]));
+              let end = dateFormat(new Date(parse[1]));
+              sql += "AND LogDate BETWEEN '" + start + "' AND '" + end + "' "
             }
             sql += 'ORDER BY rowid DESC LIMIT ? OFFSET ?'
             console.log(sql);
@@ -61,7 +67,7 @@ async function getCountByQuery (Ip,Module,UserName) {
             return reject(err);
         }
     })
-    
+
 }
 
 async function getById(id) {
