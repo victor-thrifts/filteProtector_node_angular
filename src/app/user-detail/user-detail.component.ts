@@ -62,7 +62,7 @@ export class UserDetailComponent implements OnInit {
     }
     this.usersService.update(this.user)
       .subscribe(
-        data => {this.goBack()},
+        data => {this.goBack();alert("保存成功")},
         error =>{alert("保存失败")});
   }
 
