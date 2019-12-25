@@ -34,7 +34,7 @@ export class LogAllService {
 
   /** GET logAlles from the server */
   getLogAlls (page, pageSize,logAllForm): Observable<LogAll[]> {
-    const url = `${this.logAllsUrl}?page=${page}&pageSize=${pageSize}&Ip=${logAllForm.Ip}&Module=${logAllForm.Module}&UserName=${logAllForm.UserName}`;
+    const url = `${this.logAllsUrl}?page=${page}&pageSize=${pageSize}&Ip=${logAllForm.Ip}&Module=${logAllForm.Module}&UserName=${logAllForm.UserName}&dateArray=${logAllForm.dateArray}`;
     return this.http.get<LogAll[]>(url)
       .pipe(
         tap(logAlls => this.log('fetched logAlls')),
@@ -50,7 +50,7 @@ export class LogAllService {
         catchError(this.handleError<PageInfo>('getLogAllCount'))
       );
   }
-  
+
   /** GET logAll by id. Return `undefined` when id not found */
   getLogAllNo404<Data>(id: number): Observable<LogAll> {
     const url = `${this.logAllsUrl}/?id=${id}`;

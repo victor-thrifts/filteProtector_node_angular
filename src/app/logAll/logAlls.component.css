@@ -49,15 +49,10 @@
   margin-right: .8em;
   border-radius: 4px 0 0 4px;
 }
-<<<<<<< HEAD
 .form-group{
 	margin-bottom: 10px;
 }
 /*.button {
-=======
-
-.button {
->>>>>>> de02ff53c1393d90d3f0bfbe09e151f06d25cb2f
   background-color: #eee;
   border: none;
   padding: 5px 10px;
@@ -69,7 +64,7 @@
 
 button:hover {
   background-color: #cfd8dc;
-}
+}*/
 
 button.delete {
   position: relative;

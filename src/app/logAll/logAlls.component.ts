@@ -4,6 +4,7 @@ import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { LogAll } from '../_models/logAll';
+import { en_US, zh_CN, NzI18nService } from 'ng-zorro-antd/i18n';
 @Component({
   selector: 'app-logAlls',
   templateUrl: './logAlls.component.html',
@@ -19,8 +20,10 @@ export class LogAllsComponent implements OnInit {
   pageLenght = 6; // 显示页数数量
   pageSizeOptions: number[] = [5, 10, 25, 100];
   pdf: LogAll[];
-  logAllForm = {Ip:'',Module:'',UserName:''};//查询条件
-  constructor(private logAllService: LogAllService,private modalService: NzModalService) {
+  logAllForm = {Ip:'',Module:'',UserName:'', dateArray:''};//查询条件
+  constructor(private logAllService: LogAllService,
+              private modalService: NzModalService,
+              private i18n: NzI18nService) {
   }
 
   ngOnInit() {
@@ -38,6 +41,7 @@ export class LogAllsComponent implements OnInit {
 
   getLogAllCount(): void {
     let vm = this;
+    console.log(this.logAllForm);
     this.logAllService.getLogAllCountByQuery(this.logAllForm)
     .subscribe(pageInfo => {
       vm.count = pageInfo.count;
@@ -58,16 +62,18 @@ export class LogAllsComponent implements OnInit {
         this.pdf = pdf;
         if (this.count === this.pdf.length) {
           let arrayData = [];
-          let first = ['序号', '文件名称', '操作类型', '操作人', '操作时间', '操作程序'];
+          let first = ['序号', '时间', '操作账号', '操作者IP', '模块', '操作对象','动作','备注'];
           arrayData.push(first);
           for (let i = 0; i < this.count; i++) {
             let arr = new Array();
-            // arr[0] = this.pdf[i].rowid;
-            // arr[1] = this.pdf[i].FileName;
-            // arr[2] = this.pdf[i].AccessType;
-            // arr[3] = this.pdf[i].UserName;
-            // arr[4] = this.pdf[i].AccessTime;
-            // arr[5] = this.pdf[i].Author;
+            arr[0] = this.pdf[i].rowid;
+            arr[1] = this.pdf[i].LogDate;
+            arr[2] = this.pdf[i].UserName;
+            arr[3] = this.pdf[i].Ip;
+            arr[4] = this.pdf[i].Module;
+            arr[5] = this.pdf[i].Operand;
+            arr[6] = this.pdf[i].Action;
+            arr[7] = this.pdf[i].Remark;
             arrayData.push(arr);
           }
           this.pdfmakes(arrayData);
@@ -98,7 +104,7 @@ export class LogAllsComponent implements OnInit {
         layout: 'lightHorizontalLines', // optional
         table: {
           headerRows: 1,
-          widths: [ 40, 100, 60, 65 ,65,100],
+          widths: [ 30, 60, 50, 50, 50, 60, 60, 50],
           body: arrayData
         }
       }],
@@ -177,6 +183,10 @@ export class LogAllsComponent implements OnInit {
       nzContent: '请确认是否删除!',
       nzOnOk: () => console.log('OK'),
     });
+  }
+
+  onChange(result: Date): void {
+    this.logAllForm.dateArray = JSON.stringify(result);
   }
 
 }

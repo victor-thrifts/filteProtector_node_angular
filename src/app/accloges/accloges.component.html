@@ -2,15 +2,15 @@
 <div class="row">
   <div class="col-md-1"></div>
   <div class="col-md-10">
-	<h2>日志列表</h2>
-	<form class="form-inline margin-b20" >
+	<h2 class="margin-b30">日志列表</h2>
+	<form class="form-inline margin-b30" >
 	    <div class="form-group margin-r10">
 	      <label for='FileName'>文件名称：</label>
-				<input type="text" id="FileName"  name="FileName" class="form-control" [(ngModel)] = 'acclogeForm.FileName' />
+				<input type="text" id="FileName"  name="FileName" class="form-control" [(ngModel)] = 'acclogeForm.FileName' placeholder="文件名称"/>
 			</div>
 			<div class="form-group margin-r10">
 				<label for='UserName'>操作人：</label>
-				<input type="text" id="UserName"  name="UserName" class="form-control" [(ngModel)] = 'acclogeForm.UserName' />
+				<input type="text" id="UserName"  name="UserName" class="form-control" [(ngModel)] = 'acclogeForm.UserName' placeholder="操作人" />
 			</div>
 			<div class="form-group margin-r10">
 				<label for='AccessType'>操作类型：</label>
@@ -22,17 +22,12 @@
 				</select>
 				<!-- <input type="text" id="AccessType"  name="AccessType" class="form-control" [(ngModel)] = 'acclogeForm.AccessType' /> -->
 			</div>
-      <div class="form-group margin-r10">
-	      <nz-range-picker [(ngModel)]="dateRange" (ngModelChange)="onChange($event)" [ngModelOptions]="{standalone: true}"
-	      	[nzShowTime]="{ nzFormat: 'HH:mm:ss' }"nzFormat="yyyy-MM-dd HH:mm:ss">
-      </nz-range-picker>
-    </div>
-    <div class="form-group"><button class="btn btn-primary margin-r50" (click)="queryFileLog()" >查询</button></div>
-		<div class="form-group"><button type="button" class="btn btn-primary" (click)="exportLog()" >导出日志</button></div>
+      <div>
+        <!-- <nz-range-picker [(ngModel)]="dateRange" (ngModelChange)="onChange($event)" [ngModelOptions]="{standalone: true}" style=""></nz-range-picker> -->
+      </div>
+			<button class="btn btn-primary margin-r50" (click)="queryFileLog()" >查询</button>
+			<button type="button" class="btn btn-primary" (click)="exportLog()" >导出日志</button>
 	</form>
-	<div class="text-right margin-b20">
-		<button type="button" class="btn btn-primary" (click)="exportLog()" >导出日志</button>
-	</div>
 	<table class="table table-bordered table-hover table-striped">
 	<thead>
 		<tr>
@@ -46,8 +41,8 @@
 		</tr>
 	</thead>
 		<tbody>
-		<tr *ngFor="let acclog of accloges" routerLink="/accloges/{{acclog.rowid}}">
-			<td align="center">{{acclog.rowid}}</td>
+		<tr *ngFor="let acclog of accloges">
+			<td>{{acclog.rowid}}</td>
 			<td>{{acclog.FileName}}</td>
 			<td>{{acclog.AccessType}}</td>
 			<td>{{acclog.UserName}}</td>

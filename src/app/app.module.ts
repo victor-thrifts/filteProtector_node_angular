@@ -14,14 +14,16 @@ import { AcclogDetailComponent }  from './acclog-detail/acclog-detail.component'
 import { AcclogesComponent }      from './accloges/accloges.component';
 import { AcclogSearchComponent }  from './acclog-search/acclog-search.component';
 import { AcclogService }          from './_services/acclog.service';
+import { CommonInterceptor }      from './_helpers/commonInterceptor.interceptor';
 import { LoginComponent } from './login/login.component';
 import { UsersComponent } from './users/users.component';
 import { RegisterComponent } from './register/register.component';
 import { LogAllsComponent } from './logAll/logAlls.component';
+import { LogAllDetailComponent } from './logAll-detail/logAll-detail.component';
 import { PersonalComponent } from './personal/personal.component';
 import { AlertService, AuthenticationService, UserService, KeyregService,LogAllService } from './_services';
 
-import { isPlatformBrowser, APP_BASE_HREF } from '@angular/common';
+import {isPlatformBrowser, APP_BASE_HREF, registerLocaleData} from '@angular/common';
 import { JwtInterceptor, ErrorInterceptor } from './_helpers';
 
 import { AlertComponent, TopBarComponent } from './_directives';
@@ -36,8 +38,9 @@ import { UserDetailComponent } from './user-detail/user-detail.component';
 import { SettingsComponent } from './settings/settings.component';
 import { Registersoftware1Component } from './registersoftware1/registersoftware1.component';
 import { NgZorroAntdModule, NZ_I18N, zh_CN } from 'ng-zorro-antd';
+import zh from '@angular/common/locales/zh';
 const RESULT_KEY = makeStateKey<string>('result');
-
+registerLocaleData(zh);
 @NgModule({
   imports: [
     BrowserModule.withServerTransition({ appId: 'file-protector-view' }),
@@ -69,6 +72,7 @@ const RESULT_KEY = makeStateKey<string>('result');
     SettingsComponent,
     Registersoftware1Component,
     LogAllsComponent,
+    LogAllDetailComponent,
     PersonalComponent,
   ],
   providers: [
@@ -80,6 +84,7 @@ const RESULT_KEY = makeStateKey<string>('result');
     KeyregService,
     LogAllService,
     //{ provide: APP_BASE_HREF, useValue: window['_app_base'] || '/' },
+    { provide: HTTP_INTERCEPTORS, useClass: CommonInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: NZ_I18N, useValue: zh_CN },

@@ -28,6 +28,7 @@ export class RegisterComponent implements OnInit {
             firstName: ['', Validators.required],
             Type: ['', Validators.required],
             Name: ['', Validators.required],
+            remark: ['', Validators.required],
             Password: ['',
               [Validators.required, Validators.minLength(6),
               Validators.pattern("^(?=.*[a-z])(?=.*\\d)[^]{6,}$")]],
@@ -64,5 +65,9 @@ export class RegisterComponent implements OnInit {
                     // this.alertService.error(error);
                     this.loading = false;
                 });
+    }
+    
+    goBack(): void {
+        this.location.back();
     }
 }

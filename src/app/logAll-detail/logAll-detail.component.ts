@@ -30,7 +30,6 @@ export class LogAllDetailComponent implements OnInit {
         this.logAll = logAll;
         let details = JSON.parse(logAll.Details);
         this.details = details;
-        console.log(this.details);
       });
   }
 

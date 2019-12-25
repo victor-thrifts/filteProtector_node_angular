@@ -3,6 +3,7 @@ import { User } from '../_models';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../_services';
 import { Location } from '@angular/common';
+import { NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'app-user-detail',
@@ -21,7 +22,8 @@ export class UserDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private usersService: UserService,
-    private location: Location
+    private location: Location,
+    private modalService: NzModalService
   ) {
 
   }
@@ -55,14 +57,18 @@ export class UserDetailComponent implements OnInit {
       alert("密码输入不一致");
       return;
     }
+    if(this.user.remark == null || this.user.remark ==''){
+      alert("请填写备注！");
+      return;
+    }
     this.usersService.update(this.user)
       .subscribe(
-        data => {this.goBack()},
+        data => {this.goBack();alert("保存成功")},
         error =>{alert("保存失败")});
   }
 
   delete(user: User): void {
-    this.usersService.delete(user)
+    this.usersService.delete(user.rowid)
       .subscribe(data => {
         alert("删除成功");
         this.goBack();
@@ -85,6 +91,21 @@ export class UserDetailComponent implements OnInit {
     this.usersService.delete(this.user.rowid);
     document.getElementById("dis").style.display = "none";
     this.isVisible = false;
+  }
+  
+  showDeleteConfirm(user: User): void {
+    this.modalService.confirm({
+      nzTitle: '请确认是否删除?',
+      nzOkType: 'danger',
+      nzOnOk: () => {
+        if(this.user.remark == null || this.user.remark ==''){
+          alert("请填写备注！");
+          return;
+        }else{
+          this.delete(user);
+        }
+      }
+    })
   }
 
 }

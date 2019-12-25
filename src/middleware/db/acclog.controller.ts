@@ -44,8 +44,9 @@ function getAll(req, res, next) {
   let FileName: string = req.query.FileName;
   let UserName: string = req.query.UserName;
   let AccessType: string = req.query.AccessType;
+  let dateArray: string = req.query.dateArray;
   let startIndex: number = (page - 1)* pageSize;
-  acclogService.getAll(startIndex.valueOf(),pageSize.valueOf(),FileName,UserName,AccessType)
+  acclogService.getAll(startIndex.valueOf(),pageSize.valueOf(),FileName,UserName,AccessType, dateArray)
       .then(acclogs => res.json(acclogs))
       .catch(err => next(err));
 }

@@ -1,54 +1,66 @@
 <div class="row" *ngIf="user">
   <div class="col-md-1"></div>
   <div class="col-md-5">
-  	<h2 class="margin-b20">{{ user.Name }}详情：</h2>
-		<form class="form-horizontal">
-		  <div class="form-group" hidden>
-		    <label class="col-md-3 control-label">编号：</label>
-		    <div class="col-md-9">
-		       <p class="form-control-static">{{user.rowid}}</p>
-		    </div>
-		  </div>
-		  <div class="form-group">
-		    <label class="col-md-3 control-label">账号：</label>
-		    <div class="col-md-9">
-		       <p class="form-control-static">{{user.Name}}</p>
-		    </div>
-		  </div>
-		  <div class="form-group">
-		    <label for="firstName" class="col-md-3 control-label">用户名：</label>
-		    <div class="col-md-9">
-		      <input type="text" class="form-control" name="firstName" id="firstName" [(ngModel)]="user.firstName" placeholder="姓名">
-		    </div>
-		  </div>
-		  <div class="form-group">
-		    <label for="accountPsd" class="col-md-3 control-label">密码：</label>
-		    <div class="col-md-9">
-		      <input type="password" [(ngModel)]="user.Password" placeholder="默认为空不修改密码" name="Password" class="form-control" id="accountPsd">
-		    </div>
-		  </div>
-		  <div class="form-group">
-		    <label for="accountPsd" class="col-md-3 control-label">确认密码：</label>
-		    <div class="col-md-9">
-		      <input type="password" [(ngModel)]="user.ConfirmPassword" placeholder="再次输入密码" name="Password" class="form-control" id="accountPsd">
-		    </div>
-		  </div>
-		  <div class="form-group">
-			<label for="Type" class="col-md-3 control-label">用户类型：</label>
-			<div class="col-md-3">
-				<select [(ngModel)]="user.Type" placeholder="姓名" name="Type" class="form-control">
-					<option *ngFor="let type of types" [ngValue]="type.name" >{{type.abbrev}}</option>
-				</select>
-			</div>
-		  </div>
-		  <div class="form-group">
-		    <div class="col-md-offset-3 col-md-9">
-				<button type="button" class="btn btn-primary btn-left" (click)="save()">保存</button>
-				<button type="button" class="btn btn-primary " (click)="goBack()">返回</button>
-				<button type="button" class="btn btn-danger btn-left" (click)="showModal(user)" *ngIf="user.Name!=='admin'">删除</button>
-		    </div>
-		  </div>
-	</form>
+    <h2 class="margin-b30">用户详情：</h2>
+    <form class="form-horizontal">
+      <div class="form-group" hidden>
+        <label class="col-md-3 control-label">编号：</label>
+        <div class="col-md-9">
+          <p class="form-control-static">{{user.rowid}}</p>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-md-3 control-label">账号：</label>
+        <div class="col-md-9">
+          <input type="text" class="form-control" [(ngModel)]="user.Name" name="name" disabled>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="firstName" class="col-md-3 control-label">用户名：</label>
+        <div class="col-md-9">
+          <input type="text" class="form-control" name="firstName" id="firstName" [(ngModel)]="user.firstName"
+                 placeholder="姓名">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="accountPsd" class="col-md-3 control-label">密码：</label>
+        <div class="col-md-9">
+          <input type="password" [(ngModel)]="user.Password" placeholder="默认为空不修改密码" name="Password"
+                 class="form-control" id="accountPsd">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="accountPsd" class="col-md-3 control-label">确认密码：</label>
+        <div class="col-md-9">
+          <input type="password" [(ngModel)]="user.ConfirmPassword" placeholder="再次输入密码" name="Password"
+                 class="form-control" id="accountPsd">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="Type" class="col-md-3 control-label">用户类型：</label>
+        <div class="col-md-9">
+          <select [(ngModel)]="user.Type" placeholder="姓名" name="Type" class="form-control">
+            <option *ngFor="let type of types" [ngValue]="type.name">{{type.abbrev}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="remark" class="col-md-3 control-label">备注*：</label>
+        <div class="col-md-9">
+          <textarea type="text" [(ngModel)]="user.remark" placeholder="备注" name="remark"
+                    class="form-control" rows="3" cols="50"></textarea>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-md-offset-3 col-md-9">
+          <button type="button" class="btn btn-primary btn-left" (click)="save()">保存</button>
+          <button type="button" class="btn btn-primary " (click)="goBack()">返回</button>
+          <button type="button" class="btn btn-danger" style="float:right " (click)="showDeleteConfirm(user)"
+                  *ngIf="user.Name!=='admin'">删除
+          </button>
+        </div>
+      </div>
+    </form>
   </div>
   <div class="col-md-6"></div>
   <nz-modal [(nzVisible)]="isVisible" nzTitle="提示" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
