@@ -136,17 +136,11 @@ app-top-bar h1 {
 .margin-b20{
 	margin-bottom: 20px;
 }
-.margin-b30{
-	margin-bottom: 30px;
-}
 .margin-t50{
 	margin-top: 50px;
 }
 .margin-r10{
 	margin-right: 10px;
-}
-.margin-r50{
-	margin-right: 50px;
 }
 .btn-left{
 	margin-right: 20px;
@@ -154,7 +148,6 @@ app-top-bar h1 {
 .bg-gray{
 	background: #f9f9f9;
 }
-.floatR{ float: right;}
 footer { width: 100%;  text-align: center; padding: 20px 0; font-size: 14px;  }
 /*
 Copyright Google LLC. All Rights Reserved.

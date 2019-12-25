@@ -34,9 +34,8 @@ function getAll(req, res, next) {
   let Ip: string = req.query.Ip;
   let Module: string = req.query.Module;
   let UserName: string = req.query.UserName;
-  let dateArray: string = req.query.dateArray;
   let startIndex: number = (page - 1)* pageSize;
-  logAllService.getAll(startIndex.valueOf(),pageSize.valueOf(),Ip,Module,UserName,dateArray)
+  logAllService.getAll(startIndex.valueOf(),pageSize.valueOf(),Ip,Module,UserName)
       .then(logAlls => res.json(logAlls))
       .catch(err => next(err));
 }

@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 import { Acclog } from '../../app/_models/acclog';
 import { db } from '.';
 
-async function getAll(startid, count,FileName,UserName,AccessType, dateArray) {
+async function getAll(startid, count,FileName,UserName,AccessType) {
     let accloges: Acclog[];
     return new Promise(function(resovle,reject){
         try{
@@ -17,12 +17,6 @@ async function getAll(startid, count,FileName,UserName,AccessType, dateArray) {
             }
             if(AccessType){
                 sql += "AND AccessType='" + AccessType + "' "
-            }
-            if (dateArray.length > 2){
-              let parse = JSON.parse(dateArray);
-              let start = dateFormat(new Date(parse[0]));
-              let end = dateFormat(new Date(parse[1]));
-              sql += "AND AccessTime BETWEEN '" + start + "' AND '" + end + "' "
             }
             sql += 'ORDER BY rowid DESC LIMIT ? OFFSET ?'
             console.log(sql);
@@ -67,7 +61,7 @@ async function getCountByQuery (FileName,UserName,AccessType) {
             return reject(err);
         }
     })
-
+    
 }
 
 async function getById(id) {
@@ -107,27 +101,6 @@ function save(acclogParam)
         'INSERT INTO backupFileAccessLog(FileName, AccessType, AccessTime, Author, UserName)  VALUES(@FileName, @AccessType, @AccessTime, @Author, @UserName)');
     insert.run(acclogParam);
 
-}
-
-function dateFormat(date) {
-  let fmt = "YYYY-mm-dd HH:MM:SS"
-  let ret;
-  let opt = {
-    "Y+": date.getFullYear().toString(),        // 年
-    "m+": (date.getMonth() + 1).toString(),     // 月
-    "d+": date.getDate().toString(),            // 日
-    "H+": date.getHours().toString(),           // 时
-    "M+": date.getMinutes().toString(),         // 分
-    "S+": date.getSeconds().toString()          // 秒
-    // 有其他格式化字符需求可以继续添加，必须转化成字符串
-  };
-  for (let k in opt) {
-    ret = new RegExp("(" + k + ")").exec(fmt);
-    if (ret) {
-      fmt = fmt.replace(ret[1], (ret[1].length == 1) ? (opt[k]) : (opt[k].padStart(ret[1].length, "0")))
-    };
-  };
-  return fmt;
 }
 
 export { getById, getAll, getByCount, getByName, save ,getCountByQuery }

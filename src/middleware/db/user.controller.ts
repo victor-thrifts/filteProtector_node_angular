@@ -19,7 +19,7 @@ function authenticate(req, res, next) {
 }
 
 function register(req, res, next) {
-    userService.create(req.body, req.header("username"))
+    userService.create(req.body)
         .then(() => res.json({}))
         .catch(err => next(err));
 }
@@ -50,6 +50,7 @@ function update(req, res, next) {
 }
 
 function _delete(req, res, next) {
+  console.log(req.params.id);
     userService._delete(req.params.id)
         .then(() => res.json({}))
         .catch(err => next(err));
