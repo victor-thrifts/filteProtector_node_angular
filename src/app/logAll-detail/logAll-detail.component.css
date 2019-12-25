@@ -1,5 +1,5 @@
 /* AcclogDetailComponent's private CSS styles */
-label {
+/*label {
   display: inline-block;
   width: 3em;
   margin: .5em 0;
@@ -13,9 +13,9 @@ input {
 }
 button {
   margin-top: 20px;
-  font-family: Arial;
+  font-family: Arial;*/
 /*  background-color: #000000;*/
-  border: none;
+  /*border: none;
   padding: 5px 10px;
   border-radius: 4px;
   cursor: pointer;
@@ -23,7 +23,7 @@ button {
 }
 button:hover {
   background-color: #cfd8dc;
-}
+}*/
 button:disabled {
   background-color: #eee;
   color: #ccc;

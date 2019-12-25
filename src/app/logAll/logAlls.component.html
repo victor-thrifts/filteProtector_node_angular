@@ -7,15 +7,15 @@
 	<form class="form-inline margin-b30" >
 		<div class="form-group margin-r10">
 			<label for='UserName'>操作账号：</label>
-			<input type="text" id="UserName"  name="UserName" class="form-control" [(ngModel)] = 'logAllForm.UserName' />
+			<input type="text" id="UserName"  name="UserName" class="form-control" [(ngModel)] = 'logAllForm.UserName' placeholder="请输入操作账号"/>
 		</div>
 		<div class="form-group margin-r10">
 		<label for='Ip'>操作者IP：</label>
-			<input type="text" id="Ip"  name="Ip" class="form-control" [(ngModel)] = 'logAllForm.Ip' />
+			<input type="text" id="Ip"  name="Ip" class="form-control" [(ngModel)] = 'logAllForm.Ip' placeholder="请输入操作者IP"/>
 		</div>
 		<div class="form-group margin-r10">
 			<label for='Module'>模块：</label>
-			<input type="text" id="Module"  name="Module" class="form-control" [(ngModel)] = 'logAllForm.Module' />
+			<input type="text" id="Module"  name="Module" class="form-control" [(ngModel)] = 'logAllForm.Module' placeholder="请输入模块" />
 		</div>
 		<button class="btn btn-primary margin-r50" (click)="queryFileLog()" >查询</button>
 		<button type="button" class="btn btn-primary" (click)="exportLog()" >导出日志</button>
