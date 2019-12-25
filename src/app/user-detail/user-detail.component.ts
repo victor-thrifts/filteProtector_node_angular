@@ -68,8 +68,11 @@ export class UserDetailComponent implements OnInit {
 
   delete(user: User): void {
     this.usersService.delete(user.rowid)
-      .subscribe(() => {
+      .subscribe(data => {
+        alert("删除成功");
         this.goBack();
+      } ,error => {
+        alert("删除失败");
       });
   }
 
