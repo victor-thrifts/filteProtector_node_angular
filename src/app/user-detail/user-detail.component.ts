@@ -62,17 +62,14 @@ export class UserDetailComponent implements OnInit {
         error =>{alert("保存失败")});
   }
 
-  // delete(user: User): void {
-  //   this.userService.delete(user.rowid)
-  //     .subscribe(() => {
-  //       this.users = this.users.filter(h => h !== user);
-  //     });
-  // }
-
-  showModal(user: User): void {
-    this.user = user;
-    this.isVisible = true;
-    this.remark = "";
+  delete(user: User): void {
+    this.usersService.delete(user.rowid)
+      .subscribe(data => {
+        alert("删除成功");
+        this.goBack();
+      } ,error => {
+        alert("删除失败");
+      });
   }
 
   handleCancel(): void {
