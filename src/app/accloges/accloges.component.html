@@ -15,13 +15,16 @@
 			<div class="form-group margin-r10">
 				<label for='AccessType'>操作类型：</label>
 				<select [(ngModel)]="acclogeForm.AccessType" placeholder="操作类型" name="AccessType" class="form-control">
-					 <option value="" >操作类型</option> 
+					 <option value="" >操作类型</option>
 					<option value="新建" >新建</option>
 					<option value="修改" >修改</option>
 					<option value="删除" >删除</option>
 				</select>
 				<!-- <input type="text" id="AccessType"  name="AccessType" class="form-control" [(ngModel)] = 'acclogeForm.AccessType' /> -->
 			</div>
+      <div>
+        <nz-range-picker [(ngModel)]="dateRange" (ngModelChange)="onChange($event)" [ngModelOptions]="{standalone: true}" style=""></nz-range-picker>
+      </div>
 			<button class="btn btn-primary margin-r50" (click)="queryFileLog()" >查询</button>
 			<button type="button" class="btn btn-primary" (click)="exportLog()" >导出日志</button>
 	</form>

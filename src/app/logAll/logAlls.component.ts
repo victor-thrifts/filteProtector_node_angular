@@ -184,10 +184,9 @@ export class LogAllsComponent implements OnInit {
       nzOnOk: () => console.log('OK'),
     });
   }
-/****************************************************/
+
   onChange(result: Date): void {
     this.logAllForm.dateArray = JSON.stringify(result);
-    console.log(this.logAllForm);
   }
 
 }
