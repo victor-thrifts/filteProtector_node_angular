@@ -6,13 +6,13 @@
 	      <div class="form-group">
 	        <label for="fldName">设置保护目录</label>
 	        <textarea #protectedFolder id="fldName" class="form-control" type="text" placeholder="\this folder\that\"
-	          rows="3" cols="50"></textarea>
+	          rows="3" cols="50">{{this.settings.protectedFolder}}</textarea>
 	        <p style="color: red;display:none" id="filePath">请填写保护目录!</p>
 	      </div>
 	      <div class="form-group">
 	        <label for="program">设置保护进程程序</label>
 	        <textarea #exeName placeholder="xxx.exe" type="text" id="program" class="form-control" rows="3"
-	          cols="50"></textarea>
+	          cols="50">{{this.settings.exeName}}</textarea>
 	        <p style="color: red;display:none" id="exe">请填写保护进程程序!</p>
 	      </div>
 	      <div class="form-group">
