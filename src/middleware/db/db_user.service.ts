@@ -148,14 +148,17 @@ async function update(id: number, userParam: User, userName: String) {
     // validate
     if (!user) throw '用户已不存在';
     if (user.Name !== userParam.Name) throw '账号 "' + userParam.Name + '" 已存在';
+    let sql ;
     if (userParam.Password) {
         userParam.Password = bcrypt.hashSync(userParam.Password, 10);
+        sql = 'UPDATE SystemUsers SET Password=?, firstName=?, lastName=? ,Type=? , Enable=?, remark=?, lastModifyTime = datetime(CURRENT_TIMESTAMP,"localtime") WHERE rowid=?'
     }else{
         userParam.Password = user.Password;
+        sql = 'UPDATE SystemUsers SET Password=?, firstName=?, lastName=? ,Type=?, Enable=?, remark=? WHERE rowid=?';
     }
     console.log('User, Update');
-    const stmt = db.prepare('UPDATE SystemUsers SET Password=?, firstName=?, lastName=? ,Type=?, remark=? WHERE rowid=?');
-    let newVar = await stmt.run(userParam.Password, userParam.firstName, userParam.lastName, userParam.Type, userParam.remark, userParam.rowid);
+    const stmt = db.prepare(sql);
+    let newVar = await stmt.run(userParam.Password, userParam.firstName, userParam.lastName, userParam.Type, userParam.Enable, userParam.remark, userParam.rowid);
     let parse = JSON.parse(JSON.stringify(newVar));
     if (parse.changes === 1){
       userParam.ConfirmPassword = '';

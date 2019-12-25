@@ -2,7 +2,7 @@ import  { Component, OnInit, Inject, PLATFORM_ID, ChangeDetectorRef, ChangeDetec
 import { isPlatformBrowser } from '@angular/common';
 import { first, switchMap } from 'rxjs/operators';
 import { interval, Subscription } from 'rxjs';
-import { AuthenticationService, AlertService } from 'src/app/_services';
+import { AuthenticationService, AlertService, UserService, SettingsService } from 'src/app/_services';
 import { RouterLink, Router, ROUTER_CONFIGURATION } from '@angular/router';
 import { isNull } from 'util';
 import { AlertComponent } from '../message-alert/alert.component';
@@ -26,9 +26,10 @@ export class TopBarComponent implements OnInit{
             private cdr: ChangeDetectorRef,
             private router: Router,
             private alertService: AlertService,
-            private authenticationService: AuthenticationService
+            private authenticationService: AuthenticationService,
+            private settingsService : SettingsService
     ) {
-        
+
         if(!isPlatformBrowser(platformId)) return;
         let currentUser = sessionStorage.getItem('currentUser');
         this.loggedIn = !isNull(currentUser);
@@ -36,7 +37,7 @@ export class TopBarComponent implements OnInit{
             let {user, token} = JSON.parse(currentUser);
             this.user = user;
             this.token = token;
-            this.user = user;                
+            this.user = user;
             if(user=="admin") {
                 this.Isadmin = true;
             }
@@ -54,7 +55,7 @@ export class TopBarComponent implements OnInit{
         //         let {user, token} = JSON.parse(localStorage.getItem('currentUser'));
         //         this.user = user;
         //         this.token = token;
-        //         this.user = user;                
+        //         this.user = user;
         //         if(user=="admin") {
         //             this.Isadmin = true;
         //         }
@@ -62,15 +63,16 @@ export class TopBarComponent implements OnInit{
         //             this.Isadmin = false;
         //         }
         //     }
-        //     this.cdr.detectChanges(); 
+        //     this.cdr.detectChanges();
         // },1000);
     }
 
     ngOnInit() {
+      this.loadSetting();
         if(!isPlatformBrowser(this.platformId)) return;
-        this.subscription = this.alertService.getMessage().subscribe(message => { 
+        this.subscription = this.alertService.getMessage().subscribe(message => {
             if(message && (message.type == 'message') ){
-                let {loggedIn, Isadmin} = message.text; 
+                let {loggedIn, Isadmin} = message.text;
                 this.loggedIn = loggedIn;
                 this.Isadmin = Isadmin;
                 if(loggedIn){
@@ -83,6 +85,7 @@ export class TopBarComponent implements OnInit{
                 this.cdr.reattach();
             }
         });
+
     }
 
     ngOnDestroy() {
@@ -97,4 +100,23 @@ export class TopBarComponent implements OnInit{
         this.cdr.detectChanges();
         this.router.navigate(['login']);
     }
+
+  loadSetting(){
+      if(null == sessionStorage.getItem("Settings")){
+        this.settingsService.loading().subscribe(settings => {
+          var array = [].concat(settings);
+          let jsonStr = '{';
+          for(let idx in array){
+            let name = array[idx]["Name"];
+            let value = array[idx]["Value"];
+            jsonStr += "\""+name+"\":\""+value+"\",";
+          }
+          jsonStr = jsonStr.substring(0,jsonStr.length-1);
+          jsonStr += '}';
+          if(jsonStr.length > 2)
+            sessionStorage.setItem("Settings",jsonStr);
+        });
+      }
+  }
+
 }

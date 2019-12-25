@@ -14,6 +14,8 @@ import { Registersoftware1Component } from './registersoftware1/registersoftware
 import { LogAllsComponent } from './logAll/logAlls.component';
 import { PersonalComponent } from './personal/personal.component';
 import { LogAllDetailComponent } from './logAll-detail/logAll-detail.component';
+import { SystemSettingsComponent } from './systemsettings/systemsettings.component';
+
 const routes: Routes = [
   { path: '', component: LoginComponent},
   //{ path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -29,6 +31,7 @@ const routes: Routes = [
   { path: 'logAlls', component: LogAllsComponent, canActivate: [AuthGuard] },
   { path: 'logAlls/:id', component: LogAllDetailComponent, canActivate: [AuthGuard] },
   { path: 'personal', component: PersonalComponent, canActivate: [AuthGuard] },
+  { path: 'systemsettings', component: SystemSettingsComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({

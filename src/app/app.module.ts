@@ -39,6 +39,8 @@ import { SettingsComponent } from './settings/settings.component';
 import { Registersoftware1Component } from './registersoftware1/registersoftware1.component';
 import { NgZorroAntdModule, NZ_I18N, zh_CN } from 'ng-zorro-antd';
 import zh from '@angular/common/locales/zh';
+import {SystemSettingsComponent} from "./systemsettings/systemsettings.component";
+import {SettingsService} from "./_services/settings.service";
 const RESULT_KEY = makeStateKey<string>('result');
 registerLocaleData(zh);
 @NgModule({
@@ -74,6 +76,7 @@ registerLocaleData(zh);
     LogAllsComponent,
     LogAllDetailComponent,
     PersonalComponent,
+    SystemSettingsComponent,
   ],
   providers: [
     AcclogService,
@@ -83,6 +86,7 @@ registerLocaleData(zh);
     AuthGuard,
     KeyregService,
     LogAllService,
+    SettingsService,
     //{ provide: APP_BASE_HREF, useValue: window['_app_base'] || '/' },
     { provide: HTTP_INTERCEPTORS, useClass: CommonInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
