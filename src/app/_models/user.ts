@@ -6,5 +6,6 @@ export class User {
     firstName: string;
     lastName: string;
     ConfirmPassword: string;
+    Enable: number;
     remark: string;
 }

@@ -3,7 +3,7 @@ const db_acclog = require('./acclog.controller');
 const db_logAll = require('./logAll.controller');
 const db_user = require('./user.controller');
 const db_keyreg = require('./keyreg.controller');
-
+const db_settings = require('./settings.controller');
 
 
 const dboptions = {
@@ -21,9 +21,9 @@ console.log(db.pragma('cache_size', {simple: true}));
 export class DB {
     private db: any;
 
-    static providers: Provider[] = [ 
-    ]  
-    
+    static providers: Provider[] = [
+    ]
+
     constructor(
     ){
 

@@ -31,6 +31,11 @@ export class UsersComponent implements OnInit {
         });
   }
 
+  whetherEnable(user: User): void {
+    user.Enable = user.Enable == 0 ? 1 : 0;
+    this.userService.update(user);
+  }
+
   showModal(user: User): void {
     this.user = user;
     this.isVisible = true;

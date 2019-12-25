@@ -77,7 +77,7 @@ export class PersonalComponent implements OnInit {
       data => {
         alert("密码修改成功.")
         this.topBarComponent.logout();},
-      error =>{alert("更新失败")});
+      error =>{alert("修改密码失败")});
   }
 
 

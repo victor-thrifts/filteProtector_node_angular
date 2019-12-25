@@ -26,7 +26,10 @@
           </td>
           <td>{{user.firstName}}</td>
           <td>{{user.remark}}</td>
-          <td><a routerLink="/users/{{user.rowid}}" >详情</a></td>
+          <td>
+            <a routerLink="/users/{{user.rowid}}" >详情</a>
+            &nbsp;&nbsp;<a *ngIf="user.Name!=='admin'" (click)="whetherEnable(user);">{{user.Enable === 0 ? "禁用" : "启用"}}</a>
+          </td>
 		  		<!-- <td>
 		  			<span>
 		          <button type="button" class="btn btn-primary" title="修改" routerLink="/users/{{user.rowid}}">修改</button>
