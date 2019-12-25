@@ -154,6 +154,7 @@ app-top-bar h1 {
 .bg-gray{
 	background: #f9f9f9;
 }
+.floatR{ float: right;}
 footer { width: 100%;  text-align: center; padding: 20px 0; font-size: 14px;  }
 /*
 Copyright Google LLC. All Rights Reserved.
