@@ -42,12 +42,12 @@ async function insert(user:User, userName: String){
                 UserName: userName,
                 Ip: "127.0.0.1",
                 // LogDate:
-                Operand: user.Name,
-                Module: "账号管理",
+                Operand: "账号 " + user.Name,
+                Module: "用户管理",
                 Type: "2",
-                Describe: "创建账号",
+                Describe: "添加用户 " + user.Name,
                 Details: JSON.stringify(user),
-                Action: "创建",
+                Action: "添加用户",
                 Remark: user.remark
               };
      await insertLogAll(logAll);
