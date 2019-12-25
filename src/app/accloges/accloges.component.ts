@@ -19,6 +19,7 @@ export class AcclogesComponent implements OnInit {
   pageLenght = 6; // 显示页数数量
   pageSizeOptions: number[] = [5, 10, 25, 100];
   pdf: Acclog[];
+  dateRange:'';
   acclogeForm = {FileName:'',AccessType:'',UserName:'', dateArray:''};
 
   constructor(private acclogService: AcclogService,
