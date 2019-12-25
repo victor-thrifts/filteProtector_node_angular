@@ -33,7 +33,7 @@ export class AcclogService {
 
   /** GET accloges from the server */
   getAccloges (page, pageSize,acclogeForm): Observable<Acclog[]> {
-    const url = `${this.acclogesUrl}?page=${page}&pageSize=${pageSize}&FileName=${acclogeForm.FileName}&AccessType=${acclogeForm.AccessType}&UserName=${acclogeForm.UserName}`;
+    const url = `${this.acclogesUrl}?page=${page}&pageSize=${pageSize}&FileName=${acclogeForm.FileName}&AccessType=${acclogeForm.AccessType}&UserName=${acclogeForm.UserName}&dateArray=${acclogeForm.dateArray}`;
     return this.http.get<Acclog[]>(url)
       .pipe(
         tap(accloges => this.log('fetched accloges')),
@@ -58,7 +58,7 @@ export class AcclogService {
         catchError(this.handleError<PageInfo>('getAcclogCount'))
       );
   }
-  
+
   /** GET acclog by id. Return `undefined` when id not found */
   getAcclogNo404<Data>(id: number): Observable<Acclog> {
     const url = `${this.acclogesUrl}/?id=${id}`;

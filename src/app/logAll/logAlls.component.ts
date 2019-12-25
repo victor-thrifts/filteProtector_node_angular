@@ -4,6 +4,7 @@ import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { LogAll } from '../_models/logAll';
+import { en_US, zh_CN, NzI18nService } from 'ng-zorro-antd/i18n';
 @Component({
   selector: 'app-logAlls',
   templateUrl: './logAlls.component.html',
@@ -19,8 +20,10 @@ export class LogAllsComponent implements OnInit {
   pageLenght = 6; // 显示页数数量
   pageSizeOptions: number[] = [5, 10, 25, 100];
   pdf: LogAll[];
-  logAllForm = {Ip:'',Module:'',UserName:''};//查询条件
-  constructor(private logAllService: LogAllService,private modalService: NzModalService) {
+  logAllForm = {Ip:'',Module:'',UserName:'', dateArray:''};//查询条件
+  constructor(private logAllService: LogAllService,
+              private modalService: NzModalService,
+              private i18n: NzI18nService) {
   }
 
   ngOnInit() {
@@ -38,6 +41,7 @@ export class LogAllsComponent implements OnInit {
 
   getLogAllCount(): void {
     let vm = this;
+    console.log(this.logAllForm);
     this.logAllService.getLogAllCountByQuery(this.logAllForm)
     .subscribe(pageInfo => {
       vm.count = pageInfo.count;
@@ -179,6 +183,10 @@ export class LogAllsComponent implements OnInit {
       nzContent: '请确认是否删除!',
       nzOnOk: () => console.log('OK'),
     });
+  }
+
+  onChange(result: Date): void {
+    this.logAllForm.dateArray = JSON.stringify(result);
   }
 
 }

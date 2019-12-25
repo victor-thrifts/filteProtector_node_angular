@@ -17,6 +17,9 @@
 			<label for='Module'>模块：</label>
 			<input type="text" id="Module"  name="Module" class="form-control" [(ngModel)] = 'logAllForm.Module' placeholder="模块" />
 		</div>
+    <div>
+      <nz-range-picker [(ngModel)]="dateRange" (ngModelChange)="onChange($event)" [ngModelOptions]="{standalone: true}" style=""></nz-range-picker>
+    </div>
 		<button class="btn btn-primary margin-r50" (click)="queryFileLog()" >查询</button>
 		<button type="button" class="btn btn-primary" (click)="exportLog()" >导出日志</button>
 	</form>
