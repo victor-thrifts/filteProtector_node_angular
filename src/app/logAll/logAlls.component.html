@@ -10,24 +10,25 @@
 			<input type="text" id="UserName"  name="UserName" class="form-control" [(ngModel)] = 'logAllForm.UserName' placeholder="操作账号"/>
 		</div>
 		<div class="form-group margin-r10">
-		<label for='Ip'>操作者IP：</label>
+			<label for='Ip'>操作者IP：</label>
 			<input type="text" id="Ip"  name="Ip" class="form-control" [(ngModel)] = 'logAllForm.Ip' placeholder="操作者IP"/>
 		</div>
 		<div class="form-group margin-r10">
 			<label for='Module'>模块：</label>
 			<input type="text" id="Module"  name="Module" class="form-control" [(ngModel)] = 'logAllForm.Module' placeholder="模块" />
 		</div>
-    <div>
-      <!-- <nz-range-picker [(ngModel)]="dateRange" (ngModelChange)="onChange($event)" [ngModelOptions]="{standalone: true}" style=""></nz-range-picker> -->
-    </div>
-		<button class="btn btn-primary margin-r50" (click)="queryFileLog()" >查询</button>
-		<button type="button" class="btn btn-primary" (click)="exportLog()" >导出日志</button>
+		<div class="form-group margin-r10">
+			<label for='AccessType'>操作时间：</label>
+			<nz-range-picker [(ngModel)]="dateRange" (ngModelChange)="onChange($event)" [ngModelOptions]="{standalone: true}" style="" [nzShowTime]="{ nzFormat: 'HH:mm:ss' }"nzFormat="yyyy-MM-dd HH:mm:ss"></nz-range-picker>
+		</div>
+		<div class="form-group"><button class="btn btn-primary margin-r50" (click)="queryFileLog()" >查询</button></div>		
+		<div class="form-group"><button type="button" class="btn btn-primary" (click)="exportLog()" >导出日志</button></div>		
 	</form>
 	<table class="table table-bordered table-hover table-striped">
 	<thead>
 		<tr>
 			<th>序号</th>
-			<th>时间</th>
+			<th>操作时间</th>
 			<th>操作账号</th>
 			<th>操作者IP</th>
 			<th>模块</th>

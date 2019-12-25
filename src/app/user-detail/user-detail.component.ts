@@ -13,8 +13,6 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 export class UserDetailComponent implements OnInit {
 
   user: User;
-  isVisible = false;
-  remark = "";
   types = [
     {name:0,abbrev:'管理员'},
     {name:1,abbrev:'普通用户'}
@@ -68,7 +66,7 @@ export class UserDetailComponent implements OnInit {
   }
 
   delete(user: User): void {
-    this.usersService.delete(user.rowid)
+    this.usersService.delete(user)
       .subscribe(data => {
         alert("删除成功");
         this.goBack();
@@ -77,22 +75,6 @@ export class UserDetailComponent implements OnInit {
       });
   }
 
-  handleCancel(): void {
-    this.isVisible = false
-    document.getElementById("dis").style.display = "none";
-  }
-
-  handleOk(): void {
-    if(this.remark == undefined || this.remark == ""){
-      document.getElementById("dis").style.display = "";
-      return
-    }
-    console.log(this.user);
-    this.usersService.delete(this.user.rowid);
-    document.getElementById("dis").style.display = "none";
-    this.isVisible = false;
-  }
-  
   showDeleteConfirm(user: User): void {
     this.modalService.confirm({
       nzTitle: '请确认是否删除?',

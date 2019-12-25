@@ -73,4 +73,7 @@ button.delete {
   background-color: gray !important;
   color: white;
 }
+.form-group{
+  margin-bottom:10px;
+}
 

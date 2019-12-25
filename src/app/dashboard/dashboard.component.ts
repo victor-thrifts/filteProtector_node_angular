@@ -9,7 +9,7 @@ import { AcclogService } from '../_services';
 })
 export class DashboardComponent implements OnInit {
   accloges: Acclog[] = [];
-  acclogeForm = {FileName:'',AccessType:'',UserName:''};
+  acclogeForm = {FileName:'',AccessType:'',UserName:'',dateArray:''};
   constructor(private acclogService: AcclogService) { }
 
   ngOnInit() {

@@ -56,12 +56,14 @@ export class UserService {
         )
     }
 
-    delete(id: number) {
+    delete(user: User) {
         if(!this.isPlatformBrowser) return;
         let origin = '';
         if(this.origin) origin = this.origin;
+        let id = user.rowid;
+        let remark = user.remark;
         console.log(`${origin}/api/users/` + id);
-        return this.http.delete(`${origin}/api/users/` + id);
+        return this.http.delete(`${origin}/api/users/` + id + '/' + remark);
     }
 
     private log(message: string) {
