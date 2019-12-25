@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 import { Keyreg } from '../../app/_models/keyreg';
 import { db } from '.';
+import {L_Staticstaial_users, L_Staticstaial_count, L_Staticstical_expried, L_Staticstaial_check} from '../protectionfolderset';
 
 
 function save(keyreg: Keyreg){
@@ -20,11 +21,14 @@ function save(keyreg: Keyreg){
 }
 
 async function authsoft() {
-    const keyreg: Keyreg = await getKeyreg();
-    if (keyreg && bcrypt.compareSync("#@!#@!", keyreg.RegisterKey)) {
-        return keyreg;
-    }
-    return null;
+
+    return {L_Staticstaial_users, L_Staticstaial_count, L_Staticstical_expried, L_Staticstaial_check};
+
+    // const keyreg: Keyreg = await getKeyreg();
+    // if (keyreg && bcrypt.compareSync("#@!#@!", keyreg.RegisterKey)) {
+    //     return keyreg;
+    // }
+    // return null;
 }
 
 

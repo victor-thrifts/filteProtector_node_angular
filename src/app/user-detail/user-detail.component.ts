@@ -3,7 +3,6 @@ import { User } from '../_models';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../_services';
 import { Location } from '@angular/common';
-import { NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'app-user-detail',
@@ -13,6 +12,8 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 export class UserDetailComponent implements OnInit {
 
   user: User;
+  isVisible = false;
+  remark = "";
   types = [
     {name:0,abbrev:'管理员'},
     {name:1,abbrev:'普通用户'}
@@ -20,8 +21,7 @@ export class UserDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private usersService: UserService,
-    private location: Location,
-    private modalService: NzModalService
+    private location: Location
   ) {
 
   }
@@ -55,13 +55,9 @@ export class UserDetailComponent implements OnInit {
       alert("密码输入不一致");
       return;
     }
-    if(this.user.remark == null || this.user.remark ==''){
-      alert("请填写备注！");
-      return;
-    }
     this.usersService.update(this.user)
       .subscribe(
-        data => {this.goBack();alert("保存成功")},
+        data => {this.goBack()},
         error =>{alert("保存失败")});
   }
 
@@ -75,19 +71,20 @@ export class UserDetailComponent implements OnInit {
       });
   }
 
-  showDeleteConfirm(user: User): void {
-    this.modalService.confirm({
-      nzTitle: '请确认是否删除?',
-      nzOkType: 'danger',
-      nzOnOk: () => {
-        if(this.user.remark == null || this.user.remark ==''){
-          alert("请填写备注！");
-          return;
-        }else{
-          this.delete(user);
-        }
-      }
-    })
+  handleCancel(): void {
+    this.isVisible = false
+    document.getElementById("dis").style.display = "none";
+  }
+
+  handleOk(): void {
+    if(this.remark == undefined || this.remark == ""){
+      document.getElementById("dis").style.display = "";
+      return
+    }
+    console.log(this.user);
+    this.usersService.delete(this.user.rowid);
+    document.getElementById("dis").style.display = "none";
+    this.isVisible = false;
   }
 
 }

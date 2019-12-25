@@ -54,6 +54,13 @@ export class LoginComponent implements OnInit {
             .pipe(first())
             .subscribe(
                 data => {
+                    if(!data.L_Staticstical_expried && (data.L_Staticstical_expried == 0))
+                    {
+                        this.alertService.error("error");
+                        alert("软件证书还没硬件绑定！！！");
+                        this.loading = false; 
+                        return;               
+                    }
                     let Isadmin = data.type == 0? true: false;
                     let loggedIn = true;
                     this.router.navigate(['/dashboard']);

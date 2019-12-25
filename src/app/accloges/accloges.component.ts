@@ -3,7 +3,6 @@ import { Acclog } from '../_models/acclog';
 import { AcclogService } from '../_services';
 import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
-import { en_US, zh_CN, NzI18nService } from 'ng-zorro-antd/i18n';
 @Component({
   selector: 'app-accloges',
   templateUrl: './accloges.component.html',
@@ -19,10 +18,9 @@ export class AcclogesComponent implements OnInit {
   pageLenght = 6; // 显示页数数量
   pageSizeOptions: number[] = [5, 10, 25, 100];
   pdf: Acclog[];
-  acclogeForm = {FileName:'',AccessType:'',UserName:'', dateArray:''};
+  acclogeForm = {FileName:'',AccessType:'',UserName:''};
 
-  constructor(private acclogService: AcclogService,
-              private i18n: NzI18nService) {
+  constructor(private acclogService: AcclogService) {
   }
 
   ngOnInit() {
@@ -188,8 +186,4 @@ export class AcclogesComponent implements OnInit {
         this.pages.push(i);
     }
   }
-
-    onChange(result: Date): void {
-      this.acclogeForm.dateArray = JSON.stringify(result);
-    }
 }
