@@ -7,15 +7,15 @@
 	<form class="form-inline margin-b30" >
 		<div class="form-group margin-r10">
 			<label for='UserName'>操作账号：</label>
-			<input type="text" id="UserName"  name="UserName" class="form-control" [(ngModel)] = 'logAllForm.UserName' />
+			<input type="text" id="UserName"  name="UserName" class="form-control" [(ngModel)] = 'logAllForm.UserName' placeholder="操作账号"/>
 		</div>
 		<div class="form-group margin-r10">
 		<label for='Ip'>操作者IP：</label>
-			<input type="text" id="Ip"  name="Ip" class="form-control" [(ngModel)] = 'logAllForm.Ip' />
+			<input type="text" id="Ip"  name="Ip" class="form-control" [(ngModel)] = 'logAllForm.Ip' placeholder="操作者IP"/>
 		</div>
 		<div class="form-group margin-r10">
 			<label for='Module'>模块：</label>
-			<input type="text" id="Module"  name="Module" class="form-control" [(ngModel)] = 'logAllForm.Module' />
+			<input type="text" id="Module"  name="Module" class="form-control" [(ngModel)] = 'logAllForm.Module' placeholder="模块" />
 		</div>
     <div>
       <nz-range-picker [(ngModel)]="dateRange" (ngModelChange)="onChange($event)" [ngModelOptions]="{standalone: true}" style=""></nz-range-picker>
@@ -39,7 +39,7 @@
 	</thead>
 		<tbody>
 		<tr *ngFor="let logAll of logAlls">
-			<td align="center">{{logAll.rowid}}</td>
+			<td>{{logAll.rowid}}</td>
 			<td>{{logAll.LogDate}}</td>
 			<td>{{logAll.UserName}}</td>
 			<td>{{logAll.Ip}}</td>
@@ -47,7 +47,7 @@
 			<td>{{logAll.Operand}}</td>
 			<td>{{logAll.Action}}</td>
 			<td>{{logAll.Remark}}</td>
-			<td><a routerLink="/logAll/{{logAll.rowid}}" >详情</a></td>
+			<td><a routerLink="/logAlls/{{logAll.rowid}}" >详情</a></td>
 		</tr>
 		</tbody>
 	</table>

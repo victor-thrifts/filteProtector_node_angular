@@ -62,14 +62,17 @@ export class UserDetailComponent implements OnInit {
     }
     this.usersService.update(this.user)
       .subscribe(
-        data => {this.goBack()},
+        data => {this.goBack();alert("保存成功")},
         error =>{alert("保存失败")});
   }
 
   delete(user: User): void {
     this.usersService.delete(user.rowid)
-      .subscribe(() => {
+      .subscribe(data => {
+        alert("删除成功");
         this.goBack();
+      } ,error => {
+        alert("删除失败");
       });
   }
 

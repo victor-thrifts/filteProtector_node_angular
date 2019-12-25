@@ -27,7 +27,7 @@ const routes: Routes = [
   { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] },
   { path: 'registersoftware1', component: Registersoftware1Component},
   { path: 'logAlls', component: LogAllsComponent, canActivate: [AuthGuard] },
-  { path: 'logAll/:id', component: LogAllDetailComponent, canActivate: [AuthGuard] },
+  { path: 'logAlls/:id', component: LogAllDetailComponent, canActivate: [AuthGuard] },
   { path: 'personal', component: PersonalComponent, canActivate: [AuthGuard] },
 ];
 
