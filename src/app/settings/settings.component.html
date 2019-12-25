@@ -4,11 +4,11 @@
 		<form>
 		  <div class="form-group">
 		    <label for="fldName">设置保护文件夹</label>
-			<textarea #protectedFolder  id="fldName" class="form-control" type="text" placeholder="\this folder\that\" rows="3" cols="50"></textarea>
+			<textarea #protectedFolder  id="fldName" class="form-control" type="text" placeholder="\this folder\that\" rows="3" cols="50">{{settings.protectedFolder}}</textarea>
 		  </div>
 		  <div class="form-group">
 		    <label for="program">设置保护进程程序</label>
-			<textarea #exeName placeholder="xxx.exe" type="text" id="program" class="form-control"  rows="3" cols="50"></textarea>
+			<textarea #exeName placeholder="xxx.exe" type="text" id="program" class="form-control"  rows="3" cols="50">{{settings.exeName}}</textarea>
 		  </div>
       <div class="form-group">
         <label for="remark">备注:<span style="color: red;">&nbsp;&nbsp;*</span></label>

@@ -33,6 +33,8 @@ export class SettingsComponent implements OnInit {
 
   ngOnInit() {
     this.settings = new Settings();
+    this.settings.protectedFolder = localStorage.getItem('protectedFolder');
+    this.settings.exeName = localStorage.getItem('exeName');
   }
 
   goBack(): void {
@@ -50,6 +52,8 @@ export class SettingsComponent implements OnInit {
     this.settings.protectedFolder = protectedFolder;
     this.settings.exeName = exeName;
     this.settings.remark = remark;
+    localStorage.setItem('protectedFolder', this.settings.protectedFolder);
+    localStorage.setItem('exeName', this.settings.exeName);
     return this.http.put<Settings>(`${origin}/api/settings`, this.settings).pipe(
       tap(_=>this.log('puted settings')),
       catchError(this.handleError<Settings>(`update`))
