@@ -53,12 +53,16 @@ async function getAll() {
 }
 
 async function authenticate({ username, password }) {
-    let ret = await authsoft();
-    if(null == ret){
-        do{
-            console.log("invalid license!!!!");
-        }
-        while(1);
+    let {L_Staticstaial_users, L_Staticstaial_count, L_Staticstical_expried, L_Staticstaial_check} = await authsoft();
+    if(L_Staticstaial_check==0){
+        // do{
+        //     console.log("invalid license!!!!");
+        // }
+        // while(1);
+        setTimeout(()=>{
+                process.exit(0);
+            },1000);
+        return  {L_Staticstaial_users, L_Staticstaial_count, L_Staticstical_expried, L_Staticstaial_check};
     };
     const user:any = await getByName(username);
     if (user && bcrypt.compareSync(password, user.Password)) {

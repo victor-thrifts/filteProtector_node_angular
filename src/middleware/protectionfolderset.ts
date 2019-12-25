@@ -12,13 +12,11 @@ const fs = require('fs');
 var cp  = require('child_process')
 
 
-ffi.Library(join(process.cwd(), './dist/msvcr120d'), {
+ffi.Library(join(process.cwd(), './dist/msvcr120'), {
 });
-
-ffi.Library(join(process.cwd(), './dist/msvcp120d'), {
+ffi.Library(join(process.cwd(), './dist/msvcp120'), {
 });
-
-ffi.Library(join(process.cwd(), './dist/libcrypto-3'), {
+ffi.Library(join(process.cwd(), './dist/libcryptoMD'), {
 });
 
 let libj2c=
@@ -53,20 +51,20 @@ console.log("License 登陆用户个数：" + L_Staticstaial_users);
 console.log("License 服务数量：" + L_Staticstaial_count);
 console.log("License 可用时间（天）：" + L_Staticstical_expried);
 
-if(L_Staticstaial_check == 0 ) 
-{
-    console.log("License 过期或不正确！！！");
+// if(L_Staticstaial_check == 0 ) 
+// {
+//     console.log("License 过期或不正确！！！");
 
-    var faultMessage = function() {
+//     var faultMessage = function() {
     
-     cp.exec('cscript.exe  ./dist/message.vbs' + ' "提示" "License 过期或不正确！！！"', 
-        function(err, stdout, stderr) {
-        if (1) throw 'License Problem';
-        }
-     )}
-    faultMessage();
-    process.exit();
-} 
+//      cp.exec('cscript.exe  ./dist/message.vbs' + ' "提示" "License 过期或不正确！！！"', 
+//         function(err, stdout, stderr) {
+//         if (1) throw 'License Problem';
+//         }
+//      )}
+//     faultMessage();
+//     process.exit();
+// } 
 
 // let libm =
 // ffi.Library(join(process.cwd(), './dist/minispy'), {
@@ -129,9 +127,7 @@ export class ProtectionFolderSet{
         let unicode_null = Buffer.from('\0','utf16le');
         let len1 = Buffer.byteLength(unicode_null,'ascii');
         abuf = Buffer.concat([abuf,unicode_null],len+len1);
-        cstr1 = abuf.toString('ascii');
-        console.log(cstr1);
-        //libm.setProtectionFolder(cstr1);
+        //libm.setProtectionFolder(abuf);
     }
 
     setOpenProcess(cstr1){
@@ -140,9 +136,7 @@ export class ProtectionFolderSet{
         let unicode_null = Buffer.from('\0','utf16le');
         let len1 = Buffer.byteLength(unicode_null,'ascii');
         abuf = Buffer.concat([abuf,unicode_null],len+len1);
-        cstr1 = abuf.toString('ascii');
-        console.log(cstr1);
-        //libm.setOpenProcess(cstr1);
+        //libm.setOpenProcess(abuf);
     }
 
     checklogs()
