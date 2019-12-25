@@ -27,9 +27,31 @@ function getByName(name:string)
     );
 }
 
-async function _delete(id: Number) {
+async function _delete(id: Number, remark: string, userName: String) {
+    const user = await getById(id);
     const stmt = db.prepare('DELETE FROM SystemUsers WHERE rowid=?');
-    await stmt.run(id);
+    let newVar = await stmt.run(id);
+    let parse = JSON.parse(JSON.stringify(newVar));
+    console.log(newVar);
+    console.log(remark);
+    if (parse.changes === 1) {
+      user.ConfirmPassword = '';
+      user.Password = '';
+      let logAll = {
+        UserName: userName,
+        Ip: "127.0.0.1",
+        // LogDate:
+        Operand: "账号 " + user.Name,
+        Module: "用户管理",
+        Type: "2",
+        Describe: "删除用户 " + user.Name,
+        Details: JSON.stringify(user),
+        Action: "删除用户",
+        Remark: remark
+      };
+      await insertLogAll(logAll);
+    }
+
 }
 
 async function insert(user:User, userName: String){
@@ -121,7 +143,7 @@ async function create(userParam: User, userNmae: String) {
     let len = await insert(userParam,userNmae);
 }
 
-async function update(id: number, userParam: User) {
+async function update(id: number, userParam: User, userName: String) {
     const user = await getById(id);
     // validate
     if (!user) throw '用户已不存在';
@@ -133,7 +155,25 @@ async function update(id: number, userParam: User) {
     }
     console.log('User, Update');
     const stmt = db.prepare('UPDATE SystemUsers SET Password=?, firstName=?, lastName=? ,Type=?, remark=? WHERE rowid=?');
-    stmt.run(userParam.Password, userParam.firstName, userParam.lastName, userParam.Type, userParam.remark, userParam.rowid);
+    let newVar = await stmt.run(userParam.Password, userParam.firstName, userParam.lastName, userParam.Type, userParam.remark, userParam.rowid);
+    let parse = JSON.parse(JSON.stringify(newVar));
+    if (parse.changes === 1){
+      userParam.ConfirmPassword = '';
+      userParam.Password = '';
+      let logAll={
+        UserName: userName,
+        Ip: "127.0.0.1",
+        // LogDate:
+        Operand: "账号 " + userParam.Name,
+        Module: "用户管理",
+        Type: "2",
+        Describe: "修改用户 " + userParam.Name,
+        Details: JSON.stringify(userParam),
+        Action: "修改用户",
+        Remark: userParam.remark
+      };
+      await insertLogAll(logAll);
+    }
 }
 
 export { authenticate, create, getAll, getById, update, _delete};

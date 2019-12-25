@@ -8,7 +8,7 @@ apirouter.get('/users', getAll);
 apirouter.get('/users/current', getCurrent);
 apirouter.get('/users/:id', getById);
 apirouter.put('/users/:id', update);
-apirouter.delete('/users/:id', _delete);
+apirouter.delete('/users/:id/:remark', _delete);
 
 //module.exports = apirouter;
 
@@ -44,13 +44,14 @@ function getById(req, res, next) {
 }
 
 function update(req, res, next) {
-    userService.update(req.params.id, req.body)
+    userService.update(req.params.id, req.body, req.header("username"))
         .then(() => res.json({}))
         .catch(err => next(err));
 }
 
 function _delete(req, res, next) {
-    userService._delete(req.params.id)
+  console.log(1111);
+    userService._delete(req.params.id, req.params.remark, req.header("username"))
         .then(() => res.json({}))
         .catch(err => next(err));
 }

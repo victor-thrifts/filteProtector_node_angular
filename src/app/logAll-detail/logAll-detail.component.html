@@ -52,7 +52,10 @@
         </tr>
         <tr>
           <th>用户类型：</th>
-          <td>{{details.Type}}</td>
+          <td>
+            <span *ngIf="details.Type == 0">管理员</span>
+            <span *ngIf="details.Type == 1">普通用户</span>
+          </td>
         </tr>
         <tr>
           <th>用户名：</th>
@@ -65,7 +68,7 @@
       </tbody>
     </table>
 
-    <h2 class="margin-b20" *ngIf="logAll.Type == 2"> 创建用户详情：</h2>
+    <h2 class="margin-b20" *ngIf="logAll.Type == 2"> 用户详情：</h2>
     <table class="table table-bordered table-hover table-striped" *ngIf="logAll.Type == 2">
       <tbody>
       <tr>
@@ -74,7 +77,10 @@
       </tr>
       <tr>
         <th>用户类型：</th>
-        <td>{{details.Type}}</td>
+        <td>
+          <span *ngIf="details.Type == 0">管理员</span>
+          <span *ngIf="details.Type == 1">普通用户</span>
+        </td>
       </tr>
       <tr>
         <th>用户名：</th>

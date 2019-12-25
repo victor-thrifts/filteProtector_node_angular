@@ -44,7 +44,6 @@ export class UserDetailComponent implements OnInit {
   }
 
   save(): void {
-    console.log(this.user);
     if(this.user.firstName == null || this.user.firstName == ''){
       alert("用户名必填");
     }
@@ -67,7 +66,7 @@ export class UserDetailComponent implements OnInit {
   }
 
   delete(user: User): void {
-    this.usersService.delete(user.rowid)
+    this.usersService.delete(user)
       .subscribe(data => {
         alert("删除成功");
         this.goBack();
