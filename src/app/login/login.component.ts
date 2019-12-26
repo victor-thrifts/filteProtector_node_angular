@@ -185,9 +185,10 @@ export class LoginComponent implements OnInit {
     this.user.Password = newPwd;
     this.usersService.update(this.user).subscribe(
       data => {
-        this.nzMessageService.success("密码修改成功。即将刷新页面");
-        //TODO refresh page},
-      error =>{this.nzMessageService.error("密码修改失败")});
+        this.nzMessageService.success("密码修改成功。即将刷新页面")},
+      error => {
+        this.nzMessageService.error("密码修改失败")}
+      );
   }
 
 }
