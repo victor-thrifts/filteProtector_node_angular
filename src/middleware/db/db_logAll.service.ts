@@ -46,7 +46,7 @@ async function getByCount() {
     })
 }
 
-async function getCountByQuery (Ip,Module,UserName) {
+async function getCountByQuery (Ip,Module,UserName,dateArray) {
     var count : number;
     return new Promise(function(resolve,reject){
         try{
@@ -60,6 +60,12 @@ async function getCountByQuery (Ip,Module,UserName) {
             }
             if(UserName){
                 sql += "AND UserName='" + UserName + "' "
+            }
+            if (dateArray.length > 3){
+                let parse = JSON.parse(dateArray);
+                let start = dateFormat(new Date(parse[0]));
+                let end = dateFormat(new Date(parse[1]));
+                sql += "AND LogDate BETWEEN '" + start + "' AND '" + end + "' "
             }
             const getCount = db.prepare(sql);
             return resolve(count = getCount.get());

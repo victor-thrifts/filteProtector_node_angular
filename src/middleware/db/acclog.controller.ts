@@ -33,7 +33,8 @@ function getCountByQuery(req, res, next){
   let FileName: string = req.query.FileName;
   let UserName: string = req.query.UserName;
   let AccessType: string = req.query.AccessType;
-  acclogService.getCountByQuery(FileName,UserName,AccessType)
+  let dateArray: string = req.query.dateArray;
+  acclogService.getCountByQuery(FileName,UserName,AccessType,dateArray)
       .then(count => res.send(count))
       .catch(err => next(err));
 }

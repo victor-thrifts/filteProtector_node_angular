@@ -23,7 +23,8 @@ function getCountByQuery(req, res, next){
   let Ip: string = req.query.Ip;
   let Module: string = req.query.Module;
   let UserName: string = req.query.UserName;
-  logAllService.getCountByQuery(Ip,Module,UserName)
+  let dateArray: string = req.query.dateArray;
+  logAllService.getCountByQuery(Ip,Module,UserName,dateArray)
       .then(count => res.send(count))
       .catch(err => next(err));
 }

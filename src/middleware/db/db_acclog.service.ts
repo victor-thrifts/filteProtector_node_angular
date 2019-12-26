@@ -46,7 +46,7 @@ async function getByCount() {
     })
 }
 
-async function getCountByQuery (FileName,UserName,AccessType) {
+async function getCountByQuery (FileName,UserName,AccessType,dateArray) {
     var count : number;
     return new Promise(function(resolve,reject){
         try{
@@ -60,6 +60,12 @@ async function getCountByQuery (FileName,UserName,AccessType) {
             }
             if(AccessType){
                 sql += "AND AccessType='" + AccessType + "' "
+            }
+            if (dateArray.length > 2){
+                let parse = JSON.parse(dateArray);
+                let start = dateFormat(new Date(parse[0]));
+                let end = dateFormat(new Date(parse[1]));
+                sql += "AND AccessTime BETWEEN '" + start + "' AND '" + end + "' "
             }
             const getCount = db.prepare(sql);
             return resolve(count = getCount.get());

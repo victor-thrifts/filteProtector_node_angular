@@ -51,7 +51,7 @@ export class AcclogService {
   }
 
   getAcclogCountByQuery (acclogeForm): Observable<PageInfo> {
-    const url = `${this.acclogesUrl}/getCountByQuery?FileName=${acclogeForm.FileName}&AccessType=${acclogeForm.AccessType}&UserName=${acclogeForm.UserName}`;
+    const url = `${this.acclogesUrl}/getCountByQuery?FileName=${acclogeForm.FileName}&AccessType=${acclogeForm.AccessType}&UserName=${acclogeForm.UserName}&dateArray=${acclogeForm.dateArray}`;
     return this.http.get<PageInfo>(url)
       .pipe(
         tap(count => this.log('fetched accloges')),

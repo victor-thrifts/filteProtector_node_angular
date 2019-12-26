@@ -43,7 +43,7 @@ export class LogAllService {
   }
 
   getLogAllCountByQuery (logAllForm): Observable<PageInfo> {
-    const url = `${this.logAllsUrl}/getCountByQuery?Ip=${logAllForm.Ip}&Module=${logAllForm.Module}&UserName=${logAllForm.UserName}`;
+    const url = `${this.logAllsUrl}/getCountByQuery?Ip=${logAllForm.Ip}&Module=${logAllForm.Module}&UserName=${logAllForm.UserName}&dateArray=${logAllForm.dateArray}`;
     return this.http.get<PageInfo>(url)
       .pipe(
         tap(count => this.log('fetched logAlls')),
