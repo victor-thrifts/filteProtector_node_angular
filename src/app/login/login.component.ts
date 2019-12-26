@@ -23,10 +23,16 @@ export class LoginComponent implements OnInit {
     returnUrl: string;
     isVisible = false;
     user: User;
+    // TODO how to declare global variable?
     status:any={
-      0: '纯字母',
-      1: '纯数字',
-      2: '字母和数字组合'
+      1: '必须为纯字母',
+      2: '必须为纯数字',
+      3: '至少为字母和数字组合'
+    }
+    reg:any={
+      1: '^[A-Za-z]+$',
+      2: '^\\d{0,}$',
+      3: '^(?=.*[a-zA-Z])(?=.*\\d)[^]{0,}$'
     }
 
     constructor(
@@ -124,20 +130,18 @@ export class LoginComponent implements OnInit {
     }
 
   check(lastModifyTime:string){
-      let timeLimit,expire;
+    let timeLimit,expire;
     try {
       let Settings = JSON.parse(sessionStorage.getItem("Settings"));
       timeLimit = Settings["lockTime"]
       expire = Settings["expire"]
-    } catch(err) { timeLimit = '90'; expire = '5';}
+    } catch(err) { timeLimit = 90; expire = 5;}
 
     let diff:any = (((new Date().getTime() - new Date(lastModifyTime).getTime()) / (1000 * 60 * 60 * 24))).toFixed(2);
-    if((parseInt(timeLimit) - diff) <= 0){
-      return this.showConfirmModal();
-    }
-    if ((parseInt(timeLimit) - diff) <= parseInt(expire)){
+    if(timeLimit - diff <= 0)
+      return !(this.isVisible = true);
+    if (timeLimit - diff <= expire)
       return this.showInfoModal("您长时间未更新密码，请及时修改");
-    }
     return true;
   }
 
@@ -152,11 +156,6 @@ export class LoginComponent implements OnInit {
     return true;
   }
 
-  showConfirmModal(){
-    this.isVisible = true;
-    return false;
-  }
-
   forceModifyPassword(originalPwd,newPwd,confirmPwd){
     if(null == originalPwd || originalPwd.trim() == ''
       || null == newPwd || newPwd.trim() == ''
@@ -167,11 +166,11 @@ export class LoginComponent implements OnInit {
 
     if(!bcrypt.compareSync(originalPwd,this.user.Password)){
       this.nzMessageService.error("原密码输入错误");
-      return;
+      return false;
     }
     if(newPwd != confirmPwd){
       this.nzMessageService.error("两次密码输入不一致");
-      return;
+      return false;
     }
 
     let minLength,complex;
@@ -181,10 +180,10 @@ export class LoginComponent implements OnInit {
       complex = Settings["complex"]
     } catch(err){ minLength = 6; complex = 2;}
 
-    let reg = new RegExp("^(?=.*[a-zA-Z])(?=.*\\d)[^]{"+minLength+",}$");
+    let reg = new RegExp(this.reg[complex].replace(/[\d]/g,minLength));
     if(!reg.test(newPwd) || !reg.test(confirmPwd)){
-     this.nzMessageService.error("确认密码最少"+minLength+"位，且至少为"+this.status[complex]);
-     return;
+     this.nzMessageService.error("新密码最少"+minLength+"位，"+this.status[complex]);
+     return false;
     }
 
     this.user.Password = newPwd;

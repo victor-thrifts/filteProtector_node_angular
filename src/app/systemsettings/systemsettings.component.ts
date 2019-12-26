@@ -3,6 +3,8 @@ import { Location, APP_BASE_HREF, isPlatformBrowser } from '@angular/common';
 import { Observable, of } from 'rxjs';
 import { AlertService , SettingsService} from '../_services';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { TopBarComponent } from "../_directives/top-bar/top-bar.component";
+
 @Component({
   selector: 'app-systemsettings',
   templateUrl: './systemsettings.component.html',
@@ -13,13 +15,15 @@ export class SystemSettingsComponent implements OnInit {
   config: string;
   settings: Object[] = [];
   isPlatformBrowser: boolean = false;
+
   constructor(
     private location: Location,
     private alertService: AlertService,
     private message: NzMessageService,
     @Inject(PLATFORM_ID) private platformId: Object,
     @Optional() @Inject(APP_BASE_HREF) private origin: string,
-    private settingsService : SettingsService
+    private settingsService : SettingsService,
+    private topBarComponent: TopBarComponent
     ) {
       this.isPlatformBrowser = isPlatformBrowser(platformId) ? true : false;
     }
@@ -29,7 +33,6 @@ export class SystemSettingsComponent implements OnInit {
   }
 
   getSettings(){
-    console.log(123123)
     this.config = JSON.parse(sessionStorage.getItem("Settings"));
     this.settingsService.loading().subscribe(settings => {
       this.settings = settings.slice(0, );
@@ -43,16 +46,16 @@ export class SystemSettingsComponent implements OnInit {
     });
   }
 
-  goBack(): void {
-    this.location.back();
-  }
+  goBack(): void { this.location.back();}
 
   save() {
     this.settingsService.update(this.config).subscribe(
       data => {this.message.success("保存设置成功！",{nzDuration: 5000})},
       error =>{this.message.error("保存设置失败！",{nzDuration: 5000})});
-    // refresh session
+
     sessionStorage.removeItem("Settings");
+    // TODO a better way refresh session
+    this.topBarComponent.loadSetting();
   }
 
   private handleError<T> (operation = 'operation', result?: T) {
