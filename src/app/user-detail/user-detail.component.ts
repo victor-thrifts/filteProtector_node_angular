@@ -14,6 +14,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 export class UserDetailComponent implements OnInit {
 
   user: User;
+  isCP: boolean = false;
   types = [
     {name:0,abbrev:'管理员'},
     {name:1,abbrev:'普通用户'}
@@ -23,14 +24,16 @@ export class UserDetailComponent implements OnInit {
     private usersService: UserService,
     private location: Location,
     private modalService: NzModalService,
-    private message: NzMessageService
+    private message: NzMessageService,
   ) {
 
   }
 
   ngOnInit() {
+    console.log(this.isCP);
     this.getUser();
   }
+
 
   getUser(): void {
     const id = +this.route.snapshot.paramMap.get('id');
@@ -47,18 +50,17 @@ export class UserDetailComponent implements OnInit {
 
   save(): void {
     if(this.user.firstName == null || this.user.firstName == ''){
-      alert("用户名必填");
+      return;
     }
     if(this.user.Password != null && this.user.Password != '' && this.user.Password.length < 6){
       alert("密码必须大于六位");
       return;
     }
-    if(this.user.Password != this.user.ConfirmPassword && this.user.Password !=''){
-      alert("密码输入不一致");
+    if(this.user.Password != this.user.ConfirmPassword){
+      this.isCP = true;
       return;
     }
     if(this.user.remark == null || this.user.remark ==''){
-      alert("请填写备注！");
       return;
     }
     this.usersService.update(this.user)
