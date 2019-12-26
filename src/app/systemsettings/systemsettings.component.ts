@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Optional, Inject, PLATFORM_ID } from '@angula
 import { Location, APP_BASE_HREF, isPlatformBrowser } from '@angular/common';
 import { Observable, of } from 'rxjs';
 import { AlertService , SettingsService} from '../_services';
-
+import { NzMessageService } from 'ng-zorro-antd/message';
 @Component({
   selector: 'app-systemsettings',
   templateUrl: './systemsettings.component.html',
@@ -16,6 +16,7 @@ export class SystemSettingsComponent implements OnInit {
   constructor(
     private location: Location,
     private alertService: AlertService,
+    private message: NzMessageService,
     @Inject(PLATFORM_ID) private platformId: Object,
     @Optional() @Inject(APP_BASE_HREF) private origin: string,
     private settingsService : SettingsService
@@ -48,8 +49,8 @@ export class SystemSettingsComponent implements OnInit {
 
   save() {
     this.settingsService.update(this.config).subscribe(
-      data => {alert("保存成功")},
-      error =>{alert("保存失败")});
+      data => {this.message.success("保存设置成功！",{nzDuration: 5000})},
+      error =>{this.message.error("保存设置失败！",{nzDuration: 5000})});
     // refresh session
     sessionStorage.removeItem("Settings");
   }

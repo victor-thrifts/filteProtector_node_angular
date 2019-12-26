@@ -3,9 +3,9 @@ import { User } from '../_models';
 import { UserService } from '../_services';
 import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {validator} from "sequelize/types/lib/utils/validator-extras";
+import { validator } from "sequelize/types/lib/utils/validator-extras";
 import { TopBarComponent } from "../_directives/top-bar/top-bar.component";
-
+import { NzMessageService } from 'ng-zorro-antd/message';
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
@@ -22,11 +22,12 @@ export class PersonalComponent implements OnInit {
   user: User;
 
   constructor(
+    private message: NzMessageService,
     private formBuilder: FormBuilder,
     private usersService: UserService,
     private location: Location,
     private topBarComponent: TopBarComponent
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.getUser();
@@ -35,16 +36,16 @@ export class PersonalComponent implements OnInit {
         [Validators.required]],
       newPwd: ['',
         [Validators.required, Validators.minLength(6),
-          Validators.pattern("^(?=.*[a-zA-Z])(?=.*\\d)[^]{6,}$")]],
-      confirmPwd:['',
+        Validators.pattern("^(?=.*[a-zA-Z])(?=.*\\d)[^]{6,}$")]],
+      confirmPwd: ['',
         [Validators.required, Validators.minLength(6),
-          Validators.pattern("^(?=.*[a-zA-Z])(?=.*\\d)[^]{6,}$")]]
+        Validators.pattern("^(?=.*[a-zA-Z])(?=.*\\d)[^]{6,}$")]]
     });
   }
 
   getUser(): void {
     let { user, token } = JSON.parse(sessionStorage.getItem('currentUser'));
-    const { sub } = jwt.verify(token,"config.secret");
+    const { sub } = jwt.verify(token, "config.secret");
     this.usersService.getById(sub).subscribe(user => {
       this.user = user;
     });
@@ -60,11 +61,11 @@ export class PersonalComponent implements OnInit {
     if (this.modifyForm.invalid) {
       return;
     }
-    if(!bcrypt.compareSync(this.modifyForm.value.originalPwd,this.user.Password)){
+    if (!bcrypt.compareSync(this.modifyForm.value.originalPwd, this.user.Password)) {
       alert("原密码输入错误");
       return;
     }
-    if(this.modifyForm.value.newPwd != this.modifyForm.value.confirmPwd){
+    if (this.modifyForm.value.newPwd != this.modifyForm.value.confirmPwd) {
       alert("两次密码输入不一致");
       return;
     }
@@ -75,9 +76,10 @@ export class PersonalComponent implements OnInit {
     this.user.Password = this.modifyForm.value.newPwd;
     this.usersService.update(this.user).subscribe(
       data => {
-        alert("密码修改成功.")
-        this.topBarComponent.logout();},
-      error =>{alert("修改密码失败")});
+        this.message.success("修改密码成功！", { nzDuration: 5000 })
+        this.topBarComponent.logout();
+      },
+      error => { this.message.error("保存密码失败！", { nzDuration: 5000 }) });
   }
 
 

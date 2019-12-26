@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { Location } from '@angular/common';
-
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { AlertService, UserService } from '../_services';
 
 @Component({templateUrl: 'register.component.html'})
@@ -16,6 +16,7 @@ export class RegisterComponent implements OnInit {
         {name:1,abbrev:'普通用户'}
     ];
     constructor(
+        private message: NzMessageService,
         private formBuilder: FormBuilder,
         private location: Location,
         private router: Router,
@@ -56,13 +57,12 @@ export class RegisterComponent implements OnInit {
             .subscribe(
                 data => {
                     this.alertService.success('Registration successful', true);
-                    alert("你已新建用户成功");
+                    this.message.success("添加用户成功！",{nzDuration: 5000})
                     this.location.back();
                     this.loading = false;
                 },
                 error => {
-                    alert(error);
-                    // this.alertService.error(error);
+                    this.message.error("添加用户失败！",{nzDuration: 5000})
                     this.loading = false;
                 });
     }

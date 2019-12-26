@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 import { AlertService } from '../_services';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 class Settings{
   protectedFolder: string;
@@ -25,6 +26,7 @@ export class SettingsComponent implements OnInit {
     private location: Location,
     private http: HttpClient,
     private alertService: AlertService,
+    private message: NzMessageService,
     @Inject(PLATFORM_ID) private platformId: Object,
     @Optional() @Inject(APP_BASE_HREF) private origin: string
     ) {
@@ -56,9 +58,11 @@ export class SettingsComponent implements OnInit {
     return this.http.put<Settings>(`${origin}/api/settings`, this.settings).pipe(
       tap(_=>this.log('puted settings')),
       catchError(this.handleError<Settings>(`update`))
-    ).subscribe(()=>{
-      alert("保存成功");
+    ).subscribe(data=>{
+      this.message.success("保存设置成功！",{nzDuration: 5000})
       // this.goBack()
+    },error => {
+      this.message.error("保存设置失败！",{nzDuration: 5000})
     });
   }
 

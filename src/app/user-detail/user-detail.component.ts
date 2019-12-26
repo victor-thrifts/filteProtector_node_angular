@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../_services';
 import { Location } from '@angular/common';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-user-detail',
@@ -21,7 +22,8 @@ export class UserDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private usersService: UserService,
     private location: Location,
-    private modalService: NzModalService
+    private modalService: NzModalService,
+    private message: NzMessageService
   ) {
 
   }
@@ -61,17 +63,21 @@ export class UserDetailComponent implements OnInit {
     }
     this.usersService.update(this.user)
       .subscribe(
-        data => {this.goBack();alert("保存成功")},
-        error =>{alert("保存失败")});
+        data => {this.goBack();
+          this.message.success("保存用户成功！",{nzDuration: 5000});
+        },
+        error =>{
+          this.message.error("保存用户失败！",{nzDuration: 5000});
+        });
   }
 
   delete(user: User): void {
     this.usersService.delete(user)
       .subscribe(data => {
-        alert("删除成功");
+        this.message.success("删除用户成功！",{nzDuration: 5000});
         this.goBack();
       } ,error => {
-        alert("删除失败");
+        this.message.error("删除用户失败！",{nzDuration: 5000});
       });
   }
 
@@ -81,7 +87,7 @@ export class UserDetailComponent implements OnInit {
       nzOkType: 'danger',
       nzOnOk: () => {
         if(this.user.remark == null || this.user.remark ==''){
-          alert("请填写备注！");
+          this.message.warning("请填写备注！",{nzDuration: 5000});
           return;
         }else{
           this.delete(user);
