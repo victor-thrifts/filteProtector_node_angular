@@ -23,6 +23,11 @@ export class LoginComponent implements OnInit {
     returnUrl: string;
     isVisible = false;
     user: User;
+    status:any={
+      0: '纯字母',
+      1: '纯数字',
+      2: '字母和数字组合'
+    }
 
     constructor(
         private formBuilder: FormBuilder,
@@ -125,7 +130,7 @@ export class LoginComponent implements OnInit {
       timeLimit = Settings["lockTime"]
       expire = Settings["expire"]
     } catch(err) { timeLimit = '90'; expire = '5';}
-    return this.showConfirmModal();
+
     let diff:any = (((new Date().getTime() - new Date(lastModifyTime).getTime()) / (1000 * 60 * 60 * 24))).toFixed(2);
     if((parseInt(timeLimit) - diff) <= 0){
       return this.showConfirmModal();
@@ -174,11 +179,11 @@ export class LoginComponent implements OnInit {
       let Settings = JSON.parse(sessionStorage.getItem("Settings"));
       minLength = Settings["minLength"]
       complex = Settings["complex"]
-    } catch(err){ minLength = 6; complex = "字母和数字组合";}
+    } catch(err){ minLength = 6; complex = 2;}
 
     let reg = new RegExp("^(?=.*[a-zA-Z])(?=.*\\d)[^]{"+minLength+",}$");
     if(!reg.test(newPwd) || !reg.test(confirmPwd)){
-     this.nzMessageService.error("确认密码最少"+minLength+"位，且至少为"+complex);
+     this.nzMessageService.error("确认密码最少"+minLength+"位，且至少为"+this.status[complex]);
      return;
     }
 
@@ -186,7 +191,8 @@ export class LoginComponent implements OnInit {
     this.usersService.update(this.user).subscribe(
       data => {
         this.nzMessageService.success("密码修改成功。即将刷新页面");
-        //TODO refresh page},
+        //TODO refresh page
+        },
       error =>{this.nzMessageService.error("密码修改失败")});
   }
 
