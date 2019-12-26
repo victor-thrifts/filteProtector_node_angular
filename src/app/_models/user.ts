@@ -7,5 +7,6 @@ export class User {
     lastName: string;
     ConfirmPassword: string;
     Enable: number;
+    lastModifyTime: string;
     remark: string;
 }
