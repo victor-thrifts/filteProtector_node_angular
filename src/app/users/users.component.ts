@@ -36,7 +36,7 @@ export class UsersComponent implements OnInit {
 
   whetherEnable(user: User): void {
     user.Enable = user.Enable == 0 ? 1 : 0;
-    this.userService.update(user).subscribe(
+    this.userService.whetherEnable(user).subscribe(
       data => {
         if(user.Enable == 1){
           this.message.success("禁用账号 " + user.Name + " 成功！",{nzDuration: 5000})

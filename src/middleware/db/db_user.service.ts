@@ -161,6 +161,36 @@ async function create(userParam: User, userNmae: String) {
     let len = await insert(userParam,userNmae);
 }
 
+async function whetherEnable(id: number, userParam: User, userName: String) {
+  const user = await getById(id);
+  // validate
+  if (!user) throw '用户已不存在';
+  let sql = 'UPDATE SystemUsers SET Enable=? WHERE rowid=?';
+  console.log('UPDATE SystemUsers SET Enable=?');
+  const stmt = db.prepare(sql);
+  let newVar = await stmt.run(userParam.Enable, userParam.rowid);
+  let parse = JSON.parse(JSON.stringify(newVar));
+  if (parse.changes === 1){
+    userParam.ConfirmPassword = '';
+    userParam.Password = '';
+    let mm = '' ;
+    if(userParam.Enable == 1) mm = '禁用用户 '; else mm = '启用用户 ';
+    let logAll={
+      UserName: userName,
+      Ip: "127.0.0.1",
+      // LogDate:
+      Operand: "账号 " + userParam.Name,
+      Module: "用户管理",
+      Type: "2",
+      Describe: mm + userParam.Name,
+      Details: JSON.stringify(userParam),
+      Action: mm,
+      Remark: userParam.remark
+    };
+    await insertLogAll(logAll);
+  }
+}
+
 async function update(id: number, userParam: User, userName: String) {
     const user = await getById(id);
     // validate
@@ -197,4 +227,4 @@ async function update(id: number, userParam: User, userName: String) {
     }
 }
 
-export { authenticate, create, getAll, getById, update, _delete};
+export { authenticate, create, getAll, getById, update, _delete,whetherEnable};
