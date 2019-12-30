@@ -3,9 +3,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { User } from '../_models';
-import { AlertService, AuthenticationService, UserService } from '../_services';
+import { AlertService, AuthenticationService, UserService, LogAllService } from '../_services';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { LogAll } from '../_models/logAll';
 
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -40,6 +41,7 @@ export class LoginComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private authenticationService: AuthenticationService,
+        private logAllService: LogAllService,
         private alertService: AlertService,
         private usersService: UserService,
         private modalService: NzModalService,
@@ -85,6 +87,22 @@ export class LoginComponent implements OnInit {
           // } catch(err) { lockTime = '30';}
           // var inFifteenMinutes = new Date(new Date().getTime() + parseInt(lockTime) * 60 * 1000);
           // Cookies.set(username, 888, { expires: inFifteenMinutes });
+
+          // 插入锁定日志
+          let logAll:LogAll = {
+            rowid:0,
+            LogDate:'',
+            UserName:username,
+            Module:"用户登录",
+            Action:"登录失败",
+            Describe:"登录账号 " + username + " 失败！原因：该账户密码错误次数过多,已被系统锁定",
+            Operand:"账号 " + username,
+            Details:"",
+            Type:"0",
+            Remark:"",
+            Ip:"127.0.0.1"
+          };
+          this.logAllService.insertLogAll(logAll).subscribe(data=>{});
           alert("该账户密码错误次数过多,已被系统锁定");
           return;
         }
@@ -104,6 +122,21 @@ export class LoginComponent implements OnInit {
                     const { sub } = jwt.verify(data["token"],"config.secret");
                     this.usersService.getById(sub).subscribe(user => {
                       if(user.Enable == 1){
+                        // 插入锁定日志
+                        let logAll:LogAll = {
+                          rowid:0,
+                          LogDate:'',
+                          UserName:username,
+                          Module:"用户登录",
+                          Action:"登录失败",
+                          Describe:"登录账号 " + username + " 失败！原因：该账户已被管理员禁用",
+                          Operand:"账号 " + username,
+                          Details:"",
+                          Type:"0",
+                          Remark:"",
+                          Ip:"127.0.0.1"
+                        };
+                        this.logAllService.insertLogAll(logAll).subscribe(data=>{});
                         alert("该账户已被管理员禁用");
                         this.loading = false;
                       }else{

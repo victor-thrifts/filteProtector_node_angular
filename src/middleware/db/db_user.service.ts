@@ -117,25 +117,39 @@ async function authenticate({ username, password }) {
     if (user && bcrypt.compareSync(password, user.Password)) {
         const token = jwt.sign({ sub: user.rowid }, "config.secret");
         password = user.Password;
-        //插入日志
-        let logAll={
-            UserName:username,
-            Module:"用户登录",
-            Action:"登录账号",
-            Describe:"成功登录账号 " + username,
-            Operand:"账号 " + username,
-            Details:JSON.stringify(user),
-            Type:"1",
-            Remark:"",
-            Ip:"127.0.0.1"
-        };
-        console.log(logAll);
-        await insertLogAll(logAll);
+        if(user.Enable == 0){
+          //插入日志
+          let logAll={
+              UserName:username,
+              Module:"用户登录",
+              Action:"登录成功",
+              Describe:"成功登录账号 " + username,
+              Operand:"账号 " + username,
+              Details:JSON.stringify(user),
+              Type:"1",
+              Remark:"",
+              Ip:"127.0.0.1"
+          };
+          await insertLogAll(logAll);
+        }
         return {
             user: user.Name,
             type: user.Type,
             token
         };
+    }else{
+      let logAll={
+        UserName:username,
+        Module:"用户登录",
+        Action:"登录失败",
+        Describe:"登录账号 " + username + " 失败！原因：用户名或密码错误",
+        Operand:"账号 " + username,
+        Details:JSON.stringify(user),
+        Type:"0",
+        Remark:"",
+        Ip:"127.0.0.1"
+      };
+      await insertLogAll(logAll);
     }
 }
 async function create(userParam: User, userNmae: String) {

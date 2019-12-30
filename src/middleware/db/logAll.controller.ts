@@ -7,11 +7,11 @@ const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
 
+apirouter.post('/logAlls/insertLogAll', insertLogAll);
 apirouter.get('/logAlls/getCount', getCount);
 apirouter.get('/logAlls/getCountByQuery', getCountByQuery);
 apirouter.get('/logAlls/:id', getById);
 apirouter.get('/logAlls', getAll);
-
 /* GET logAlls whose name contains search term */
 function getCount(req, res, next){
   logAllService.getByCount()
@@ -46,5 +46,10 @@ function getById(req, res, next) {
   logAllService.getById(req.params.id)
       .then(logAll => logAll ? res.json(logAll) : res.sendStatus(404))
       .catch(err => next(err));
+}
+
+function insertLogAll(req, res, next) {
+  logAllService.insertLogAll(req.body)
+  .catch(err => next(err));
 }
 
