@@ -5,6 +5,7 @@ import { Observable, of } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 import { AlertService } from '../_services';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzModalService } from 'ng-zorro-antd/modal';
 
 class Settings{
   protectedFolder: string;
@@ -27,6 +28,7 @@ export class SettingsComponent implements OnInit {
     private http: HttpClient,
     private alertService: AlertService,
     private message: NzMessageService,
+    private modalService: NzModalService,
     @Inject(PLATFORM_ID) private platformId: Object,
     @Optional() @Inject(APP_BASE_HREF) private origin: string
     ) {
@@ -41,6 +43,13 @@ export class SettingsComponent implements OnInit {
 
   goBack(): void {
     this.location.back();
+  }
+
+  showConfirm(protectedFolder, exeName, remark): void {
+    this.modalService.confirm({
+      nzTitle: '<i>请确认是否保存设置?</i>',
+      nzOnOk: () => {this.save(protectedFolder, exeName, remark)}
+    });
   }
 
   save(protectedFolder, exeName, remark) {

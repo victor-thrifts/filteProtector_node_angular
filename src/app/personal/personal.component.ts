@@ -6,8 +6,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { validator } from "sequelize/types/lib/utils/validator-extras";
 import { TopBarComponent } from "../_directives/top-bar/top-bar.component";
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzModalService } from 'ng-zorro-antd/modal';
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+
 
 @Component({
   selector: 'app-personal',
@@ -26,7 +28,8 @@ export class PersonalComponent implements OnInit {
     private formBuilder: FormBuilder,
     private usersService: UserService,
     private location: Location,
-    private topBarComponent: TopBarComponent
+    private topBarComponent: TopBarComponent,
+    private modalService: NzModalService
   ) { }
 
   ngOnInit() {
@@ -53,6 +56,13 @@ export class PersonalComponent implements OnInit {
 
   goBack(): void { this.location }
   get f() { return this.modifyForm.controls; }
+
+  showConfirm(): void {
+    this.modalService.confirm({
+      nzTitle: '<i>请确认是否修改密码?</i>',
+      nzOnOk: () => {this.onSubmit()}
+    });
+  }
 
   onSubmit() {
     // validator.notEmpty(this.modifyForm.value.originalPwd);

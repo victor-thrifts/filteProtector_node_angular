@@ -56,6 +56,13 @@ export class LogAllsComponent implements OnInit {
     this.getLogAllCount();
   }
 
+  showConfirm(): void {
+    this.modalService.confirm({
+      nzTitle: '<i>请确认是否导出日志?</i>',
+      nzOnOk: () => {this.exportLog()}
+    });
+  }
+
   exportLog() {
     // console.log(this.count);
     this.logAllService.getLogAlls(1, this.count,this.logAllForm).subscribe(

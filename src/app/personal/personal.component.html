@@ -2,7 +2,7 @@
   <div class="col-md-1"></div>
   <div class="col-md-4">
     <h2>修改密码</h2>
-    <form [formGroup]="modifyForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="modifyForm" (ngSubmit)="showConfirm()">
       <div class="form-group">
         <label for="originalPwd">原始密码</label>
         <input type="password" formControlName="originalPwd" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.originalPwd.errors }" />

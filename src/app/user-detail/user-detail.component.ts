@@ -48,6 +48,13 @@ export class UserDetailComponent implements OnInit {
     this.location.back();
   }
 
+  showConfirm(): void {
+    this.modalService.confirm({
+      nzTitle: '<i>请确认是否修改用户?</i>',
+      nzOnOk: () => {this.save()}
+    });
+  }
+
   save(): void {
     if(this.user.firstName == null || this.user.firstName == ''){
       return;
