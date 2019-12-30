@@ -4,6 +4,8 @@ import { AcclogService } from '../_services';
 import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 import { en_US, zh_CN, NzI18nService } from 'ng-zorro-antd/i18n';
+import { NzModalService } from 'ng-zorro-antd/modal';
+
 @Component({
   selector: 'app-accloges',
   templateUrl: './accloges.component.html',
@@ -23,7 +25,8 @@ export class AcclogesComponent implements OnInit {
   acclogeForm = {FileName:'',AccessType:'',UserName:'', dateArray:''};
 
   constructor(private acclogService: AcclogService,
-              private i18n: NzI18nService) {
+              private i18n: NzI18nService,
+              private modalService: NzModalService) {
   }
 
   ngOnInit() {
@@ -68,6 +71,13 @@ export class AcclogesComponent implements OnInit {
   queryFileLog(){
     this.page = 1;
     this.getAcclogCount();
+  }
+
+  showConfirm(): void {
+    this.modalService.confirm({
+      nzTitle: '<i>请确认是否导出日志?</i>',
+      nzOnOk: () => {this.exportLog()}
+    });
   }
 
   exportLog() {

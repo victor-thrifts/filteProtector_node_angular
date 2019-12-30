@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { AlertService , SettingsService} from '../_services';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { TopBarComponent } from "../_directives/top-bar/top-bar.component";
+import { NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'app-systemsettings',
@@ -23,7 +24,8 @@ export class SystemSettingsComponent implements OnInit {
     @Inject(PLATFORM_ID) private platformId: Object,
     @Optional() @Inject(APP_BASE_HREF) private origin: string,
     private settingsService : SettingsService,
-    private topBarComponent: TopBarComponent
+    private topBarComponent: TopBarComponent,
+    private modalService: NzModalService
     ) {
       this.isPlatformBrowser = isPlatformBrowser(platformId) ? true : false;
     }
@@ -47,6 +49,13 @@ export class SystemSettingsComponent implements OnInit {
   }
 
   goBack(): void { this.location.back();}
+
+  showConfirm(): void {
+    this.modalService.confirm({
+      nzTitle: '<i>请确认是否保存设置?</i>',
+      nzOnOk: () => {this.save()}
+    });
+  }
 
   save() {
     this.settingsService.update(this.config).subscribe(

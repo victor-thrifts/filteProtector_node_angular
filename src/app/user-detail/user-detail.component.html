@@ -56,7 +56,7 @@
       </div>
       <div class="form-group">
         <div class="col-md-offset-3 col-md-9">
-          <button type="submit" class="btn btn-primary btn-left" (click)="save()">保存</button>
+          <button type="submit" class="btn btn-primary btn-left" (click)="showConfirm()">保存</button>
           <button type="button" class="btn btn-primary " (click)="goBack()">返回</button>
           <button type="button" class="btn btn-danger" style="float:right " (click)="showDeleteConfirm(user)"
                   *ngIf="user.Name!=='admin'">删除

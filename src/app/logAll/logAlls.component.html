@@ -21,8 +21,8 @@
 			<label for='AccessType'>操作时间：</label>
 			<nz-range-picker [(ngModel)]="dateRange" (ngModelChange)="onChange($event)" [ngModelOptions]="{standalone: true}" style="" [nzShowTime]="{ nzFormat: 'HH:mm:ss' }"nzFormat="yyyy-MM-dd HH:mm:ss"></nz-range-picker>
 		</div>
-		<div class="form-group"><button class="btn btn-primary margin-r50" (click)="queryFileLog()" >查询</button></div>		
-		<div class="form-group"><button type="button" class="btn btn-primary" (click)="exportLog()" >导出日志</button></div>		
+		<div class="form-group"><button class="btn btn-primary margin-r50" (click)="queryFileLog()" >查询</button></div>
+		<div class="form-group"><button type="button" class="btn btn-primary" (click)="showConfirm()" >导出日志</button></div>
 	</form>
 	<table class="table table-bordered table-hover table-striped">
 	<thead>
