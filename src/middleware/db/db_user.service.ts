@@ -185,7 +185,7 @@ async function whetherEnable(id: number, userParam: User, userName: String) {
       Describe: mm + userParam.Name,
       Details: JSON.stringify(userParam),
       Action: mm,
-      Remark: userParam.remark
+      Remark: ''
     };
     await insertLogAll(logAll);
   }
