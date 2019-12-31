@@ -34,7 +34,7 @@ info = ref.readCString(info, 0);
 
 export {L_Staticstaial_users, L_Staticstaial_count, L_Staticstical_expried, L_Staticstaial_check}
 
-fs.writeFileSync('./dist/lic/fds.lin', info);
+fs.writeFileSync('./dist/lic/dms.lin', info);
 
 let liccounts = libj2c.readLic('./dist/');
 
