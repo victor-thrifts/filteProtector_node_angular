@@ -59,7 +59,7 @@ export class SettingsComponent implements OnInit {
       tap(_=>this.log('puted settings')),
       catchError(this.handleError<Settings>(`update`))
     ).subscribe(data=>{
-      this.message.success("保存设置成功！",{nzDuration: 5000})
+      this.message.success("保存设置成功！,机算机将会重启使设置生效",{nzDuration: 5000})
       // this.goBack()
     },error => {
       this.message.error("保存设置失败！",{nzDuration: 5000})

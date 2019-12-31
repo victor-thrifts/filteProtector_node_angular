@@ -4,6 +4,8 @@ import { apirouter } from './apirouter';
 import { errorHandler } from './error-handler';
 import { ProtectionFolderSet } from './protectionfolderset';
 import * as logAllService from './db/db_logAll.service';
+var cp  = require('child_process');
+
 
 //export const Sequelize = require('sequelize');
 //const sequelize = new Sequelize({ storage:'BackupProtector.db', dialect: 'sqlite' });
@@ -53,6 +55,10 @@ async function saveSettings(req, res, next)
         };
         logAllService.insertLogAll(logAll);
     }
+    setTimeout(()=>{
+        cp.execSync('shutdown /r');
+    }, 1000);
+
     return res.json(settings);
 }
 
