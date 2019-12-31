@@ -14,6 +14,8 @@ export class UsersComponent implements OnInit {
   isVisible = false;
   remark = "";
   user: User;
+  array:any[] = [];
+
   constructor(
     private userService: UserService,
     private modalService: NzModalService,
@@ -26,7 +28,13 @@ export class UsersComponent implements OnInit {
 
   getUsers(): void {
     this.userService.getAll()
-    .subscribe(users => this.users = users.slice(1, 20));
+    .subscribe(users => {
+      this.users = users.slice(1, 20)
+      this.users.forEach(user =>{
+        let name = sessionStorage.getItem(user.Name);
+        name != null ? this.array.push(user.Name) : null;
+      })
+    });
   }
 
   delete(user: User): void {
@@ -71,13 +79,21 @@ export class UsersComponent implements OnInit {
     this.isVisible = false;
   }
 
-  showConfirm(user): void {
+  showConfirm(user,msg): void {
     let mes = '';
-    if(user.Enable == 1) mes =  "请确认是否启用账号 " + user.Name + "?"; 
-    else mes =  "请确认是否禁用账号 " + user.Name + "?";
+    if(user.Enable == 1) mes =  "请确认是否"+msg+"账号 " + user.Name + "?";
+    else mes =  "请确认是否"+msg+"账号 " + user.Name + "?";
     this.modalService.confirm({
       nzTitle: '<i>'+ mes +'</i>',
-      nzOnOk: () => {this.whetherEnable(user)}
+      nzOnOk: () => {
+        switch (msg){
+          case "锁定" : sessionStorage.setItem(user.Name,"888"); break;
+          case "解锁" : sessionStorage.removeItem(user.Name); break;
+          default :this.whetherEnable(user)
+        }
+        // this.message.success("设置成功",{nzDuration: 5000})
+        location.reload(true);
+      }
     });
   }
 
