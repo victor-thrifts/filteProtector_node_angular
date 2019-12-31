@@ -19,21 +19,48 @@ export class UserDetailComponent implements OnInit {
     {name:0,abbrev:'管理员'},
     {name:1,abbrev:'普通用户'}
   ];
+  minLength: any;
+  desc: any;
+  regular: string;
+  status:any={
+    1: '必须为纯字母',
+    2: '必须为纯数字',
+    3: '至少为字母和数字组合'
+  }
+  reg:any={
+    // 1: '^[A-Za-z]+$',
+    // 2: '^\\d{0,}$',
+    // 3: '^(?=.*[a-zA-Z])(?=.*\\d)[^]{0,}$'
+    1: '^[A-Za-z]+$',
+    2: '^[0-9]*$ ',
+    3: '^(?![0-9]+$)(?![a-zA-Z]+$)'
+  };
+
   constructor(
     private route: ActivatedRoute,
     private usersService: UserService,
     private location: Location,
     private modalService: NzModalService,
     private message: NzMessageService,
-  ) {
-
-  }
+  ) {}
 
   ngOnInit() {
-    console.log(this.isCP);
+    let { minLength , complex } = this.getSettings();
+    this.minLength = minLength;
+    this.desc = this.status[complex];
+    this.regular = this.reg[complex];
     this.getUser();
   }
 
+  getSettings(){
+    try {
+      let Settings = JSON.parse(sessionStorage.getItem("Settings"));
+      return {
+        minLength : Settings["minLength"],
+        complex : Settings["complex"]
+      }
+    }catch (err) { return { minLength : 6, complex : 2}}
+  }
 
   getUser(): void {
     const id = +this.route.snapshot.paramMap.get('id');
@@ -59,9 +86,16 @@ export class UserDetailComponent implements OnInit {
     if(this.user.firstName == null || this.user.firstName == ''){
       return;
     }
-    if(this.user.Password != null && this.user.Password != '' && this.user.Password.length < 6){
-      alert("密码必须大于六位");
-      return;
+    if(this.user.Password != null && this.user.Password != ''){
+      if(this.user.Password.length < this.minLength){
+        document.getElementById('pw').innerText='密码最小长度:'+ this.minLength;
+        return;
+      }
+      if(!(new RegExp(this.regular).test(this.user.Password))){
+        document.getElementById('pw').innerText=this.desc;
+        return;
+      }
+      document.getElementById('pw').style.display='none';
     }
     if(this.user.Password != this.user.ConfirmPassword){
       this.isCP = true;
