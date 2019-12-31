@@ -8,6 +8,7 @@ const httpOptions = {
 };
 
 apirouter.post('/logAlls/insertLogAll', insertLogAll);
+apirouter.get('/logAlls/getOneByType', getOneByType);
 apirouter.get('/logAlls/getCount', getCount);
 apirouter.get('/logAlls/getCountByQuery', getCountByQuery);
 apirouter.get('/logAlls/:id', getById);
@@ -51,5 +52,11 @@ function getById(req, res, next) {
 function insertLogAll(req, res, next) {
   logAllService.insertLogAll(req.body)
   .catch(err => next(err));
+}
+
+function getOneByType(req, res, next) {
+  logAllService.getOneByType(req.query.Type)
+      .then(logAll => logAll ? res.json(logAll) : res.sendStatus(404))
+      .catch(err => next(err));
 }
 

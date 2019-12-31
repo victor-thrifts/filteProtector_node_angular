@@ -74,6 +74,14 @@ export class LogAllService {
     );
   }
 
+  getOneByType(Type: number): Observable<LogAll> {
+    const url = `${this.logAllsUrl}/getOneByType?Type=${Type}`;
+    return this.http.get<LogAll>(url).pipe(
+      tap(_ => this.log(`getOneByType LogAll`)),
+      catchError(this.handleError<LogAll>(`getOneByType`))
+    );
+  }
+  
   /* GET logAlls whose name contains search term */
   searchLogAlls(term: string): Observable<LogAll[]> {
     if (!term.trim()) {
