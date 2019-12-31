@@ -19,7 +19,7 @@
 	        <label for="remark">备注:
 				<!-- <span style="color: red;">&nbsp;&nbsp;*</span> -->
 			</label>
-	        <textarea #remark placeholder="备注" type="text" id="remark" class="form-control" rows="3" cols="50"></textarea>
+	        <textarea #remark placeholder="备注" type="text" id="remark" class="form-control" rows="3" cols="50">{{this.settings.remark}}</textarea>
 	        <p style="color: red;display:none" id="dis">请填写备注!</p>
 	      </div>
 	      <button type="button" class="btn btn-primary btn-left"

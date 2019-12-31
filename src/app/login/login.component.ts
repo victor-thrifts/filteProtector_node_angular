@@ -3,9 +3,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { User } from '../_models';
-import { AlertService, AuthenticationService, UserService } from '../_services';
+import { AlertService, AuthenticationService, UserService, LogAllService } from '../_services';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { LogAll } from '../_models/logAll';
 
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -40,6 +41,7 @@ export class LoginComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private authenticationService: AuthenticationService,
+        private logAllService: LogAllService,
         private alertService: AlertService,
         private usersService: UserService,
         private modalService: NzModalService,
@@ -78,14 +80,30 @@ export class LoginComponent implements OnInit {
           lockLimit = JSON.parse(sessionStorage.getItem("Settings"))["lockLimit"];
         } catch(err) { lockLimit = 5;}
 
-        if(errorCount != null && parseInt(errorCount) >= lockLimit){
+        if(username != 'admin' && errorCount != null && parseInt(errorCount) >= lockLimit){
           // let lockTime ;
           // try {
           //   lockTime = JSON.parse(sessionStorage.getItem("Settings"))["lockTime"];
           // } catch(err) { lockTime = '30';}
           // var inFifteenMinutes = new Date(new Date().getTime() + parseInt(lockTime) * 60 * 1000);
           // Cookies.set(username, 888, { expires: inFifteenMinutes });
-          alert("该账户密码错误次数过多,已被系统锁定");
+
+          // 插入锁定日志
+          let logAll:LogAll = {
+            rowid:0,
+            LogDate:'',
+            UserName:username,
+            Module:"用户登录",
+            Action:"登录失败",
+            Describe:"登录账号 " + username + " 失败！原因：该账户密码错误次数过多,已被系统锁定",
+            Operand:"账号 " + username,
+            Details:"",
+            Type:"0",
+            Remark:"",
+            Ip:"127.0.0.1"
+          };
+          this.logAllService.insertLogAll(logAll).subscribe(data=>{});
+          this.nzMessageService.error("该账户密码错误次数过多,已被系统锁定");
           return;
         }
 
@@ -97,17 +115,32 @@ export class LoginComponent implements OnInit {
                     if(!data.L_Staticstical_expried && (data.L_Staticstical_expried == 0))
                     {
                         this.alertService.error("error");
-                        alert("软件证书还没硬件绑定！！！");
+                        this.nzMessageService.error("软件证书还没硬件绑定！！！");
                         this.loading = false;
                         return;
                     }
                     const { sub } = jwt.verify(data["token"],"config.secret");
                     this.usersService.getById(sub).subscribe(user => {
                       if(user.Enable == 1){
-                        alert("该账户已被管理员禁用");
+                        // 插入锁定日志
+                        let logAll:LogAll = {
+                          rowid:0,
+                          LogDate:'',
+                          UserName:username,
+                          Module:"用户登录",
+                          Action:"登录失败",
+                          Describe:"登录账号 " + username + " 失败！原因：该账户已被管理员禁用",
+                          Operand:"账号 " + username,
+                          Details:"",
+                          Type:"0",
+                          Remark:"",
+                          Ip:"127.0.0.1"
+                        };
+                        this.logAllService.insertLogAll(logAll).subscribe(data=>{});
+                        this.nzMessageService.error("该账户已被管理员禁用");
                         this.loading = false;
                       }else{
-                        if(!this.check(user.lastModifyTime)){
+                        if(username != 'admin' && !this.check(user.lastModifyTime)){
                           this.user = user;
                           return this.loading = false;
                         }
@@ -125,7 +158,7 @@ export class LoginComponent implements OnInit {
                     //   : Cookies.set(username,(parseInt(errorCount)+1).toString());
                     null == errorCount ? sessionStorage.setItem(username,"1")
                       : sessionStorage.setItem(username,(parseInt(errorCount)+1).toString());
-                    alert("用户名或者密码错误.")
+                    this.nzMessageService.error("用户名或者密码错误.")
                 });
     }
 
@@ -133,7 +166,7 @@ export class LoginComponent implements OnInit {
     let timeLimit,expire;
     try {
       let Settings = JSON.parse(sessionStorage.getItem("Settings"));
-      timeLimit = Settings["lockTime"]
+      timeLimit = Settings["timeLimit"]
       expire = Settings["expire"]
     } catch(err) { timeLimit = 90; expire = 5;}
 
@@ -190,9 +223,9 @@ export class LoginComponent implements OnInit {
     this.usersService.update(this.user).subscribe(
       data => {
         this.nzMessageService.success("密码修改成功。即将刷新页面");
-        //TODO refresh page
-        },
-      error =>{this.nzMessageService.error("密码修改失败")});
+        location.reload();},
+      error =>{this.nzMessageService.error("密码修改失败");
+        location.reload();});
   }
 
 }

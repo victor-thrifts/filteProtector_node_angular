@@ -87,6 +87,21 @@ async function getById(id) {
     })
 }
 
+/**
+ * 根据类型获取最新的一条
+ * @param type 
+ */
+async function getOneByType(type) {
+    return new Promise(function(resolve,reject){
+        try{
+            const stmt = db.prepare('SELECT rowid, * FROM logAll WHERE Type=? ORDER BY rowid DESC LIMIT 1');
+            return resolve(stmt.get(type));
+        } catch (err) {
+            return reject(err);
+        }
+    })
+}
+
 
 async function insertLogAll(logAll) {
     const insert = db.prepare(
@@ -116,4 +131,4 @@ function dateFormat(date) {
     return fmt;
 }
 
-export { getById, getAll, getByCount, insertLogAll ,getCountByQuery }
+export { getById, getAll, getByCount, insertLogAll ,getCountByQuery ,getOneByType}

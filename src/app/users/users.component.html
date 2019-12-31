@@ -28,7 +28,7 @@
           <td>{{user.remark}}</td>
           <td>
             <a routerLink="/users/{{user.rowid}}" >详情</a>
-            &nbsp;&nbsp;<a *ngIf="user.Name!=='admin'" (click)="whetherEnable(user);">{{user.Enable === 0 ? "禁用" : "启用"}}</a>
+            &nbsp;&nbsp;<a *ngIf="user.Name!=='admin'" (click)="showConfirm(user);">{{user.Enable === 0 ? "禁用" : "启用"}}</a>
           </td>
 		  		<!-- <td>
 		  			<span>

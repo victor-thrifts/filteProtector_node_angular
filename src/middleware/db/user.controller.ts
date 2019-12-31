@@ -8,6 +8,7 @@ apirouter.get('/users', getAll);
 apirouter.get('/users/current', getCurrent);
 apirouter.get('/users/:id', getById);
 apirouter.put('/users/:id', update);
+apirouter.put('/users/whetherEnable/:id', whetherEnable);
 apirouter.delete('/users/:id/:remark', _delete);
 
 //module.exports = apirouter;
@@ -45,6 +46,12 @@ function getById(req, res, next) {
 
 function update(req, res, next) {
     userService.update(req.params.id, req.body, req.header("username"))
+        .then(() => res.json({}))
+        .catch(err => next(err));
+}
+
+function whetherEnable(req, res, next) {
+    userService.whetherEnable(req.params.id, req.body, req.header("username"))
         .then(() => res.json({}))
         .catch(err => next(err));
 }
