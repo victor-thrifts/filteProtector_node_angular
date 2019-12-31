@@ -16,6 +16,18 @@ export class RegisterComponent implements OnInit {
     {name: 0, abbrev: '管理员'},
     {name: 1, abbrev: '普通用户'}
   ];
+  minLength: any;
+  desc: any;
+  status:any={
+    1: '必须为纯字母',
+    2: '必须为纯数字',
+    3: '至少为字母和数字组合'
+  }
+  reg:any={
+    1: '^[A-Za-z]+$',
+    2: '^\\d{0,}$',
+    3: '^(?=.*[a-zA-Z])(?=.*\\d)[^]{0,}$'
+  }
 
   constructor(
     private message: NzMessageService,
@@ -29,18 +41,32 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    let { minLength , complex } = this.getSettings();
+    this.minLength = minLength;
+    this.desc = this.status[complex];
     this.registerForm = this.formBuilder.group({
       firstName: ['', Validators.required],
       Type: ['', Validators.required],
       Name: ['', Validators.required],
       remark: ['', Validators.required],
       Password: ['',
-        [Validators.required, Validators.minLength(6),
-          Validators.pattern("^(?=.*[a-z])(?=.*\\d)[^]{6,}$")]],
+        [Validators.required, Validators.minLength(minLength),
+          Validators.pattern(this.reg[complex].replace(/[\d]/g,minLength))]],
       ConfirmPassword: ['',
-        [Validators.required, Validators.minLength(6),
-          Validators.pattern("^(?=.*[a-z])(?=.*\\d)[^]{6,}$")]]
+        [Validators.required, Validators.minLength(minLength),
+          Validators.pattern(this.reg[complex].replace(/[\d]/g,minLength))]]
     });
+  }
+
+  getSettings(){
+    try {
+      let Settings = JSON.parse(sessionStorage.getItem("Settings"));
+      return {
+        minLength : Settings["minLength"],
+        complex : Settings["complex"]
+      }
+    }catch (err) { return { minLength : 6, complex : 2}}
   }
 
   // convenience getter for easy access to form fields
@@ -63,7 +89,7 @@ export class RegisterComponent implements OnInit {
       return;
     }
     if (this.registerForm.value.ConfirmPassword.trim() != this.registerForm.value.Password.trim()) {
-      alert("两次密码输入不一致");
+      this.message.error("两次密码输入不一致");
       return;
     }
     this.loading = true;
