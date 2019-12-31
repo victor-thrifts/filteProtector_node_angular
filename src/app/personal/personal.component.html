@@ -2,7 +2,7 @@
   <div class="col-md-1"></div>
   <div class="col-md-4">
     <h2>修改密码</h2>
-    <form [formGroup]="modifyForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="modifyForm" (ngSubmit)="showConfirm()">
       <div class="form-group">
         <label for="originalPwd">原始密码</label>
         <input type="password" formControlName="originalPwd" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.originalPwd.errors }" />
@@ -16,8 +16,8 @@
         <input type="password" formControlName="newPwd" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.newPwd.errors }" />
         <div *ngIf="submitted && f.newPwd.errors" class="invalid-feedback">
           <div *ngIf="f.newPwd.errors.required" style="color: red">请输入新密码</div>
-          <div *ngIf="f.newPwd.errors.minlength" style="color: red">密码必须大于6位</div>
-          <div *ngIf="f.newPwd.errors.minlength == null && f.newPwd.errors.pattern" style="color: red">密码至少是字母和数字组合</div>
+          <div *ngIf="f.newPwd.errors.minlength" style="color: red">密码必须大于{{minLength}}位</div>
+          <div *ngIf="f.newPwd.errors.minlength == null && f.newPwd.errors.pattern" style="color: red">新密码{{desc}}</div>
         </div>
       </div>
       <div class="form-group">
@@ -25,8 +25,8 @@
         <input type="password" formControlName="confirmPwd" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.confirmPwd.errors }"/>
         <div *ngIf="submitted && f.confirmPwd.errors" class="invalid-feedback">
           <div *ngIf="f.confirmPwd.errors.required" style="color: red">请输入确认密码</div>
-          <div *ngIf="f.confirmPwd.errors.minlength" style="color: red">确认密码必须大于6位</div>
-          <div *ngIf="f.confirmPwd.errors.minlength == null && f.confirmPwd.errors.pattern" style="color: red">确认密码至少是字母和数字组合</div>
+          <div *ngIf="f.confirmPwd.errors.minlength" style="color: red">确认密码必须大于{{minLength}}位</div>
+          <div *ngIf="f.confirmPwd.errors.minlength == null && f.confirmPwd.errors.pattern" style="color: red">确认密码{{desc}}</div>
         </div>
       </div>
       <div class="form-group">

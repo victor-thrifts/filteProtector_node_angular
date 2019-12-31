@@ -117,25 +117,39 @@ async function authenticate({ username, password }) {
     if (user && bcrypt.compareSync(password, user.Password)) {
         const token = jwt.sign({ sub: user.rowid }, "config.secret");
         password = user.Password;
-        //插入日志
-        let logAll={
-            UserName:username,
-            Module:"用户登录",
-            Action:"登录账号",
-            Describe:"成功登录账号 " + username,
-            Operand:"账号 " + username,
-            Details:JSON.stringify(user),
-            Type:"1",
-            Remark:"",
-            Ip:"127.0.0.1"
-        };
-        console.log(logAll);
-        await insertLogAll(logAll);
+        if(user.Enable == 0){
+          //插入日志
+          let logAll={
+              UserName:username,
+              Module:"用户登录",
+              Action:"登录成功",
+              Describe:"成功登录账号 " + username,
+              Operand:"账号 " + username,
+              Details:JSON.stringify(user),
+              Type:"1",
+              Remark:"",
+              Ip:"127.0.0.1"
+          };
+          await insertLogAll(logAll);
+        }
         return {
             user: user.Name,
             type: user.Type,
             token
         };
+    }else{
+      let logAll={
+        UserName:username,
+        Module:"用户登录",
+        Action:"登录失败",
+        Describe:"登录账号 " + username + " 失败！原因：用户名或密码错误",
+        Operand:"账号 " + username,
+        Details:JSON.stringify(user),
+        Type:"0",
+        Remark:"",
+        Ip:"127.0.0.1"
+      };
+      await insertLogAll(logAll);
     }
 }
 async function create(userParam: User, userNmae: String) {
@@ -145,6 +159,36 @@ async function create(userParam: User, userNmae: String) {
     }
     // save user
     let len = await insert(userParam,userNmae);
+}
+
+async function whetherEnable(id: number, userParam: User, userName: String) {
+  const user = await getById(id);
+  // validate
+  if (!user) throw '用户已不存在';
+  let sql = 'UPDATE SystemUsers SET Enable=? WHERE rowid=?';
+  console.log('UPDATE SystemUsers SET Enable=?');
+  const stmt = db.prepare(sql);
+  let newVar = await stmt.run(userParam.Enable, userParam.rowid);
+  let parse = JSON.parse(JSON.stringify(newVar));
+  if (parse.changes === 1){
+    userParam.ConfirmPassword = '';
+    userParam.Password = '';
+    let mm = '' ;
+    if(userParam.Enable == 1) mm = '禁用用户 '; else mm = '启用用户 ';
+    let logAll={
+      UserName: userName,
+      Ip: "127.0.0.1",
+      // LogDate:
+      Operand: "账号 " + userParam.Name,
+      Module: "用户管理",
+      Type: "2",
+      Describe: mm + userParam.Name,
+      Details: JSON.stringify(userParam),
+      Action: mm,
+      Remark: ''
+    };
+    await insertLogAll(logAll);
+  }
 }
 
 async function update(id: number, userParam: User, userName: String) {
@@ -183,4 +227,4 @@ async function update(id: number, userParam: User, userName: String) {
     }
 }
 
-export { authenticate, create, getAll, getById, update, _delete};
+export { authenticate, create, getAll, getById, update, _delete,whetherEnable};

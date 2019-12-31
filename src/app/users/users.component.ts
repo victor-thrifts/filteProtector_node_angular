@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../_models';
 import { UserService } from '../_services';
+import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzMessageService } from 'ng-zorro-antd/message';
 @Component({
   selector: 'app-user',
@@ -15,6 +16,7 @@ export class UsersComponent implements OnInit {
   user: User;
   constructor(
     private userService: UserService,
+    private modalService: NzModalService,
     private message: NzMessageService,
   ) {}
 
@@ -36,7 +38,7 @@ export class UsersComponent implements OnInit {
 
   whetherEnable(user: User): void {
     user.Enable = user.Enable == 0 ? 1 : 0;
-    this.userService.update(user).subscribe(
+    this.userService.whetherEnable(user).subscribe(
       data => {
         if(user.Enable == 1){
           this.message.success("禁用账号 " + user.Name + " 成功！",{nzDuration: 5000})
@@ -68,4 +70,15 @@ export class UsersComponent implements OnInit {
     document.getElementById("dis").style.display = "none";
     this.isVisible = false;
   }
+
+  showConfirm(user): void {
+    let mes = '';
+    if(user.Enable == 1) mes =  "请确认是否启用账号 " + user.Name + "?"; 
+    else mes =  "请确认是否禁用账号 " + user.Name + "?";
+    this.modalService.confirm({
+      nzTitle: '<i>'+ mes +'</i>',
+      nzOnOk: () => {this.whetherEnable(user)}
+    });
+  }
+
 }

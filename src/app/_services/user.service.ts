@@ -55,7 +55,17 @@ export class UserService {
             catchError(this.handleError<User>(`update`))
         )
     }
-
+    
+    whetherEnable(user: User) {
+        if(!this.isPlatformBrowser) return;
+        let origin = '';
+        if(this.origin) origin = this.origin;
+        return this.http.put(`${origin}/api/users/whetherEnable/${user.rowid}`, user).pipe(
+            tap(_=>this.log('puted user')),
+            catchError(this.handleError<User>(`update`))
+        )
+    }
+    
     delete(user: User) {
         if(!this.isPlatformBrowser) return;
         let origin = '';

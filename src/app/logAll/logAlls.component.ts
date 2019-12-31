@@ -42,7 +42,6 @@ export class LogAllsComponent implements OnInit {
 
   getLogAllCount(): void {
     let vm = this;
-    console.log(this.logAllForm);
     this.logAllService.getLogAllCountByQuery(this.logAllForm)
     .subscribe(pageInfo => {
       vm.count = pageInfo.count;
@@ -54,6 +53,13 @@ export class LogAllsComponent implements OnInit {
   queryFileLog(){
     this.page = 1;
     this.getLogAllCount();
+  }
+
+  showConfirm(): void {
+    this.modalService.confirm({
+      nzTitle: '<i>请确认是否导出日志?</i>',
+      nzOnOk: () => {this.exportLog()}
+    });
   }
 
   exportLog() {
@@ -84,6 +90,7 @@ export class LogAllsComponent implements OnInit {
   }
 
   pdfmakes(arrayData) {
+    let user = JSON.parse(sessionStorage.getItem('currentUser')).user;
     pdfMake.vfs = pdfFonts.pdfMake.vfs;
     pdfMake.fonts = {
       Roboto: {
@@ -101,17 +108,27 @@ export class LogAllsComponent implements OnInit {
       }
     }
     let data = {
-      content: [{
+      content: [
+        {text: '操作日志列表', fontSize: 20, bold: true, alignment: 'center'},
+        {text: '导出人:'+ user, alignment: 'right', lineHeight:'1.5'},
+        {text: '导出时间:'+new Date().toLocaleDateString(),alignment: 'right', lineHeight:'1.5'},
+        {
         layout: 'lightHorizontalLines', // optional
         table: {
           headerRows: 1,
-          widths: [ 30, 60, 50, 50, 50, 60, 60, 50],
+          // widths: [ 30, 60, 50, 50, 50, 60, 60, 50],
+          widths: [50,120, 60, 85, 70, 80, 70, 120],
           body: arrayData
         }
       }],
       defaultStyle: {
         font: 'jdstj'
       },
+      footer: function(currentPage, pageCount) {
+        let page = currentPage.toString() + '/' + pageCount;
+        return {text: page, alignment: 'center'}
+      },
+      pageOrientation: 'landscape',
     };
     pdfMake.createPdf(data).download();
   }
@@ -146,7 +163,6 @@ export class LogAllsComponent implements OnInit {
   // 分页算法
   calculateIndexes (): void {
     // this.getAcclogCount();
-    console.log(this.count);
     this.pages = [];
     this.pageCount = Math.ceil(this.count/this.pageSize);
     // 普通情况，页数中没有首页和尾页

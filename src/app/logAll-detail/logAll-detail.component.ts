@@ -28,8 +28,10 @@ export class LogAllDetailComponent implements OnInit {
     this.logAllService.getLogAll(id)
       .subscribe(logAll => {
         this.logAll = logAll;
-        let details = JSON.parse(logAll.Details);
-        this.details = details;
+        if(logAll.Details){
+          let details = JSON.parse(logAll.Details);
+          this.details = details;
+        }
       });
   }
 

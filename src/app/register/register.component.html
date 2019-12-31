@@ -2,7 +2,7 @@
   <div class="col-md-1"></div>
   <div class="col-md-4">
     <h2 class="margin-b30">添加用户</h2>
-    <form class="form-horizontal" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <form class="form-horizontal" [formGroup]="registerForm" (ngSubmit)="showConfirm()">
       <div class="form-group">
         <label for="firstName" class="col-md-3 control-label">用户名</label>
         <div class="col-md-9">
@@ -30,21 +30,19 @@
             [ngClass]="{ 'is-invalid': submitted && f.Password.errors }" />
           <div *ngIf="submitted && f.Password.errors" class="invalid-feedback">
             <div *ngIf="f.Password.errors.required" style="color: red">请输入密码</div>
-            <div *ngIf="f.Password.errors.minlength" style="color: red">密码必须大于6位</div>
-            <div *ngIf="f.Password.errors.minlength == null && f.Password.errors.pattern" style="color: red">
-              密码至少是字母和数字组合</div>
+            <div *ngIf="f.Password.errors.minlength" style="color: red">密码必须大于{{minLength}}位</div>
+            <div *ngIf="f.Password.errors.minlength == null && f.Password.errors.pattern" style="color: red">密码{{desc}}</div>
           </div>
         </div>
       </div>
       <div class="form-group">
         <label for="ConfirmPassword" class="col-md-3 control-label">确认密码</label>
         <div class="col-md-9">
-          <input type="password" formControlName="ConfirmPassword" class="form-control" />
-          <div *ngIf="submitted && f.ConfirmPassword.errors" class="invalid-feedback">
+          <input type="password" formControlName="ConfirmPassword" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.ConfirmPassword.errors }"/>
+          <div *ngIf="submitted && f.ConfirmPassword.errors" class="invalid-feedback" >
             <div *ngIf="f.ConfirmPassword.errors.required" style="color: red">请输入确认密码</div>
-            <div *ngIf="f.ConfirmPassword.errors.minlength" style="color: red">确认密码必须大于6位</div>
-            <div *ngIf="f.ConfirmPassword.errors.minlength == null && f.ConfirmPassword.errors.pattern"
-              style="color: red">确认密码至少是字母和数字组合</div>
+            <div *ngIf="f.ConfirmPassword.errors.minlength" style="color: red">确认密码必须大于{{minLength}}位</div>
+            <div *ngIf="f.ConfirmPassword.errors.minlength == null && f.ConfirmPassword.errors.pattern" style="color: red">确认密码{{desc}}</div>
           </div>
         </div>
       </div>

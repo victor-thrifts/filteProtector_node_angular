@@ -74,6 +74,14 @@ export class LogAllService {
     );
   }
 
+  getOneByType(Type: number): Observable<LogAll> {
+    const url = `${this.logAllsUrl}/getOneByType?Type=${Type}`;
+    return this.http.get<LogAll>(url).pipe(
+      tap(_ => this.log(`getOneByType LogAll`)),
+      catchError(this.handleError<LogAll>(`getOneByType`))
+    );
+  }
+  
   /* GET logAlls whose name contains search term */
   searchLogAlls(term: string): Observable<LogAll[]> {
     if (!term.trim()) {
@@ -89,9 +97,16 @@ export class LogAllService {
   //////// Save methods //////////
 
   /** POST: add a new logAll to the server */
+  insertLogAll(logAll: LogAll): Observable<LogAll> {
+    console.log(logAll);
+    return this.http.post<LogAll>(`${this.logAllsUrl}/insertLogAll`, logAll).pipe(
+      tap(_ => this.log(`insertLogAll "${logAll}"`)),
+      catchError(this.handleError<LogAll>('insertLogAll'))
+    );
+  }
+
   addlogAll (FileName: string): Observable<LogAll> {
     const logAll = { FileName };
-
     return this.http.post<LogAll>(this.logAllsUrl, logAll, httpOptions).pipe(
       tap((logAll: LogAll) => this.log(`added logAll w/ id=${logAll.rowid}`)),
       catchError(this.handleError<LogAll>('addLogAll'))
