@@ -80,9 +80,7 @@ export class UsersComponent implements OnInit {
   }
 
   showConfirm(user,msg): void {
-    let mes = '';
-    if(user.Enable == 1) mes =  "请确认是否"+msg+"账号 " + user.Name + "?";
-    else mes =  "请确认是否"+msg+"账号 " + user.Name + "?";
+    let mes = "请确认是否"+msg+"账号 " + user.Name + "?";
     this.modalService.confirm({
       nzTitle: '<i>'+ mes +'</i>',
       nzOnOk: () => {

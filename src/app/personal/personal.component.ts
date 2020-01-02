@@ -64,6 +64,15 @@ export class PersonalComponent implements OnInit {
     let { user, token } = JSON.parse(sessionStorage.getItem('currentUser'));
     const { sub } = jwt.verify(token, "config.secret");
     this.usersService.getById(sub).subscribe(user => {
+      if(user.Enable == 1){
+        this.modalService.confirm({
+          nzTitle: '账户禁用提示',
+          nzContent: '<b>该账户已被管理员禁用</b>',
+          nzCancelText: null,
+          nzCancelDisabled: false,
+          nzOnOk: () => {this.topBarComponent.logout()}
+        });
+      }
       this.user = user;
     });
   }
