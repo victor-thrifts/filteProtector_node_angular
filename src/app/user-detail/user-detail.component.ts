@@ -32,7 +32,7 @@ export class UserDetailComponent implements OnInit {
     // 2: '^\\d{0,}$',
     // 3: '^(?=.*[a-zA-Z])(?=.*\\d)[^]{0,}$'
     1: '^[A-Za-z]+$',
-    2: '^[0-9]*$ ',
+    2: '^[0-9]*$',
     3: '^(?![0-9]+$)(?![a-zA-Z]+$)'
   };
 
@@ -92,12 +92,17 @@ export class UserDetailComponent implements OnInit {
         return;
       }
       if(!(new RegExp(this.regular).test(this.user.Password))){
+        console.log(1111);
         document.getElementById('pw').innerText=this.desc;
         return;
       }
       document.getElementById('pw').style.display='none';
     }
+    console.log(this.user.Password);
+    console.log(this.user.ConfirmPassword);
+
     if(this.user.Password != this.user.ConfirmPassword){
+      console.log(2222);
       this.isCP = true;
       return;
     }
