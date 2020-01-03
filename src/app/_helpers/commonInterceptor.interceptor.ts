@@ -7,7 +7,7 @@ const ignoreToken = ['login', 'logout', 'table'];
 export class CommonInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     
-    let currentUser = localStorage.getItem("currentUser");
+    let currentUser = sessionStorage.getItem("currentUser");
     if(currentUser){
       let user = JSON.parse(currentUser);
       req = req.clone({
