@@ -66,20 +66,20 @@ console.log("License 可用时间（天）：" + L_Staticstical_expried);
 //     process.exit();
 // } 
 
-// let libm =
-// ffi.Library(join(process.cwd(), './dist/minispy'), {
-//     'setProtectionFolder': ['pointer', ['string']],
-//     'getProtectionFolder': ['string', ['void']],
-//     'setOpenProcess':      ['void', ['string']],
-//     'GetRecords':		   ['int',  ['void']],
-//     'SetGetRecCb': ['int', [
-//     ffi.Function(ref.types.void,[
-//     ref.types.CString, 
-//     ref.types.char, 
-//     ref.types.CString, 
-//     ref.types.CString,
-//     ref.types.CString])]]
-// });
+let libm =
+ffi.Library(join(process.cwd(), './dist/minispy'), {
+    'setProtectionFolder': ['pointer', ['string']],
+    'getProtectionFolder': ['string', ['void']],
+    'setOpenProcess':      ['void', ['string']],
+    'GetRecords':		   ['int',  ['void']],
+    'SetGetRecCb': ['int', [
+    ffi.Function(ref.types.void,[
+    ref.types.CString, 
+    ref.types.char, 
+    ref.types.CString, 
+    ref.types.CString,
+    ref.types.CString])]]
+});
 
 let bb = Integer(1);
 bb.plus(11);
@@ -115,7 +115,7 @@ export class ProtectionFolderSet{
 
     getProtectionFolder(){
          let pFolder = null;
-        //  pFolder = libm.getProtectionFolder(null);
+         pFolder = libm.getProtectionFolder(null);
          console.log(pFolder);
          let buf = ref.allocCString(pFolder);
          console.log(buf.toString());
@@ -127,7 +127,7 @@ export class ProtectionFolderSet{
         let unicode_null = Buffer.from('\0','utf16le');
         let len1 = Buffer.byteLength(unicode_null,'ascii');
         abuf = Buffer.concat([abuf,unicode_null],len+len1);
-        // libm.setProtectionFolder(abuf);
+         libm.setProtectionFolder(abuf);
     }
 
     setOpenProcess(cstr1){
@@ -136,15 +136,15 @@ export class ProtectionFolderSet{
         let unicode_null = Buffer.from('\0','utf16le');
         let len1 = Buffer.byteLength(unicode_null,'ascii');
         abuf = Buffer.concat([abuf,unicode_null],len+len1);
-        // libm.setOpenProcess(abuf);
+        libm.setOpenProcess(abuf);
     }
 
     checklogs()
     {
         console.log('check the minisy log now!');
         setTimeout(()=>{
-            // libm.SetGetRecCb(this.callback);
-            // libm.GetRecords(null);
+            libm.SetGetRecCb(this.callback);
+            libm.GetRecords(null);
             this.checklogs();
         }, 1000);
     };
@@ -158,14 +158,18 @@ export class ProtectionFolderSet{
             case "W":
                     tag1 = "修改";
                     break;
-            case "D":
+            case "d":
                     tag1 = "删除";
+                    break;
+            case "D":
+                    tag1 = "删除(不存在)";
                     break;
             case "R":
                 tag1 = "重命名";
                 break;
             default:
                 tag1 = "修改"; 
+                break;
             } 
             console.log("fileName: %s\n", fName);
             console.log("tag: %s\n", tag1);
