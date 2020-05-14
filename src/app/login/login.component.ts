@@ -23,6 +23,7 @@ export class LoginComponent implements OnInit {
     submitted = false;
     returnUrl: string;
     isVisible = false;
+    lockTime: number;
     user: User;
     // TODO how to declare global variable?
     status:any={
@@ -34,6 +35,10 @@ export class LoginComponent implements OnInit {
       1: '^[A-Za-z]+$',
       2: '^\\d{0,}$',
       3: '^(?=.*[a-zA-Z])(?=.*\\d)[^]{0,}$'
+    }
+    timeStamp:any={
+      '30': 30*60*1000,
+      '60': 60*60*1000
     }
 
     constructor(
@@ -59,6 +64,11 @@ export class LoginComponent implements OnInit {
 
         // get return url from route parameters or default to '/'
         this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
+
+        // get settings config of session
+        const config = JSON.parse(sessionStorage.getItem("Settings"));
+        this.lockTime = this.timeStamp[config["lockTime"]] ;
+
     }
 
     // convenience getter for easy access to form fields
@@ -66,100 +76,76 @@ export class LoginComponent implements OnInit {
 
     onSubmit() {
         this.submitted = true;
-
         // stop here if form is invalid
-        if (this.loginForm.invalid) {
-            return;
-        }
+        if (this.loginForm.invalid) return;
 
-        let username = this.f.username.value;
-        // let errorCount = Cookies.get(username);
-        let errorCount = sessionStorage.getItem(username);
-        let lockLimit ; // default TODO whether using config file?
-        try {
-          lockLimit = JSON.parse(sessionStorage.getItem("Settings"))["lockLimit"];
-        } catch(err) { lockLimit = 5;}
+        // exists user
+        const username = this.f.username.value;
+        this.usersService.getByName(username).subscribe(u =>{
+          // exists user
+          if(!u){
+            this.nzMessageService.error("用户不存在"); return;
+          }
 
-        if(username != 'admin' && errorCount != null && parseInt(errorCount) >= lockLimit){
-          // let lockTime ;
-          // try {
-          //   lockTime = JSON.parse(sessionStorage.getItem("Settings"))["lockTime"];
-          // } catch(err) { lockTime = '30';}
-          // var inFifteenMinutes = new Date(new Date().getTime() + parseInt(lockTime) * 60 * 1000);
-          // Cookies.set(username, 888, { expires: inFifteenMinutes });
+          // get lock information of the settings
+          let lockLimit,errorCount = sessionStorage.getItem(username);
+          try {
+            lockLimit = JSON.parse(sessionStorage.getItem("Settings"))["lockLimit"];
+          } catch(err) { lockLimit = 5;}
 
-          // 插入锁定日志
-          let logAll:LogAll = {
-            rowid:0,
-            LogDate:'',
-            UserName:username,
-            Module:"用户登录",
-            Action:"登录失败",
-            Describe:"登录账号 " + username + " 失败！原因：该账户密码错误次数过多,已被系统锁定",
-            Operand:"账号 " + username,
-            Details:"",
-            Type:"0",
-            Remark:"",
-            Ip:"127.0.0.1"
-          };
-          this.logAllService.insertLogAll(logAll).subscribe(data=>{});
-          this.nzMessageService.error("该账户密码错误次数过多,已被系统锁定");
-          return;
-        }
+          if(username != 'admin' && ((errorCount != null && parseInt(errorCount) >= lockLimit)
+              || (u.Lock == 1 && (new Date(u.lastLockTime).getTime()+this.lockTime) >= new Date().getTime()))){
 
-        this.loading = true;
-        this.authenticationService.login(username, this.f.password.value)
+            if(u.Lock != 1 || (new Date(u.lastLockTime).getTime()+this.lockTime) <= new Date().getTime()){
+
+              this.user = new User();
+              this.user.Name = username;
+              this.user.Lock = 1;
+              this.user.lastLockTime = new Date().toString();
+              this.usersService.updateByName(this.user)
+            }
+            this.saveLog(username,'该账户密码错误次数过多,已被系统锁定'); return;
+          }
+
+          this.loading = true;
+          this.authenticationService.login(username, this.f.password.value)
             .pipe(first())
             .subscribe(
-                data => {
-                    if(!data.L_Staticstical_expried && (data.L_Staticstical_expried == 0))
-                    {
-                        this.alertService.error("error");
-                        this.nzMessageService.error("软件证书还没硬件绑定！！！");
-                        this.loading = false;
-                        return;
-                    }
-                    const { sub } = jwt.verify(data["token"],"config.secret");
-                    this.usersService.getById(sub).subscribe(user => {
-                      if(user.Enable == 1){
-                        // 插入锁定日志
-                        let logAll:LogAll = {
-                          rowid:0,
-                          LogDate:'',
-                          UserName:username,
-                          Module:"用户登录",
-                          Action:"登录失败",
-                          Describe:"登录账号 " + username + " 失败！原因：该账户已被管理员禁用",
-                          Operand:"账号 " + username,
-                          Details:"",
-                          Type:"0",
-                          Remark:"",
-                          Ip:"127.0.0.1"
-                        };
-                        this.logAllService.insertLogAll(logAll).subscribe(data=>{});
-                        this.nzMessageService.error("该账户已被管理员禁用");
-                        this.loading = false;
-                      }else{
-                        if(username != 'admin' && !this.check(user.lastModifyTime)){
-                          this.user = user;
-                          return this.loading = false;
-                        }
-                        let Isadmin = data.type == 0 ? true: false;
-                        let loggedIn = true;
-                        this.router.navigate(['/dashboard']);
-                        this.alertService.setMessage({Isadmin:Isadmin, loggedIn:loggedIn});
-                      }
-                    });
-                },
-                error => {
-                    this.alertService.error(error);
-                    this.loading = false;
-                    // null == errorCount ? Cookies.set(username,"1")
-                    //   : Cookies.set(username,(parseInt(errorCount)+1).toString());
-                    null == errorCount ? sessionStorage.setItem(username,"1")
-                      : sessionStorage.setItem(username,(parseInt(errorCount)+1).toString());
-                    this.nzMessageService.error("用户名或者密码错误.")
+              data => {
+                if(!data.L_Staticstical_expried && (data.L_Staticstical_expried == 0))
+                {
+                    this.alertService.error("error");
+                    this.nzMessageService.error("软件证书还没硬件绑定！！！");
+                    this.loading = false; return;
+                }
+                const { sub } = jwt.verify(data["token"],"config.secret");
+                this.usersService.getById(sub).subscribe(user => {
+                  if(user.Enable == 1){
+                    this.saveLog(username,'该账户已被管理员禁用');
+                    this.loading = false; return;
+                  }else if(user.Lock == 1 && (new Date(user.lastLockTime).getTime()+this.lockTime >= new Date().getTime())) {
+                    this.saveLog(username,'该账户已被管理员锁定');
+                    this.loading = false; return;
+                  }
+
+                  if(username != 'admin' && !this.check(user.lastModifyTime)){
+                    this.user = user;
+                    return this.loading = false;
+                  }
+                  let Isadmin = data.type == 0 ? true: false;
+                  let loggedIn = true;
+                  this.router.navigate(['/dashboard']);
+                  this.alertService.setMessage({Isadmin:Isadmin, loggedIn:loggedIn});
                 });
+              },
+              error => {
+                this.alertService.error(error);
+                this.loading = false;
+                null == errorCount ? sessionStorage.setItem(username,"1")
+                  : sessionStorage.setItem(username,(parseInt(errorCount)+1).toString());
+                this.nzMessageService.error("用户名或者密码错误.")
+              });
+        });
     }
 
   check(lastModifyTime:string){
@@ -226,6 +212,24 @@ export class LoginComponent implements OnInit {
         location.reload();},
       error =>{this.nzMessageService.error("密码修改失败");
         location.reload();});
+  }
+
+  saveLog(username: string,errorMsg: string){
+    let logAll: LogAll = {
+      rowid: 0,
+      LogDate: '',
+      UserName: username,
+      Module: "用户登录",
+      Action: "登录失败",
+      Describe: "登录账号 " + username + " 失败！原因：" + errorMsg,
+      Operand: "账号 " + username,
+      Details: "",
+      Type: "0",
+      Remark: "",
+      Ip: "127.0.0.1"
+    };
+    this.logAllService.insertLogAll(logAll).subscribe(data => {});
+    this.nzMessageService.error(errorMsg);
   }
 
 }

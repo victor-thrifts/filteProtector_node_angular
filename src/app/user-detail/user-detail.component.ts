@@ -28,12 +28,9 @@ export class UserDetailComponent implements OnInit {
     3: '至少为字母和数字组合'
   }
   reg:any={
-    // 1: '^[A-Za-z]+$',
-    // 2: '^\\d{0,}$',
-    // 3: '^(?=.*[a-zA-Z])(?=.*\\d)[^]{0,}$'
-    1: '^[A-Za-z]+$',
-    2: '^[0-9]*$',
-    3: '^(?![0-9]+$)(?![a-zA-Z]+$)'
+    1: '^[A-Za-z]+$',
+    2: '^\\d{0,}$',
+    3: '^(?=.*[a-zA-Z])(?=.*\\d)[^]{0,}$'
   };
 
   constructor(
@@ -92,17 +89,12 @@ export class UserDetailComponent implements OnInit {
         return;
       }
       if(!(new RegExp(this.regular).test(this.user.Password))){
-        console.log(1111);
         document.getElementById('pw').innerText=this.desc;
         return;
       }
       document.getElementById('pw').style.display='none';
     }
-    console.log(this.user.Password);
-    console.log(this.user.ConfirmPassword);
-
     if(this.user.Password != this.user.ConfirmPassword){
-      console.log(2222);
       this.isCP = true;
       return;
     }

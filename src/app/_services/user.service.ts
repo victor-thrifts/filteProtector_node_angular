@@ -55,17 +55,37 @@ export class UserService {
             catchError(this.handleError<User>(`update`))
         )
     }
-    
-    whetherEnable(user: User) {
+
+    updateByName(user: User){
+      if(!this.isPlatformBrowser) return;
+      let origin = '';
+      if(this.origin) origin = this.origin;
+      return this.http.put(`${origin}/api/users/updateByName/${user.Name}`, user).pipe(
+        tap(_=>this.log('puted user')),
+        catchError(this.handleError<User>(`updateByName`))
+      )
+    }
+
+    getByName(name: string): Observable<User>{
+      if(!this.isPlatformBrowser) return;
+      let origin = '';
+      if(this.origin) origin = this.origin;
+      return this.http.get<User>(`${origin}/api/users/getByName/`+name).pipe(
+        tap(_=>this.log('get user')),
+        catchError(this.handleError<User>(`getByName`))
+      )
+    }
+
+    whetherEnable(flag: string,user: User) {
         if(!this.isPlatformBrowser) return;
         let origin = '';
         if(this.origin) origin = this.origin;
-        return this.http.put(`${origin}/api/users/whetherEnable/${user.rowid}`, user).pipe(
+        return this.http.put(`${origin}/api/users/whetherEnable/`+flag, user).pipe(
             tap(_=>this.log('puted user')),
             catchError(this.handleError<User>(`update`))
         )
     }
-    
+
     delete(user: User) {
         if(!this.isPlatformBrowser) return;
         let origin = '';

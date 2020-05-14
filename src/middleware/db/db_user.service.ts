@@ -4,7 +4,7 @@ import { db } from '.'
 import { User } from '../../app/_models/user';
 import { authsoft } from './db_keyreg.service'
 import { insertLogAll } from './db_logAll.service'
-import { LogAll } from '../../app/_models/logAll';
+
 async function getById(id: Number) {
     const stmt = db.prepare('SELECT rowid, * FROM SystemUsers WHERE rowid=?');
     var user: User = await stmt.get(id);
@@ -27,13 +27,18 @@ function getByName(name:string)
     );
 }
 
+async function getByName0(name: string)
+{
+  const stmt = db.prepare('SELECT rowid, * FROM SystemUsers WHERE Name=?');
+  let user = await stmt.get(name);
+  return user;
+}
+
 async function _delete(id: Number, remark: string, userName: String) {
     const user = await getById(id);
     const stmt = db.prepare('DELETE FROM SystemUsers WHERE rowid=?');
     let newVar = await stmt.run(id);
     let parse = JSON.parse(JSON.stringify(newVar));
-    console.log(newVar);
-    console.log(remark);
     if (parse.changes === 1) {
       user.ConfirmPassword = '';
       user.Password = '';
@@ -93,8 +98,6 @@ async function insertUser(user:User){
 }
 
 
-
-
 async function getAll() {
     const stmt = db.prepare('SELECT rowid, * FROM SystemUsers');
     var users = await stmt.all();
@@ -116,7 +119,6 @@ async function authenticate({ username, password }) {
     const user:any = await getByName(username);
     if (user && bcrypt.compareSync(password, user.Password)) {
         const token = jwt.sign({ sub: user.rowid }, "config.secret");
-        password = user.Password;
         if(user.Enable == 0){
           //插入日志
           let logAll={
@@ -158,23 +160,30 @@ async function create(userParam: User, userNmae: String) {
         throw '账号 "' + userParam.Name + '" 已存在';
     }
     // save user
-    let len = await insert(userParam,userNmae);
+    await insert(userParam,userNmae);
 }
 
-async function whetherEnable(id: number, userParam: User, userName: String) {
-  const user = await getById(id);
+async function whetherEnable(msg: string, userParam: User, userName: String) {
   // validate
+  let id = userParam.rowid;
+  const user = await getById(id);
   if (!user) throw '用户已不存在';
-  let sql = 'UPDATE SystemUsers SET Enable=? WHERE rowid=?';
-  console.log('UPDATE SystemUsers SET Enable=?');
+
+  let sql = null;
+  let flag = (msg == '锁定' || msg == '解锁') ? 0 : 1;
+  if(flag == 0)
+     sql = 'UPDATE SystemUsers SET Lock=? ,lastLockTime = datetime(CURRENT_TIMESTAMP,"localtime") WHERE rowid=?';
+  else
+     sql = 'UPDATE SystemUsers SET Enable=? WHERE rowid=?';
   const stmt = db.prepare(sql);
-  let newVar = await stmt.run(userParam.Enable, userParam.rowid);
+  let newVar = await stmt.run(flag == 0 ? userParam.Lock : userParam.Enable, userParam.rowid);
+
   let parse = JSON.parse(JSON.stringify(newVar));
   if (parse.changes === 1){
     userParam.ConfirmPassword = '';
     userParam.Password = '';
     let mm = '' ;
-    if(userParam.Enable == 1) mm = '禁用用户 '; else mm = '启用用户 ';
+
     let logAll={
       UserName: userName,
       Ip: "127.0.0.1",
@@ -184,7 +193,7 @@ async function whetherEnable(id: number, userParam: User, userName: String) {
       Type: "2",
       Describe: mm + userParam.Name,
       Details: JSON.stringify(userParam),
-      Action: mm,
+      Action: msg + '用户 ',
       Remark: ''
     };
     await insertLogAll(logAll);
@@ -204,7 +213,6 @@ async function update(id: number, userParam: User, userName: String) {
         userParam.Password = user.Password;
         sql = 'UPDATE SystemUsers SET Password=?, firstName=?, lastName=? ,Type=?, Enable=?, remark=? WHERE rowid=?';
     }
-    console.log('User, Update');
     const stmt = db.prepare(sql);
     let newVar = await stmt.run(userParam.Password, userParam.firstName, userParam.lastName, userParam.Type, userParam.Enable, userParam.remark, userParam.rowid);
     let parse = JSON.parse(JSON.stringify(newVar));
@@ -226,5 +234,15 @@ async function update(id: number, userParam: User, userName: String) {
       await insertLogAll(logAll);
     }
 }
+async function updateByName(name: string, userParam: User, userName: String) {
+    const user:any = await getByName(name);
+    // validate
+    if (!user) throw '用户已不存在';
+    let sql = 'UPDATE SystemUsers SET Lock=?, lastLockTime = datetime(CURRENT_TIMESTAMP,"localtime") WHERE Name=?'
+    const stmt = db.prepare(sql);
+    await stmt.run(userParam.Lock, userName);
+}
 
-export { authenticate, create, getAll, getById, update, _delete,whetherEnable};
+
+
+export { authenticate, create, getAll, getById, update, _delete, whetherEnable, updateByName, getByName0};
