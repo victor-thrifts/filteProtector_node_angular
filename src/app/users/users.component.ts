@@ -44,15 +44,14 @@ export class UsersComponent implements OnInit {
         });
   }
 
-  whetherEnable(user: User): void {
-    user.Enable = user.Enable == 0 ? 1 : 0;
-    this.userService.whetherEnable(user).subscribe(
+  whetherEnable(flag: string,user: User): void {
+    if(flag == '解锁' || flag == '锁定')
+      user.Lock = user.Lock == 0 ? 1 : 0;
+    else
+      user.Enable = user.Enable == 0 ? 1 : 0;
+    this.userService.whetherEnable(flag,user).subscribe(
       data => {
-        if(user.Enable == 1){
-          this.message.success("禁用账号 " + user.Name + " 成功！",{nzDuration: 5000})
-        }else{
-          this.message.success("启用账号 " + user.Name + " 成功！",{nzDuration: 5000})
-        }
+          this.message.success(flag + "账号 " + user.Name + " 成功！",{nzDuration: 5000})
       },
       error=> {this.message.error("设置失败！",{nzDuration: 5000})
     });
@@ -74,7 +73,6 @@ export class UsersComponent implements OnInit {
       document.getElementById("dis").style.display = "";
       return
     }
-    console.log(this.user);
     document.getElementById("dis").style.display = "none";
     this.isVisible = false;
   }
@@ -84,13 +82,7 @@ export class UsersComponent implements OnInit {
     this.modalService.confirm({
       nzTitle: '<i>'+ mes +'</i>',
       nzOnOk: () => {
-        switch (msg){
-          case "锁定" : sessionStorage.setItem(user.Name,"888"); break;
-          case "解锁" : sessionStorage.removeItem(user.Name); break;
-          default :this.whetherEnable(user)
-        }
-        // this.message.success("设置成功",{nzDuration: 5000})
-        location.reload(true);
+        this.whetherEnable(msg,user);
       }
     });
   }

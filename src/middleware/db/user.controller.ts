@@ -8,8 +8,10 @@ apirouter.get('/users', getAll);
 apirouter.get('/users/current', getCurrent);
 apirouter.get('/users/:id', getById);
 apirouter.put('/users/:id', update);
-apirouter.put('/users/whetherEnable/:id', whetherEnable);
+apirouter.put('/users/whetherEnable/:flag', whetherEnable);
 apirouter.delete('/users/:id/:remark', _delete);
+apirouter.put('/users/updateByName/:name', updateByName);
+apirouter.get('/users/getByName/:name', getByName);
 
 //module.exports = apirouter;
 
@@ -50,15 +52,26 @@ function update(req, res, next) {
         .catch(err => next(err));
 }
 
+function updateByName(req, res, next) {
+  userService.updateByName(req.params.name, req.body, req.header("username"))
+    .then(() => res.json({}))
+    .catch(err => next(err));
+}
+
 function whetherEnable(req, res, next) {
-    userService.whetherEnable(req.params.id, req.body, req.header("username"))
+    userService.whetherEnable(req.params.flag, req.body, req.header("username"))
         .then(() => res.json({}))
         .catch(err => next(err));
 }
 
 function _delete(req, res, next) {
-  console.log(1111);
     userService._delete(req.params.id, req.params.remark, req.header("username"))
         .then(() => res.json({}))
         .catch(err => next(err));
+}
+function getByName(req, res, next) {
+    userService.getByName0(req.params.name)
+        .then( user => {
+          user ? res.json(user) : res.sendStatus(404);
+        }).catch(err => next(err));
 }
