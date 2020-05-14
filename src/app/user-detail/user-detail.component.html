@@ -36,7 +36,7 @@
         <div class="col-md-9">
           <input type="password" [(ngModel)]="user.ConfirmPassword" placeholder="再次输入密码" name="Password"
                  class="form-control" id="accountPs">
-          <span *ngIf="isCP && user.ConfirmPassword" style="color: red" id="cp">两次密码不一致,请重新输入！</span>
+          <span *ngIf="user.ConfirmPassword || isCP" style="color: red" id="cp">两次密码不一致,请重新输入！</span>
         </div>
       </div>
       <div class="form-group">
