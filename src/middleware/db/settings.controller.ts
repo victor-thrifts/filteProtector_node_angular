@@ -18,7 +18,7 @@ function loadSettings(req, res, next) {
 }
 
 function update(req, res, next) {
-  settingsService.update(req.body)
+  settingsService.update(req.body,req.header("username"))
     .then(() => res.json({}))
     .catch(err => next(err));
 }
