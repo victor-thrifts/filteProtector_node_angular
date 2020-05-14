@@ -9,14 +9,13 @@ async function getAll(startid, count,Ip,Module,UserName, dateArray) {
         try{
             let sql = 'SELECT rowid, * FROM logAll  WHERE 1=1 ';
             if(Ip){
-                Ip = '%' + Ip + '%'
-                sql += "AND Ip LIKE '" + Ip + "' "
+                sql += "AND Ip LIKE '%" + Ip + "%' "
             }
             if(Module){
                 sql += "AND Module='"+ Module +  "' "
             }
             if(UserName){
-                sql += "AND UserName='" + UserName + "' "
+                sql += "AND UserName LIKE '%" + UserName + "%' "
             }
             if (dateArray.length > 3){
               let parse = JSON.parse(dateArray);
@@ -52,14 +51,13 @@ async function getCountByQuery (Ip,Module,UserName,dateArray) {
         try{
             let sql = 'SELECT count(*) AS count FROM logAll WHERE 1=1 ';
             if(Ip){
-                Ip = '%' + Ip + '%'
-                sql += "AND Ip LIKE '" + Ip + "' "
+                sql += "AND Ip LIKE '%" + Ip + "%' "
             }
             if(Module){
                 sql += "AND Module='"+ Module +  "' "
             }
             if(UserName){
-                sql += "AND UserName='" + UserName + "' "
+                sql += "AND UserName LIKE '%" + UserName + "%' "
             }
             if (dateArray.length > 3){
                 let parse = JSON.parse(dateArray);
@@ -89,7 +87,7 @@ async function getById(id) {
 
 /**
  * 根据类型获取最新的一条
- * @param type 
+ * @param type
  */
 async function getOneByType(type) {
     return new Promise(function(resolve,reject){
