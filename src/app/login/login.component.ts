@@ -79,6 +79,7 @@ export class LoginComponent implements OnInit {
     }
 
   loadSetting(){
+    if(!isPlatformBrowser(this.platformId)) return;
     if(null == sessionStorage.getItem("Settings")){
       this.settingsService.loading().subscribe(settings => {
         var array = [].concat(settings);

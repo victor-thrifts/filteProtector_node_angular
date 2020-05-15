@@ -68,7 +68,7 @@ export class TopBarComponent implements OnInit{
 
     ngOnInit() {
         if(!isPlatformBrowser(this.platformId)) return;
-        this.loadSetting();
+        //this.loadSetting();
         this.subscription = this.alertService.getMessage().subscribe(message => {
             if(message && (message.type == 'message') ){
                 let {loggedIn, Isadmin} = message.text;
