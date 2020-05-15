@@ -3,7 +3,6 @@ import { Location, APP_BASE_HREF, isPlatformBrowser } from '@angular/common';
 import { Observable, of } from 'rxjs';
 import { AlertService , SettingsService} from '../_services';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { TopBarComponent } from "../_directives/top-bar/top-bar.component";
 import { NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
@@ -24,7 +23,6 @@ export class SystemSettingsComponent implements OnInit {
     @Inject(PLATFORM_ID) private platformId: Object,
     @Optional() @Inject(APP_BASE_HREF) private origin: string,
     private settingsService : SettingsService,
-    private topBarComponent: TopBarComponent,
     private modalService: NzModalService
     ) {
       this.isPlatformBrowser = isPlatformBrowser(platformId) ? true : false;
@@ -64,7 +62,25 @@ export class SystemSettingsComponent implements OnInit {
 
     sessionStorage.removeItem("Settings");
     // TODO a better way refresh session
-    this.topBarComponent.loadSetting();
+    this.loadSetting();
+  }
+
+  loadSetting(){
+    if(null == sessionStorage.getItem("Settings")){
+      this.settingsService.loading().subscribe(settings => {
+        var array = [].concat(settings);
+        let jsonStr = '{';
+        for(let idx in array){
+          let name = array[idx]["Name"];
+          let value = array[idx]["Value"];
+          jsonStr += "\""+name+"\":\""+value+"\",";
+        }
+        jsonStr = jsonStr.substring(0,jsonStr.length-1);
+        jsonStr += '}';
+        if(jsonStr.length > 2)
+          sessionStorage.setItem("Settings",jsonStr);
+      });
+    }
   }
 
   private handleError<T> (operation = 'operation', result?: T) {

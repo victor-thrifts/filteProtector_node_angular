@@ -10,7 +10,6 @@ apirouter.get('/users/:id', getById);
 apirouter.put('/users/:id', update);
 apirouter.put('/users/whetherEnable/:flag', whetherEnable);
 apirouter.delete('/users/:id/:remark', _delete);
-apirouter.put('/users/updateByName/:name', updateByName);
 apirouter.get('/users/getByName/:name', getByName);
 
 //module.exports = apirouter;
@@ -50,12 +49,6 @@ function update(req, res, next) {
     userService.update(req.params.id, req.body, req.header("username"))
         .then(() => res.json({}))
         .catch(err => next(err));
-}
-
-function updateByName(req, res, next) {
-  userService.updateByName(req.params.name, req.body, req.header("username"))
-    .then(() => res.json({}))
-    .catch(err => next(err));
 }
 
 function whetherEnable(req, res, next) {

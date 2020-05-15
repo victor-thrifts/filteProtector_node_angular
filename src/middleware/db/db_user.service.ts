@@ -234,15 +234,5 @@ async function update(id: number, userParam: User, userName: String) {
       await insertLogAll(logAll);
     }
 }
-async function updateByName(name: string, userParam: User, userName: String) {
-    const user:any = await getByName(name);
-    // validate
-    if (!user) throw '用户已不存在';
-    let sql = 'UPDATE SystemUsers SET Lock=?, lastLockTime = datetime(CURRENT_TIMESTAMP,"localtime") WHERE Name=?'
-    const stmt = db.prepare(sql);
-    await stmt.run(userParam.Lock, userName);
-}
 
-
-
-export { authenticate, create, getAll, getById, update, _delete, whetherEnable, updateByName, getByName0};
+export { authenticate, create, getAll, getById, update, _delete, whetherEnable, getByName0};
