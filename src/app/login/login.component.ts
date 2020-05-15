@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { isPlatformBrowser } from '@angular/common';
 import { first } from 'rxjs/operators';
 import { User } from '../_models';
-import { AlertService, AuthenticationService, UserService, LogAllService } from '../_services';
+import { AlertService, AuthenticationService, UserService, LogAllService, SettingsService } from '../_services';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { LogAll } from '../_models/logAll';
@@ -53,12 +53,14 @@ export class LoginComponent implements OnInit {
         private usersService: UserService,
         private modalService: NzModalService,
         private nzMessageService: NzMessageService,
+        private settingsService : SettingsService,
     ) 
     {
       //if(!isPlatformBrowser(platformId)) return;
     }
 
     ngOnInit() {
+        this.loadSetting();
         this.loginForm = this.formBuilder.group({
             username: ['', Validators.required],
             password: ['', Validators.required]
@@ -74,11 +76,28 @@ export class LoginComponent implements OnInit {
 
         if(!isPlatformBrowser(this.platformId)) return;        
 
-        // get settings config of session
-        const config = JSON.parse(sessionStorage.getItem("Settings"));
-        this.lockTime = this.timeStamp[config["lockTime"]] ;
-
     }
+
+  loadSetting(){
+    if(null == sessionStorage.getItem("Settings")){
+      this.settingsService.loading().subscribe(settings => {
+        var array = [].concat(settings);
+        let jsonStr = '{';
+        for(let idx in array){
+          let name = array[idx]["Name"];
+          let value = array[idx]["Value"];
+          jsonStr += "\""+name+"\":\""+value+"\",";
+        }
+        jsonStr = jsonStr.substring(0,jsonStr.length-1);
+        jsonStr += '}';
+        if(jsonStr.length > 2)
+          sessionStorage.setItem("Settings",jsonStr);
+        try{
+          this.lockTime = this.timeStamp[JSON.parse(jsonStr)['lockTime']] ;
+        }catch(err) { this.lockTime = this.timeStamp[60] ;}
+      });
+    }
+  }
 
     // convenience getter for easy access to form fields
     get f() { return this.loginForm.controls; }
@@ -88,7 +107,6 @@ export class LoginComponent implements OnInit {
         // stop here if form is invalid
         if (this.loginForm.invalid) return;
 
-        // exists user
         const username = this.f.username.value;
         this.usersService.getByName(username).subscribe(u =>{
           // exists user
@@ -96,6 +114,10 @@ export class LoginComponent implements OnInit {
             this.nzMessageService.error("用户不存在"); return;
           }
 
+          if(u.Enable == 1){
+            this.saveLog(username,'该账户已被管理员禁用');
+            return this.loading = false;
+          }
           // get lock information of the settings
           let lockLimit,errorCount = sessionStorage.getItem(username);
           try {
@@ -108,10 +130,12 @@ export class LoginComponent implements OnInit {
             if(u.Lock != 1 || (new Date(u.lastLockTime).getTime()+this.lockTime) <= new Date().getTime()){
 
               this.user = new User();
+              this.user.rowid = u.rowid;
               this.user.Name = username;
               this.user.Lock = 1;
               this.user.lastLockTime = new Date().toString();
-              this.usersService.updateByName(this.user)
+              this.usersService.whetherEnable('锁定',this.user).subscribe(
+                () => { sessionStorage.removeItem(username)},()=> {});
             }
             this.saveLog(username,'该账户密码错误次数过多,已被系统锁定'); return;
           }
@@ -129,14 +153,6 @@ export class LoginComponent implements OnInit {
                 }
                 const { sub } = jwt.verify(data["token"],"config.secret");
                 this.usersService.getById(sub).subscribe(user => {
-                  if(user.Enable == 1){
-                    this.saveLog(username,'该账户已被管理员禁用');
-                    this.loading = false; return;
-                  }else if(user.Lock == 1 && (new Date(user.lastLockTime).getTime()+this.lockTime >= new Date().getTime())) {
-                    this.saveLog(username,'该账户已被管理员锁定');
-                    this.loading = false; return;
-                  }
-
                   if(username != 'admin' && !this.check(user.lastModifyTime)){
                     this.user = user;
                     return this.loading = false;

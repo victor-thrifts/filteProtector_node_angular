@@ -2,7 +2,7 @@ import  { Component, OnInit, Inject, PLATFORM_ID, ChangeDetectorRef, ChangeDetec
 import { isPlatformBrowser } from '@angular/common';
 import { first, switchMap } from 'rxjs/operators';
 import { interval, Subscription } from 'rxjs';
-import { AuthenticationService, AlertService, UserService, SettingsService } from 'src/app/_services';
+import { AuthenticationService, AlertService, UserService } from 'src/app/_services';
 import { RouterLink, Router, ROUTER_CONFIGURATION } from '@angular/router';
 import { isNull } from 'util';
 import { AlertComponent } from '../message-alert/alert.component';
@@ -27,7 +27,6 @@ export class TopBarComponent implements OnInit{
             private router: Router,
             private alertService: AlertService,
             private authenticationService: AuthenticationService,
-            private settingsService : SettingsService
     ) {
 
         if(!isPlatformBrowser(platformId)) return;
@@ -100,23 +99,5 @@ export class TopBarComponent implements OnInit{
         this.cdr.detectChanges();
         this.router.navigate(['login']);
     }
-
-  loadSetting(){
-      if(null == sessionStorage.getItem("Settings")){
-        this.settingsService.loading().subscribe(settings => {
-          var array = [].concat(settings);
-          let jsonStr = '{';
-          for(let idx in array){
-            let name = array[idx]["Name"];
-            let value = array[idx]["Value"];
-            jsonStr += "\""+name+"\":\""+value+"\",";
-          }
-          jsonStr = jsonStr.substring(0,jsonStr.length-1);
-          jsonStr += '}';
-          if(jsonStr.length > 2)
-            sessionStorage.setItem("Settings",jsonStr);
-        });
-      }
-  }
 
 }
