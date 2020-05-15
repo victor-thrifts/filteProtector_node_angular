@@ -1,6 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, PLATFORM_ID,  Inject} from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { isPlatformBrowser } from '@angular/common';
 import { first } from 'rxjs/operators';
 import { User } from '../_models';
 import { AlertService, AuthenticationService, UserService, LogAllService } from '../_services';
@@ -42,6 +43,7 @@ export class LoginComponent implements OnInit {
     }
 
     constructor(
+        @Inject(PLATFORM_ID) private platformId: string,
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
         private router: Router,
@@ -51,7 +53,10 @@ export class LoginComponent implements OnInit {
         private usersService: UserService,
         private modalService: NzModalService,
         private nzMessageService: NzMessageService,
-    ) {}
+    ) 
+    {
+      //if(!isPlatformBrowser(platformId)) return;
+    }
 
     ngOnInit() {
         this.loginForm = this.formBuilder.group({
@@ -64,6 +69,10 @@ export class LoginComponent implements OnInit {
 
         // get return url from route parameters or default to '/'
         this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
+        
+
+
+        if(!isPlatformBrowser(this.platformId)) return;        
 
         // get settings config of session
         const config = JSON.parse(sessionStorage.getItem("Settings"));

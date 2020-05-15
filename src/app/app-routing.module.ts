@@ -17,7 +17,6 @@ import { LogAllDetailComponent } from './logAll-detail/logAll-detail.component';
 import { SystemSettingsComponent } from './systemsettings/systemsettings.component';
 
 const routes: Routes = [
-  { path: '', component: LoginComponent},
   //{ path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]  },
   { path: 'accloges/:id', component: AcclogDetailComponent, canActivate: [AuthGuard]  },
@@ -32,6 +31,7 @@ const routes: Routes = [
   { path: 'logAlls/:id', component: LogAllDetailComponent, canActivate: [AuthGuard] },
   { path: 'personal', component: PersonalComponent, canActivate: [AuthGuard] },
   { path: 'systemsettings', component: SystemSettingsComponent, canActivate: [AuthGuard] },
+  { path: '', component: LoginComponent},
 ];
 
 @NgModule({

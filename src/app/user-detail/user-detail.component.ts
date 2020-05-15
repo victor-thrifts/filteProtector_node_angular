@@ -75,7 +75,7 @@ export class UserDetailComponent implements OnInit {
   showConfirm(): void {
     this.modalService.confirm({
       nzTitle: '<i>请确认是否修改用户?</i>',
-      nzOnOk: () => {this.save()}
+      nzOnOk: () => {this.save();}
     });
   }
 
