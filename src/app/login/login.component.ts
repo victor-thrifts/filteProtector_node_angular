@@ -87,6 +87,10 @@ export class LoginComponent implements OnInit {
           this.lockTime = this.timeStamp[JSON.parse(jsonStr)['lockTime']] ;
         }catch(err) { this.lockTime = this.timeStamp[60] ;}
       });
+    }else{
+      try{
+        this.lockTime = this.timeStamp[JSON.parse(sessionStorage.getItem("Settings"))['lockTime']] ;
+      }catch(err) { this.lockTime = this.timeStamp[60] ;}
     }
   }
 
